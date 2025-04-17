@@ -97,7 +97,7 @@ const Home = () => {
     <div className="flex-1 overflow-auto scrollbar p-4 lg:p-6">
       <div className="max-w-7xl mx-auto">
         <header className="mb-8">
-          <h1 className="text-2xl font-bold mb-2">AI Portal Home</h1>
+          <h1 className="text-2xl font-bold mb-2">Home</h1>
           <p className="text-gray-600 dark:text-gray-400">
             Welcome back! Get coding assistance, optimize your code, and improve your skills.
           </p>
