@@ -43,8 +43,12 @@ export interface IStorage {
   // Bookmark methods
   createBookmark(bookmark: InsertBookmark): Promise<Bookmark>;
   getBookmarksByUserId(userId: number): Promise<Bookmark[]>;
+  getBookmarksByCategory(userId: number, category: string): Promise<Bookmark[]>;
+  getBookmarksByTag(userId: number, tag: string): Promise<Bookmark[]>;
   getBookmark(id: number): Promise<Bookmark | undefined>;
+  updateBookmark(id: number, bookmarkData: Partial<Bookmark>): Promise<Bookmark>;
   deleteBookmark(id: number): Promise<void>;
+  searchBookmarks(userId: number, query: string): Promise<Bookmark[]>;
   
   // Code snippet methods
   createCodeSnippet(snippet: InsertCodeSnippet): Promise<CodeSnippet>;
@@ -298,6 +302,7 @@ export class MemStorage implements IStorage {
   async createBookmark(bookmark: InsertBookmark): Promise<Bookmark> {
     const id = this.bookmarkIdCounter++;
     const createdAt = new Date();
+    const lastModified = new Date();
     
     // Ensure tags is an array
     const tags = bookmark.tags || [];
@@ -311,7 +316,13 @@ export class MemStorage implements IStorage {
       conversationId: bookmark.conversationId || null,
       messageId: bookmark.messageId || null,
       tags: tags,
-      createdAt
+      category: bookmark.category || "General",
+      notes: bookmark.notes || null,
+      contentType: bookmark.contentType || "chat",
+      starred: bookmark.starred || false,
+      url: bookmark.url || null,
+      createdAt,
+      lastModified
     };
     
     this.bookmarks.set(id, newBookmark);
@@ -328,12 +339,76 @@ export class MemStorage implements IStorage {
       });
   }
   
+  async getBookmarksByCategory(userId: number, category: string): Promise<Bookmark[]> {
+    return Array.from(this.bookmarks.values())
+      .filter(bookmark => bookmark.userId === userId && bookmark.category && bookmark.category === category)
+      .sort((a, b) => {
+        const aTime = a.createdAt ? a.createdAt.getTime() : 0;
+        const bTime = b.createdAt ? b.createdAt.getTime() : 0;
+        return bTime - aTime;
+      });
+  }
+  
+  async getBookmarksByTag(userId: number, tag: string): Promise<Bookmark[]> {
+    return Array.from(this.bookmarks.values())
+      .filter(bookmark => 
+        bookmark.userId === userId && 
+        bookmark.tags && 
+        bookmark.tags.includes(tag)
+      )
+      .sort((a, b) => {
+        const aTime = a.createdAt ? a.createdAt.getTime() : 0;
+        const bTime = b.createdAt ? b.createdAt.getTime() : 0;
+        return bTime - aTime;
+      });
+  }
+  
   async getBookmark(id: number): Promise<Bookmark | undefined> {
     return this.bookmarks.get(id);
   }
   
+  async updateBookmark(id: number, bookmarkData: Partial<Bookmark>): Promise<Bookmark> {
+    const bookmark = this.bookmarks.get(id);
+    
+    if (!bookmark) {
+      throw new Error(`Bookmark with id ${id} not found`);
+    }
+    
+    const updatedBookmark = { 
+      ...bookmark, 
+      ...bookmarkData,
+      lastModified: new Date()
+    };
+    
+    this.bookmarks.set(id, updatedBookmark);
+    return updatedBookmark;
+  }
+  
   async deleteBookmark(id: number): Promise<void> {
     this.bookmarks.delete(id);
+  }
+  
+  async searchBookmarks(userId: number, query: string): Promise<Bookmark[]> {
+    const lowercaseQuery = query.toLowerCase();
+    
+    return Array.from(this.bookmarks.values())
+      .filter(bookmark => {
+        if (bookmark.userId !== userId) return false;
+        
+        // Search in title, content, notes, tags, and category
+        return (
+          bookmark.title.toLowerCase().includes(lowercaseQuery) ||
+          bookmark.content.toLowerCase().includes(lowercaseQuery) ||
+          (bookmark.notes && bookmark.notes.toLowerCase().includes(lowercaseQuery)) ||
+          (bookmark.category && bookmark.category.toLowerCase().includes(lowercaseQuery)) ||
+          (bookmark.tags && bookmark.tags.some(tag => tag.toLowerCase().includes(lowercaseQuery)))
+        );
+      })
+      .sort((a, b) => {
+        const aTime = a.createdAt ? a.createdAt.getTime() : 0;
+        const bTime = b.createdAt ? b.createdAt.getTime() : 0;
+        return bTime - aTime;
+      });
   }
   
   // Code snippet methods
