@@ -437,6 +437,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to delete bookmark" });
     }
   });
+    try {
+      const { bookmarks } = req.body;
+      
+      if (!Array.isArray(bookmarks)) {
+        return res.status(400).json({ message: "Invalid import data. Expected array of bookmarks." });
+      }
+      
+      // Import each bookmark
+      const importedBookmarks = [];
+      for (const bookmark of bookmarks) {
+        // Ensure userId is set (demo - in production this would use session data)
+        bookmark.userId = 1;
+        
+        // Create bookmark
+        const newBookmark = await storage.createBookmark(bookmark);
+        importedBookmarks.push(newBookmark);
+      }
+      
+      res.status(201).json({
+        message: `Successfully imported ${importedBookmarks.length} bookmarks`,
+        bookmarks: importedBookmarks
+      });
+    } catch (error) {
+      console.error("Error importing bookmarks:", error);
+      res.status(500).json({ message: "Failed to import bookmarks" });
+    }
+  });
 
   // User profile update endpoints
   app.put("/api/user/profile", async (req, res) => {
