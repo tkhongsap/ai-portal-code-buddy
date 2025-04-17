@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useUser } from '@/contexts/user-context';
+import { useTheme } from '@/contexts/theme-context';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -26,7 +27,9 @@ import {
   CalendarIcon,
   HistoryIcon,
   FolderIcon,
-  ChevronLeftIcon
+  ChevronLeftIcon,
+  SunIcon,
+  MoonIcon
 } from 'lucide-react';
 import CodeEditor from '@/components/code-editor';
 import CodeDisplay from '@/components/code-display';
@@ -268,6 +271,7 @@ const Chat = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   const isMobile = useIsMobile();
+  const { activeTheme, toggleTheme } = useTheme();
   
   const { 
     messages, 
@@ -370,6 +374,8 @@ const Chat = () => {
         <button
           className="absolute top-4 left-4 z-50 rounded-full p-2 bg-white dark:bg-gray-800 shadow-md"
           onClick={toggleSidebar}
+          aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
+          aria-expanded={sidebarOpen}
         >
           {sidebarOpen ? <ChevronLeftIcon size={16} /> : <ChevronRightIcon size={16} />}
         </button>
@@ -380,9 +386,9 @@ const Chat = () => {
         className={`${
           isMobile 
             ? sidebarOpen 
-              ? 'absolute inset-y-0 left-0 z-40 w-80' 
+              ? 'absolute inset-y-0 left-0 z-40 w-64' 
               : 'hidden' 
-            : 'relative w-80'
+            : 'relative w-64'
         } border-r border-gray-200 dark:border-gray-800 flex flex-col bg-white dark:bg-gray-900`}
       >
         <div className="p-4 border-b border-gray-200 dark:border-gray-800">
@@ -483,30 +489,154 @@ const Chat = () => {
       <div className="flex-1 flex flex-col h-full overflow-hidden">
         {/* Chat Messages */}
         {messages.length === 0 && !isFetchingMessages ? (
-          <EmptyConversation onNewChat={handleNewChat} />
+          <div className="chat-landing">
+            {/* Mini Header */}
+            <div className="chat-mini-header">
+              <div className="flex items-center space-x-2">
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="text-gray-500"
+                        aria-label="Toggle theme"
+                        onClick={toggleTheme}
+                      >
+                        {activeTheme === 'dark' ? 
+                          <SunIcon size={18} /> : 
+                          <MoonIcon size={18} />
+                        }
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Toggle theme</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="text-gray-500"
+                      >
+                        <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden flex items-center justify-center">
+                          {
+                            <div className="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
+                              U
+                            </div>
+                          }
+                        </div>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Your profile</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
+            </div>
+            
+            {/* Title Block */}
+            <div className="chat-title-block">
+              <h1 className="chat-title">Chat Assistant</h1>
+              <p className="chat-subtitle">
+                Get help with your coding questions, optimize your code, or learn new programming concepts.
+              </p>
+            </div>
+            
+            {/* Message Input */}
+            <div className="chat-input-card">
+              <form onSubmit={handleSubmit} className="w-full">
+                <div className="chat-input-container">
+                  <textarea
+                    className="w-full h-full min-h-[100px] resize-none focus:outline-none bg-transparent"
+                    placeholder="Type your code or question here..."
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                  />
+                </div>
+                
+                <div className="flex flex-wrap mt-4 mb-4">
+                  <button type="button" className="chat-pill-button">
+                    <CodeIcon size={14} className="mr-1" /> JavaScript help
+                  </button>
+                  <button type="button" className="chat-pill-button">
+                    <CodeIcon size={14} className="mr-1" /> Optimize code
+                  </button>
+                  <button type="button" className="chat-pill-button">
+                    <CodeIcon size={14} className="mr-1" /> Fix a bug
+                  </button>
+                  <button type="button" className="chat-pill-button">
+                    <CodeIcon size={14} className="mr-1" /> Explain a concept
+                  </button>
+                </div>
+                
+                <button 
+                  type="submit" 
+                  className="chat-send-button"
+                  disabled={!query.trim() || isLoading}
+                  aria-label="Send message"
+                >
+                  <SendIcon size={18} />
+                </button>
+              </form>
+            </div>
+            
+            {/* Developer Tips Carousel */}
+            <div className="developer-tips-carousel">
+              <div className="developer-tip-card">
+                <h3 className="font-semibold mb-3">Modern React State Management</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  React's state management ecosystem has evolved significantly. Here are the current best practices for different application sizes.
+                </p>
+                <div className="bg-gray-100 dark:bg-gray-800 rounded-md p-3 mb-4">
+                  <pre className="text-sm overflow-x-auto"><code>
+                    {`// For small to medium applications
+const [state, setState] = useState(initialState);
+
+// For complex state logic
+const [state, dispatch] = useReducer(reducer, initialState);
+
+// For global state management
+const SomeContext = createContext();`}
+                  </code></pre>
+                </div>
+              </div>
+              <div className="carousel-controls">
+                <button className="carousel-control" aria-label="Previous tip">
+                  <ChevronLeftIcon size={16} />
+                </button>
+                <button className="carousel-control" aria-label="Next tip">
+                  <ChevronRightIcon size={16} />
+                </button>
+              </div>
+            </div>
+          </div>
         ) : (
           <>
-            {/* Chat header */}
-            <div className="border-b border-gray-200 dark:border-gray-800 px-6 py-4">
-              <div className="flex items-center justify-between max-w-3xl mx-auto">
-                <h2 className="text-lg font-medium">
+            {/* Mini Header for chat with messages */}
+            <div className="chat-mini-header border-b border-gray-200 dark:border-gray-800">
+              <div className="flex items-center space-x-2">
+                <h2 className="text-lg font-medium mr-auto">
                   {activeConversation && conversations.find(c => c.id === activeConversation)?.title || "New Chat"}
                 </h2>
                 
-                <div className="flex items-center space-x-2">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button variant="ghost" size="icon" className="text-gray-500">
-                          <MoreVerticalIcon size={18} />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Chat options</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button variant="ghost" size="icon" className="text-gray-500">
+                        <MoreVerticalIcon size={18} />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Chat options</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
             
@@ -534,13 +664,13 @@ const Chat = () => {
         
         {/* Chat Input */}
         <div className="border-t border-gray-200 dark:border-gray-800 p-4">
-          <div className="max-w-3xl mx-auto">
-            <form onSubmit={handleSubmit}>
-              <Card className="overflow-hidden">
-                <CardContent className="p-0">
+          <div className="mx-auto" style={{ width: 'clamp(520px, 60vw, 840px)' }}>
+            <div className="chat-input-card">
+              <form onSubmit={handleSubmit} className="w-full">
+                <div className="chat-input-container">
                   <Tabs defaultValue="text" className="w-full">
                     <TabsContent value="text" className="m-0">
-                      <div className="min-h-[100px] max-h-[200px] p-2">
+                      <div className="min-h-[100px]">
                         <textarea
                           className="w-full h-full min-h-[100px] resize-none focus:outline-none bg-transparent"
                           placeholder="Type your code or question here..."
@@ -550,7 +680,7 @@ const Chat = () => {
                       </div>
                     </TabsContent>
                     <TabsContent value="code" className="m-0">
-                      <div className="p-2">
+                      <div>
                         <CodeEditor
                           value={query}
                           onChange={setQuery}
@@ -560,31 +690,37 @@ const Chat = () => {
                       </div>
                     </TabsContent>
                     
-                    <div className="flex items-center justify-between px-3 py-2 border-t border-gray-200 dark:border-gray-700">
-                      <TabsList className="bg-transparent">
-                        <TabsTrigger value="text" className="px-2 data-[state=active]:bg-transparent text-gray-500 data-[state=active]:text-primary">
+                    <div className="flex flex-wrap mt-4 mb-4">
+                      <TabsList className="bg-transparent mb-2">
+                        <TabsTrigger value="text" className="chat-pill-button data-[state=active]:bg-primary/20">
                           <span className="sr-only">Text</span>
                           <span className="block">Aa</span>
                         </TabsTrigger>
-                        <TabsTrigger value="code" className="px-2 data-[state=active]:bg-transparent text-gray-500 data-[state=active]:text-primary">
-                          <CodeIcon size={16} />
+                        <TabsTrigger value="code" className="chat-pill-button data-[state=active]:bg-primary/20">
+                          <CodeIcon size={14} />
                         </TabsTrigger>
-                        <Button type="button" variant="ghost" size="icon" className="text-gray-500">
-                          <PaperclipIcon size={16} />
-                        </Button>
-                        <Button type="button" variant="ghost" size="icon" className="text-gray-500">
-                          <SmileIcon size={16} />
-                        </Button>
                       </TabsList>
                       
-                      <Button type="submit" disabled={!query.trim() || isLoading}>
-                        {isLoading ? 'Processing...' : 'Send'} {!isLoading && <SendIcon className="ml-1" size={16} />}
-                      </Button>
+                      <button type="button" className="chat-pill-button">
+                        <PaperclipIcon size={14} className="mr-1" /> Attach file
+                      </button>
                     </div>
+                    
+                    <button 
+                      type="submit" 
+                      className="chat-send-button"
+                      disabled={!query.trim() || isLoading}
+                      aria-label="Send message"
+                    >
+                      {isLoading ? 
+                        <div className="h-4 w-4 animate-spin rounded-full border-2 border-t-transparent border-white" /> : 
+                        <SendIcon size={18} />
+                      }
+                    </button>
                   </Tabs>
-                </CardContent>
-              </Card>
-            </form>
+                </div>
+              </form>
+            </div>
             
             <div className="mt-3 text-xs text-gray-500 dark:text-gray-400 flex items-center justify-center">
               <span className="inline-flex items-center">

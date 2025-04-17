@@ -16,6 +16,7 @@
 @import './components/_forms.css';
 @import './components/_theme-toggle.css';
 @import './components/_sidebar.css';
+@import './components/_chat.css';
 
 /* Import token styles */
 @import './tokens/_chat.css';
