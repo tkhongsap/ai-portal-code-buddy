@@ -8,6 +8,9 @@ import {
   conversations,
   type Conversation,
   type InsertConversation,
+  categories,
+  type Category,
+  type InsertCategory,
   bookmarks,
   type Bookmark,
   type InsertBookmark,
@@ -39,6 +42,13 @@ export interface IStorage {
   getConversationsByUserId(userId: number): Promise<Conversation[]>;
   getConversation(id: number): Promise<Conversation | undefined>;
   updateConversation(id: number, conversationData: Partial<Conversation>): Promise<Conversation>;
+  
+  // Category methods
+  createCategory(category: InsertCategory): Promise<Category>;
+  getCategoriesByUserId(userId: number): Promise<Category[]>;
+  getCategory(id: number): Promise<Category | undefined>;
+  updateCategory(id: number, categoryData: Partial<Category>): Promise<Category>;
+  deleteCategory(id: number): Promise<void>;
   
   // Bookmark methods
   createBookmark(bookmark: InsertBookmark): Promise<Bookmark>;
@@ -79,6 +89,7 @@ export class MemStorage implements IStorage {
   private users: Map<number, User>;
   private chatMessages: Map<number, ChatMessage>;
   private conversations: Map<number, Conversation>;
+  private categories: Map<number, Category>;
   private bookmarks: Map<number, Bookmark>;
   private codeSnippets: Map<number, CodeSnippet>;
   private userGoals: Map<number, UserGoal>;
@@ -87,6 +98,7 @@ export class MemStorage implements IStorage {
   private userIdCounter: number;
   private messageIdCounter: number;
   private conversationIdCounter: number;
+  private categoryIdCounter: number;
   private bookmarkIdCounter: number;
   private snippetIdCounter: number;
   private goalIdCounter: number;
@@ -96,6 +108,7 @@ export class MemStorage implements IStorage {
     this.users = new Map();
     this.chatMessages = new Map();
     this.conversations = new Map();
+    this.categories = new Map();
     this.bookmarks = new Map();
     this.codeSnippets = new Map();
     this.userGoals = new Map();
@@ -104,6 +117,7 @@ export class MemStorage implements IStorage {
     this.userIdCounter = 1;
     this.messageIdCounter = 1;
     this.conversationIdCounter = 1;
+    this.categoryIdCounter = 1;
     this.bookmarkIdCounter = 1;
     this.snippetIdCounter = 1;
     this.goalIdCounter = 1;
@@ -115,6 +129,43 @@ export class MemStorage implements IStorage {
       password: "password123",
       displayName: "Alex Morgan",
       role: "Developer"
+    });
+    
+    // Add sample categories
+    this.createCategory({
+      userId: 1,
+      name: "Frontend",
+      description: "Frontend development resources",
+      color: "#3B82F6",
+      icon: "code",
+      order: 1
+    });
+    
+    this.createCategory({
+      userId: 1,
+      name: "Backend",
+      description: "Backend development resources",
+      color: "#10B981",
+      icon: "server",
+      order: 2
+    });
+    
+    this.createCategory({
+      userId: 1,
+      name: "DevOps",
+      description: "DevOps and deployment resources",
+      color: "#F59E0B",
+      icon: "cloud",
+      order: 3
+    });
+    
+    this.createCategory({
+      userId: 1,
+      name: "AI & ML",
+      description: "Artificial Intelligence and Machine Learning",
+      color: "#8B5CF6",
+      icon: "brain",
+      order: 4
     });
     
     // Add some demo bookmarks
@@ -324,7 +375,11 @@ export class MemStorage implements IStorage {
   async getCategoriesByUserId(userId: number): Promise<Category[]> {
     return Array.from(this.categories.values())
       .filter(category => category.userId === userId)
-      .sort((a, b) => a.order - b.order);
+      .sort((a, b) => {
+        const orderA = a.order ?? 0;
+        const orderB = b.order ?? 0;
+        return orderA - orderB;
+      });
   }
   
   async getCategory(id: number): Promise<Category | undefined> {
