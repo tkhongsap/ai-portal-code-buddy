@@ -29,11 +29,15 @@ A living checklist to track adherence to the Product Requirements Document and o
 - [ ] Implement proper error boundaries for component failures
 
 ## Chat Interface Visual Alignment Tasks (PRD-10)
+### Completed
+- [x] Create chat-specific design tokens for light/dark themes
+- [x] Update Mini Header (remove search bar, adjust height to 48px, add conditional border)
+- [x] Center Title Block with proper typography and spacing
+- [x] Refactor Message Input Card (width, border radius, padding)
+- [x] Implement animations for message appearance and interactions
+- [x] Add reduced motion support for animations
+
 ### In Progress
-- [ ] Create chat-specific design tokens for light/dark themes
-- [ ] Update Mini Header (remove search bar, adjust height to 48px) 
-- [ ] Center Title Block with proper typography and spacing
-- [ ] Refactor Message Input Card (width, border radius, padding)
 - [ ] Update Sidebar dimensions and active styles
 - [ ] Implement Developer Tips Carousel styling
 - [ ] Ensure proper responsive behavior
@@ -59,11 +63,13 @@ A living checklist to track adherence to the Product Requirements Document and o
 ## Styling & Theming Tasks (PRD-08)
 ### Completed
 - [x] Implement token-based styling system with CSS custom properties for all visual aspects
+- [x] Create comprehensive token sets for colors, typography, spacing, and components
 - [x] Create theme context with system preference detection and persisted user preference
 - [x] Add reduced motion support for accessibility
 - [x] Implement light and dark modes with proper AA accessibility contrast ratios
-- [x] Create theme toggle component with proper ARIA attributes
+- [x] Create enhanced theme toggle component with proper ARIA attributes and animations
 - [x] Apply consistent styling to components using the token system
+- [x] Add animation tokens and standardized transitions
 
 ### In Progress
 - [ ] UI for user theme customization (primary color selection)
