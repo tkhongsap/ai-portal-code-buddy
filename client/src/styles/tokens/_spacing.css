@@ -1,10 +1,10 @@
 /* -------------------- */
-/* Spacing Tokens        */
+/* Spacing Design Tokens */
 /* -------------------- */
 
 :root {
-  /* Base spacing unit: 4px */
-  --cb-spacing-unit: 0.25rem;
+  /* Base unit of spacing */
+  --cb-spacing-unit: 0.25rem; /* 4px */
   
   /* Spacing scale */
   --cb-spacing-0: 0;
@@ -20,23 +20,23 @@
   --cb-spacing-16: calc(var(--cb-spacing-unit) * 16); /* 64px */
   --cb-spacing-20: calc(var(--cb-spacing-unit) * 20); /* 80px */
   --cb-spacing-24: calc(var(--cb-spacing-unit) * 24); /* 96px */
+  --cb-spacing-32: calc(var(--cb-spacing-unit) * 32); /* 128px */
+  --cb-spacing-40: calc(var(--cb-spacing-unit) * 40); /* 160px */
+  --cb-spacing-48: calc(var(--cb-spacing-unit) * 48); /* 192px */
   
-  /* Component-specific spacing */
-  --cb-card-padding: var(--cb-spacing-6);
-  --cb-button-padding-y: var(--cb-spacing-2);
-  --cb-button-padding-x: var(--cb-spacing-4);
-  --cb-input-padding-y: var(--cb-spacing-2);
-  --cb-input-padding-x: var(--cb-spacing-3);
-  --cb-section-spacing: var(--cb-spacing-12);
-  --cb-sidebar-width: 18rem; /* 288px */
+  /* Component specific spacing */
+  --cb-container-padding: var(--cb-spacing-4); /* 16px */
+  --cb-card-padding: var(--cb-spacing-6);      /* 24px */
+  --cb-form-gap: var(--cb-spacing-4);          /* 16px */
+  --cb-button-padding: var(--cb-spacing-2) var(--cb-spacing-4); /* 8px 16px */
   
-  /* Layout Grid */
-  --cb-grid-gap: var(--cb-spacing-6);
-  --cb-container-padding: var(--cb-spacing-4);
+  /* Layout spacing */
+  --cb-section-spacing: var(--cb-spacing-16);  /* 64px vertical spacing between sections */
+  --cb-grid-gap: var(--cb-spacing-6);          /* 24px gap in grid layouts */
   
-  /* Breakpoints */
-  --cb-breakpoint-sm: 640px;
-  --cb-breakpoint-md: 768px;
-  --cb-breakpoint-lg: 1024px;
-  --cb-breakpoint-xl: 1280px;
+  /* Set standardized insets */
+  --cb-inset-sm: var(--cb-spacing-2);  /* 8px */
+  --cb-inset-md: var(--cb-spacing-4);  /* 16px */
+  --cb-inset-lg: var(--cb-spacing-6);  /* 24px */
+  --cb-inset-xl: var(--cb-spacing-8);  /* 32px */
 }

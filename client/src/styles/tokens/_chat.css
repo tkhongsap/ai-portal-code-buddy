@@ -1,15 +1,42 @@
 /* -------------------- */
-/* Chat Interface Tokens */
+/* Chat Design Tokens */
 /* -------------------- */
 
 :root {
-  /* Light mode chat tokens */
-  --cb-chat-card-bg: rgba(3, 63, 147, 0.03);
-  --cb-chat-title-font-size: 24px;
+  /* Typography tokens */
+  --cb-chat-title-font-size: 28px;
+  --cb-chat-subtitle-font-size: 14px;
+  
+  /* Color tokens */
+  --cb-chat-card-bg: var(--cb-surface-100);
+  --cb-chat-pill-bg: rgba(4, 74, 172, 0.2);
+  --cb-chat-pill-text: var(--cb-primary-500);
+  --cb-chat-send-button-bg: var(--cb-primary-500);
+  --cb-chat-send-button-text: white;
+  
+  /* Spacing tokens */
+  --cb-chat-card-padding: 32px 24px;
+  --cb-chat-input-min-height: 100px;
+  --cb-chat-pill-padding: 0 12px;
+  
+  /* Shape tokens */
+  --cb-chat-card-radius: 20px;
+  --cb-chat-pill-radius: 12px;
+  --cb-chat-send-button-radius: 12px;
+  
+  /* Message tokens */
+  --cb-message-user-bg: rgba(4, 74, 172, 0.1);
+  --cb-message-ai-bg: var(--cb-surface-100);
+  --cb-message-radius: 16px;
+  --cb-message-padding: 16px;
+  --cb-message-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-:root.dark {
-  /* Dark mode chat tokens */
-  --cb-chat-card-bg: rgba(3, 63, 147, 0.08);
-  --cb-chat-title-font-size: 24px;
+/* Dark mode adjustments */
+.dark {
+  --cb-chat-card-bg: var(--cb-surface-200);
+  --cb-chat-pill-bg: rgba(4, 74, 172, 0.3);
+  --cb-message-user-bg: rgba(4, 74, 172, 0.2);
+  --cb-message-ai-bg: var(--cb-surface-200);
+  --cb-message-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }

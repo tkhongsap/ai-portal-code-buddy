@@ -1,135 +1,76 @@
 /* -------------------- */
-/* Color Tokens          */
+/* Color Design Tokens */
 /* -------------------- */
 
 :root {
-  /* Brand colors */
-  --cb-primary-500: #033F93;
-  --cb-secondary-400: #B3D7F3;
+  /* Primary colors */
+  --cb-primary-50: #EFF6FF;
+  --cb-primary-100: #DBEAFE;
+  --cb-primary-200: #BFDBFE;
+  --cb-primary-300: #93C5FD;
+  --cb-primary-400: #60A5FA;
+  --cb-primary-500: #3B82F6;  /* Primary brand color */
+  --cb-primary-600: #2563EB;
+  --cb-primary-700: #1D4ED8;
+  --cb-primary-800: #1E40AF;
+  --cb-primary-900: #1E3A8A;
   
-  /* Surface colors */
-  --cb-surface-100: #FFFFFF;
-  --cb-canvas: #F7FCFF;
-  --cb-line: #E5E5E5;
-  
-  /* Text colors */
-  --cb-text-high: #333333;
-  --cb-text-low: #647989;
-  
-  /* Elevation tokens */
-  --cb-elev-1: 0 2px 4px rgba(0, 0, 0, 0.05);
-  --cb-elev-2: 0 4px 8px rgba(0, 0, 0, 0.1);
-  --cb-elev-3: 0 8px 16px rgba(0, 0, 0, 0.15);
-  
-  /* Shadcn compatibility */
-  --background: 204 100% 98%; /* #F7FCFF */
-  --foreground: 210 16% 27%; /* #647989 */
-  --card: 0 0% 100%; /* #FFFFFF */
-  --card-foreground: 222 11% 20%; /* #333333 */
-  --popover: 0 0% 100%; /* #FFFFFF */
-  --popover-foreground: 222 11% 20%; /* #333333 */
-  --primary: 217 96% 30%; /* #033F93 */
-  --primary-foreground: 0 0% 100%; /* #FFFFFF */
-  --secondary: 209 76% 83%; /* #B3D7F3 */
-  --secondary-foreground: 217 96% 30%; /* #033F93 */
-  --muted: 210 16% 95%; /* #F0F3F5 */
-  --muted-foreground: 210 16% 47%; /* #647989 */
-  --accent: 209 76% 93%; /* #E1F0FA */
-  --accent-foreground: 217 96% 30%; /* #033F93 */
-  --destructive: 0 85% 60%; /* #E53935 */
-  --destructive-foreground: 0 0% 100%; /* #FFFFFF */
-  --border: 220 13% 90%; /* #E5E5E5 */
-  --input: 220 13% 90%; /* #E5E5E5 */
-  --ring: 217 96% 30%; /* #033F93 */
-  
-  /* Sidebar styles */
-  --sidebar-background: 217 96% 30%; /* #033F93 */
-  --sidebar-foreground: 0 0% 100%; /* #FFFFFF */
-  --sidebar-primary: 0 0% 100%; /* #FFFFFF */
-  --sidebar-primary-foreground: 217 96% 30%; /* #033F93 */
-  --sidebar-accent: 209 76% 83%; /* #B3D7F3 */
-  --sidebar-accent-foreground: 217 96% 30%; /* #033F93 */
-  --sidebar-border: 217 60% 40%; /* #0A4CBC */
-  --sidebar-ring: 0 0% 100%; /* #FFFFFF */
-  --cb-sidebar-active-bg: rgba(3, 63, 147, 0.12); /* Translucent primary color for active items */
-  --cb-sidebar-hover-bg: rgba(3, 63, 147, 0.15); /* Slightly more opaque for hover */
-
-  /* Chart colors (keeping existing ones) */
-  --chart-1: 217 91% 60%; /* #3b82f6 - blue-500 */
-  --chart-2: 152 76% 40%; /* #10b981 - emerald-500 */
-  --chart-3: 25 95% 53%;  /* #f97316 - orange-500 */
-  --chart-4: 256 91% 65%; /* #8b5cf6 - violet-500 */
-  --chart-5: 326 73% 57%; /* #ec4899 - pink-500 */
-  
-  /* System tokens */
-  --radius: 0.5rem;
-}
-
-:root.dark {
-  /* Brand colors - primary stays the same */
-  --cb-primary-500: #033F93;
-  --cb-secondary-400: #044AAC;
-  
-  /* Surface colors */
-  --cb-surface-100: #1E1E1E;
-  --cb-canvas: #121212;
-  --cb-line: #263544;
+  /* Surface colors (backgrounds) */
+  --cb-surface-50: #FAFAFA;
+  --cb-surface-100: #F4F4F5;
+  --cb-surface-200: #E4E4E7;
+  --cb-surface-300: #D4D4D8;
+  --cb-surface-400: #A1A1AA;
   
   /* Text colors */
-  --cb-text-high: #FFFFFF;
-  --cb-text-low: #808080;
+  --cb-text-high: #18181B;   /* High emphasis text */
+  --cb-text-medium: #52525B; /* Medium emphasis text */
+  --cb-text-low: #71717A;    /* Low emphasis text */
   
-  /* Elevation tokens */
-  --cb-elev-1: 0 2px 4px rgba(0, 0, 0, 0.2);
-  --cb-elev-2: 0 4px 8px rgba(0, 0, 0, 0.3);
-  --cb-elev-3: 0 8px 16px rgba(0, 0, 0, 0.4);
+  /* UI colors */
+  --cb-line: #E4E4E7;        /* Border lines */
+  --cb-divider: #F4F4F5;     /* Subtle dividers */
   
-  /* Shadcn compatibility */
-  --background: 0 0% 7%; /* #121212 */
-  --foreground: 0 0% 100%; /* #FFFFFF */
-  --card: 0 0% 12%; /* #1E1E1E */
-  --card-foreground: 0 0% 100%; /* #FFFFFF */
-  --popover: 0 0% 12%; /* #1E1E1E */
-  --popover-foreground: 0 0% 100%; /* #FFFFFF */
-  --primary: 217 96% 30%; /* #033F93 */
-  --primary-foreground: 0 0% 100%; /* #FFFFFF */
-  --secondary: 217 93% 35%; /* #044AAC */
-  --secondary-foreground: 0 0% 100%; /* #FFFFFF */
-  --muted: 0 0% 20%; /* #333333 */
-  --muted-foreground: 0 0% 65%; /* #A6A6A6 */
-  --accent: 217 40% 25%; /* #263544 */
-  --accent-foreground: 0 0% 100%; /* #FFFFFF */
-  --destructive: 0 70% 50%; /* #D32F2F */
-  --destructive-foreground: 0 0% 100%; /* #FFFFFF */
-  --border: 217 40% 25%; /* #263544 */
-  --input: 217 40% 25%; /* #263544 */
-  --ring: 217 96% 30%; /* #033F93 */
-  
-  /* Sidebar styles */
-  --sidebar-background: 0 0% 12%; /* #1E1E1E */
-  --sidebar-foreground: 0 0% 100%; /* #FFFFFF */
-  --sidebar-primary: 217 96% 30%; /* #033F93 */
-  --sidebar-primary-foreground: 0 0% 100%; /* #FFFFFF */
-  --sidebar-accent: 217 93% 35%; /* #044AAC */
-  --sidebar-accent-foreground: 0 0% 100%; /* #FFFFFF */
-  --sidebar-border: 217 40% 25%; /* #263544 */
-  --sidebar-ring: 217 96% 30%; /* #033F93 */
-  --cb-sidebar-active-bg: rgba(3, 63, 147, 0.24); /* Translucent primary color for dark theme active items */
-  --cb-sidebar-hover-bg: rgba(3, 63, 147, 0.3); /* Slightly more opaque for hover */
-
-  /* Chart colors (keeping existing ones, but slightly brighter) */
-  --chart-1: 217 91% 67%; /* #60a5fa - blue-400 */
-  --chart-2: 152 76% 52%; /* #34d399 - emerald-400 */
-  --chart-3: 25 95% 62%;  /* #fb923c - orange-400 */
-  --chart-4: 256 91% 76%; /* #a78bfa - violet-400 */
-  --chart-5: 326 73% 70%; /* #f472b6 - pink-400 */
+  /* Feedback colors */
+  --cb-success: #10B981;     /* Success states */
+  --cb-error: #EF4444;       /* Error states */
+  --cb-warning: #F59E0B;     /* Warning states */
+  --cb-info: #3B82F6;        /* Info states */
 }
 
-/* Tag/Chip styling as mentioned in PRD */
-.tag, .chip {
-  background-color: color-mix(in srgb, var(--cb-primary-500) 10%, white);
-}
-
-.dark .tag, .dark .chip {
-  background-color: color-mix(in srgb, var(--cb-primary-500) 40%, black);
+/* Dark mode color overrides */
+.dark {
+  /* Primary colors - slightly adjusted for dark mode */
+  --cb-primary-50: #0F172A;
+  --cb-primary-100: #172554;
+  --cb-primary-200: #1E3A8A;
+  --cb-primary-300: #1D4ED8;
+  --cb-primary-400: #2563EB;
+  --cb-primary-500: #3B82F6; /* Primary brand color */
+  --cb-primary-600: #60A5FA;
+  --cb-primary-700: #93C5FD;
+  --cb-primary-800: #BFDBFE;
+  --cb-primary-900: #DBEAFE;
+  
+  /* Surface colors (backgrounds) */
+  --cb-surface-50: #18181B;
+  --cb-surface-100: #27272A;
+  --cb-surface-200: #3F3F46;
+  --cb-surface-300: #52525B;
+  --cb-surface-400: #71717A;
+  
+  /* Text colors */
+  --cb-text-high: #F4F4F5;   /* High emphasis text */
+  --cb-text-medium: #A1A1AA; /* Medium emphasis text */
+  --cb-text-low: #71717A;    /* Low emphasis text */
+  
+  /* UI colors */
+  --cb-line: #3F3F46;        /* Border lines */
+  --cb-divider: #27272A;     /* Subtle dividers */
+  
+  /* Feedback colors - slightly adjusted for dark mode */
+  --cb-success: #059669;
+  --cb-error: #DC2626;
+  --cb-warning: #D97706;
+  --cb-info: #3B82F6;
 }

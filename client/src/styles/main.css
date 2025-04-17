@@ -19,6 +19,8 @@
 @import './components/_chat.css';
 
 /* Import token styles */
+@import './tokens/_colors.css';
+@import './tokens/_typography.css';
 @import './tokens/_chat.css';
 
 /* Support for reduced motion */

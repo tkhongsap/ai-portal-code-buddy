@@ -107,8 +107,13 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
       <div className={`flex-1 p-4 rounded-lg shadow-sm max-w-[90%] relative ${
         message.isAi 
           ? 'bg-white dark:bg-[#1E1E1E]' 
-          : 'bg-primary bg-opacity-10 dark:bg-opacity-20'
-      }`}>
+          : 'bg-primary/10 dark:bg-primary/20'
+      }`} style={{
+        borderRadius: 'var(--cb-message-radius)',
+        padding: 'var(--cb-message-padding)',
+        boxShadow: 'var(--cb-message-shadow)',
+        backgroundColor: message.isAi ? 'var(--cb-message-ai-bg)' : 'var(--cb-message-user-bg)'
+      }}>
         {/* Message actions that appear on hover */}
         <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
           <TooltipProvider>

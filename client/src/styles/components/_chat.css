@@ -33,15 +33,22 @@
 .chat-title {
   font-size: var(--cb-chat-title-font-size);
   font-weight: 700;
-  line-height: 32px;
-  margin-bottom: 8px;
+  line-height: 1.2;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, var(--cb-primary-600) 0%, var(--cb-primary-400) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
 }
 
 .chat-subtitle {
-  font-size: 14px;
-  line-height: 20px;
+  font-size: var(--cb-chat-subtitle-font-size);
+  line-height: 1.5;
   color: var(--cb-text-low);
   font-weight: 400;
+  max-width: 80%;
+  margin: 0 auto;
 }
 
 /* Message input card */
@@ -50,9 +57,16 @@
   margin-top: 32px;
   background-color: var(--cb-chat-card-bg);
   border: 1px solid var(--cb-line);
-  border-radius: 20px;
-  padding: 32px 24px;
+  border-radius: var(--cb-chat-card-radius);
+  padding: var(--cb-chat-card-padding);
   position: relative;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.chat-input-card:focus-within {
+  border-color: var(--cb-primary-300);
+  transform: translateY(-2px);
 }
 
 /* Input container */
@@ -68,23 +82,37 @@
   right: 24px;
   width: 40px;
   height: 40px;
-  border-radius: 12px;
-  background-color: var(--cb-primary-500);
-  color: white;
+  border-radius: var(--cb-chat-send-button-radius);
+  background-color: var(--cb-chat-send-button-bg);
+  color: var(--cb-chat-send-button-text);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   border: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.chat-send-button:hover {
+  transform: scale(1.05);
+}
+
+.chat-send-button:active {
+  transform: scale(0.95);
+}
+
+.chat-send-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 /* Pill buttons */
 .chat-pill-button {
   height: 32px;
-  border-radius: 12px;
-  background-color: rgba(4, 74, 172, 0.2);
-  color: var(--cb-primary-500);
-  padding: 0 12px;
+  border-radius: var(--cb-chat-pill-radius);
+  background-color: var(--cb-chat-pill-bg);
+  color: var(--cb-chat-pill-text);
+  padding: var(--cb-chat-pill-padding);
   font-size: 12px;
   font-weight: 500;
   display: inline-flex;
@@ -93,6 +121,16 @@
   margin-bottom: 8px;
   cursor: pointer;
   border: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.chat-pill-button:hover {
+  background-color: var(--cb-chat-pill-bg);
+  opacity: 0.9;
+}
+
+.chat-pill-button:active {
+  transform: scale(0.97);
 }
 
 /* Developer tips carousel */
@@ -102,16 +140,41 @@
 }
 
 .developer-tip-card {
-  background-color: var(--cb-surface-100);
-  border-radius: 16px;
+  background-color: var(--cb-chat-card-bg);
+  border-radius: var(--cb-chat-card-radius);
   padding: 24px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--cb-line);
+  transition: transform 0.3s ease;
+}
+
+.developer-tip-card:hover {
+  transform: translateY(-4px);
+}
+
+.developer-tip-card h3 {
+  color: var(--cb-text-high);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.developer-tip-card p {
+  color: var(--cb-text-medium);
+  margin-bottom: 16px;
+}
+
+.developer-tip-card pre {
+  background-color: var(--cb-surface-200);
+  border-radius: 8px;
+  padding: 12px;
+  overflow-x: auto;
 }
 
 .carousel-controls {
   display: flex;
   justify-content: center;
-  margin-top: 16px;
-  gap: 8px;
+  margin-top: 20px;
+  gap: 12px;
 }
 
 .carousel-control {
@@ -124,6 +187,16 @@
   border: 1px solid var(--cb-line);
   border-radius: 50%;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.carousel-control:hover {
+  background-color: var(--cb-surface-200);
+  transform: scale(1.05);
+}
+
+.carousel-control:active {
+  transform: scale(0.95);
 }
 
 /* Responsive styles */
