@@ -19,6 +19,8 @@ A living checklist to track adherence to the Product Requirements Document and o
 - [x] Bookmarks & Query Management: create, edit, delete, view, organize by category (with hierarchy), tag, search, filter, import/export (JSON/Markdown), batch delete, notes, starred, and content type support
 - [x] Profile: display name, username, email (view only), password change, notification toggles, user preferences (theme, code editor, default view)
 - [x] Dashboard: usage statistics, activity tracking, and goal management
+- [x] Styling & Theming: token-based styling system with CSS custom properties, light/dark mode with system preference detection
+- [x] Navigation Sidebar: collapsible/expandable navigation with consistent styling, keyboard shortcuts, and ARIA accessibility
 
 ## In Progress Tasks
 - [ ] Improve error handling for OpenAI API issues
@@ -42,6 +44,36 @@ A living checklist to track adherence to the Product Requirements Document and o
 - [ ] Advanced execution interface (parameter input, execution notes/history)
 - [ ] Collaborative query development
 - [ ] Import/export: support for more formats (text, full category export)
+
+## Styling & Theming Tasks (PRD-08)
+### Completed
+- [x] Implement token-based styling system with CSS custom properties for all visual aspects
+- [x] Create theme context with system preference detection and persisted user preference
+- [x] Add reduced motion support for accessibility
+- [x] Implement light and dark modes with proper AA accessibility contrast ratios
+- [x] Create theme toggle component with proper ARIA attributes
+- [x] Apply consistent styling to components using the token system
+
+### In Progress
+- [ ] UI for user theme customization (primary color selection)
+- [ ] UI for font size and spacing adjustment
+- [ ] Add more transition animations with reduced motion support
+- [ ] Improve mobile responsiveness for all components
+
+## Navigation Sidebar Tasks (PRD-09)
+### Completed
+- [x] Create collapsible/expandable sidebar with consistent styling
+- [x] Implement keyboard shortcuts (Ctrl+\) for expansion
+- [x] Add hover-to-expand functionality with proper timing
+- [x] Rename "AI Portal Home" to "Code Buddy Home"
+- [x] Add ARIA attributes and proper accessibility support
+- [x] Persist sidebar state to localStorage
+
+### In Progress
+- [ ] Implement favorites section for most-used items
+- [ ] Add visual notification indicators to sidebar items
+- [ ] Implement drag-and-drop for sidebar item reordering
+- [ ] Customize sidebar sections based on user role/permissions
 
 ## Profile Management Tasks (PRD-07)
 ### In Progress

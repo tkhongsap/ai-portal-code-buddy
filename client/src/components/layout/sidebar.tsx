@@ -1,11 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "wouter";
 import { useTheme } from "@/contexts/theme-context";
 import { useUser } from "@/contexts/user-context";
-import { MenuIcon, HomeIcon, MessageSquareIcon, CodeIcon, BarChartIcon, LayoutDashboardIcon, BookmarkIcon, ClockIcon, UserCogIcon, SettingsIcon, LogOutIcon, SunIcon, MoonIcon, BellIcon, PanelLeftCloseIcon } from "lucide-react";
+import { SidebarProvider, useSidebar } from "@/contexts/sidebar-context";
+import { 
+  MenuIcon, 
+  HomeIcon, 
+  MessageSquareIcon, 
+  CodeIcon, 
+  BarChartIcon, 
+  LayoutDashboardIcon, 
+  BookmarkIcon, 
+  ClockIcon, 
+  UserCogIcon, 
+  SettingsIcon, 
+  LogOutIcon, 
+  ChevronLeftIcon,
+  ChevronRightIcon
+} from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import Header from "./header";
 
 interface LayoutProps {
@@ -15,86 +31,240 @@ interface LayoutProps {
 interface NavItemProps {
   href: string;
   icon: React.ReactNode;
-  children: React.ReactNode;
+  label: string;
   active?: boolean;
 }
 
-const NavItem = ({ href, icon, children, active }: NavItemProps) => {
+const NavItem = ({ href, icon, label, active }: NavItemProps) => {
+  const { isExpanded } = useSidebar();
+  const itemRef = useRef<HTMLLIElement>(null);
+  const [, navigate] = useLocation();
+  
+  const hoverTimeout = useRef<NodeJS.Timeout | null>(null);
+  const [showTooltip, setShowTooltip] = useState(false);
+  
+  const handleMouseEnter = () => {
+    if (!isExpanded) {
+      // Only show tooltip after 600ms hover - FR-2.3 requirement
+      hoverTimeout.current = setTimeout(() => {
+        setShowTooltip(true);
+      }, 600);
+    }
+  };
+  
+  const handleMouseLeave = () => {
+    if (hoverTimeout.current) {
+      clearTimeout(hoverTimeout.current);
+      hoverTimeout.current = null;
+    }
+    setShowTooltip(false);
+  };
+  
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate(href);
+  };
+  
   return (
-    <li>
-      <Link href={href}>
-        <div className={`flex items-center px-3 py-2 text-sm rounded-lg mb-1 cursor-pointer ${
-          active ? "bg-primary bg-opacity-10 text-primary" : "hover:bg-gray-100 dark:hover:bg-gray-800"
-        }`}>
-          {icon}
-          <span>{children}</span>
-        </div>
-      </Link>
+    <li 
+      ref={itemRef}
+      className="cb-sidebar-nav-item"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div 
+        onClick={handleClick}
+        className={`cb-sidebar-nav-link ${active ? 'cb-sidebar-nav-link--active' : ''}`}
+        aria-current={active ? 'page' : undefined}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            navigate(href);
+          }
+        }}
+      >
+        <span className="cb-sidebar-nav-icon">{icon}</span>
+        <span className="cb-sidebar-nav-text">{label}</span>
+        
+        {!isExpanded && (
+          <span className="cb-sidebar-tooltip" role="tooltip">
+            {label}
+          </span>
+        )}
+      </div>
     </li>
+  );
+};
+
+const SidebarToggle = () => {
+  const { isExpanded, toggleSidebar } = useSidebar();
+  
+  return (
+    <button 
+      type="button"
+      onClick={toggleSidebar}
+      className="cb-sidebar-toggle"
+      aria-label={isExpanded ? "Collapse sidebar" : "Expand sidebar"}
+      title={isExpanded ? "Collapse sidebar" : "Expand sidebar"}
+    >
+      {isExpanded ? (
+        <ChevronLeftIcon size={16} />
+      ) : (
+        <ChevronRightIcon size={16} />
+      )}
+    </button>
   );
 };
 
 const SidebarContent = () => {
   const [location] = useLocation();
   const { user } = useUser();
+  const { isExpanded, expandSidebar } = useSidebar();
+  
+  // Handle hover that would expand the sidebar
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  const handleMouseEnter = () => {
+    if (!isExpanded) {
+      // Expand sidebar after 600ms hover - FR-2.3 requirement
+      hoverTimeoutRef.current = setTimeout(() => {
+        expandSidebar();
+      }, 600);
+    }
+  };
+  
+  const handleMouseLeave = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+      hoverTimeoutRef.current = null;
+    }
+  };
+  
+  useEffect(() => {
+    return () => {
+      if (hoverTimeoutRef.current) {
+        clearTimeout(hoverTimeoutRef.current);
+      }
+    };
+  }, []);
   
   return (
-    <div className="flex flex-col h-full">
-      <div className="p-4 flex items-center border-b border-gray-200 dark:border-gray-800">
-        <div className="h-8 w-8 rounded mr-3 bg-primary text-white flex items-center justify-center">
-          <CodeIcon size={16} />
+    <div 
+      className={`cb-sidebar ${isExpanded ? 'cb-sidebar--expanded' : 'cb-sidebar--collapsed'}`}
+      ref={sidebarRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className="cb-sidebar-header">
+        <div className="cb-sidebar-logo">
+          <div className="cb-sidebar-logo-icon">
+            <CodeIcon size={16} />
+          </div>
+          <span className="cb-sidebar-logo-text">Code Buddy</span>
         </div>
-        <h1 className="text-lg font-bold text-primary">Code Buddy</h1>
+        <SidebarToggle />
       </div>
       
-      <ScrollArea className="flex-1 pt-4 px-3">
+      <ScrollArea className="cb-sidebar-content">
         <div className="mb-6">
-          <h2 className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 px-3 mb-2">Main</h2>
-          <ul>
-            <NavItem href="/" icon={<HomeIcon className="mr-3" size={16} />} active={location === "/"}>AI Portal Home</NavItem>
-            <NavItem href="/chat" icon={<MessageSquareIcon className="mr-3" size={16} />} active={location === "/chat"}>Chat Assistant</NavItem>
-            <NavItem href="/optimization" icon={<CodeIcon className="mr-3" size={16} />} active={location === "/optimization"}>Code Optimization</NavItem>
-            <NavItem href="/score" icon={<BarChartIcon className="mr-3" size={16} />} active={location === "/score"}>Score Your Code</NavItem>
-            <NavItem href="/dashboard" icon={<LayoutDashboardIcon className="mr-3" size={16} />} active={location === "/dashboard"}>Dashboard</NavItem>
+          <h2 className="cb-sidebar-section-heading">Main</h2>
+          <ul className="cb-sidebar-nav">
+            <NavItem 
+              href="/" 
+              icon={<HomeIcon size={16} />} 
+              label="Code Buddy Home" 
+              active={location === "/"} 
+            />
+            <NavItem 
+              href="/chat" 
+              icon={<MessageSquareIcon size={16} />} 
+              label="Chat Assistant" 
+              active={location === "/chat"} 
+            />
+            <NavItem 
+              href="/optimization" 
+              icon={<CodeIcon size={16} />} 
+              label="Code Optimization" 
+              active={location === "/optimization"} 
+            />
+            <NavItem 
+              href="/score" 
+              icon={<BarChartIcon size={16} />} 
+              label="Score Your Code" 
+              active={location === "/score"} 
+            />
+            <NavItem 
+              href="/dashboard" 
+              icon={<LayoutDashboardIcon size={16} />} 
+              label="Dashboard" 
+              active={location === "/dashboard"} 
+            />
           </ul>
         </div>
         
         <div className="mb-6">
-          <h2 className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 px-3 mb-2">Library</h2>
-          <ul>
-            <NavItem href="/bookmarks" icon={<BookmarkIcon className="mr-3" size={16} />} active={location === "/bookmarks"}>Bookmarks</NavItem>
-            <NavItem href="/history" icon={<ClockIcon className="mr-3" size={16} />} active={location === "/history"}>Query History</NavItem>
+          <h2 className="cb-sidebar-section-heading">Library</h2>
+          <ul className="cb-sidebar-nav">
+            <NavItem 
+              href="/bookmarks" 
+              icon={<BookmarkIcon size={16} />} 
+              label="Bookmarks" 
+              active={location === "/bookmarks"} 
+            />
+            <NavItem 
+              href="/history" 
+              icon={<ClockIcon size={16} />} 
+              label="Query History" 
+              active={location === "/history"} 
+            />
           </ul>
         </div>
         
         <div>
-          <h2 className="text-xs font-semibold uppercase text-gray-500 dark:text-gray-400 px-3 mb-2">Account</h2>
-          <ul>
-            <NavItem href="/profile" icon={<UserCogIcon className="mr-3" size={16} />} active={location === "/profile"}>Profile Settings</NavItem>
-            <NavItem href="/preferences" icon={<SettingsIcon className="mr-3" size={16} />} active={location === "/preferences"}>Preferences</NavItem>
+          <h2 className="cb-sidebar-section-heading">Account</h2>
+          <ul className="cb-sidebar-nav">
+            <NavItem 
+              href="/profile" 
+              icon={<UserCogIcon size={16} />} 
+              label="Profile Settings" 
+              active={location === "/profile"} 
+            />
+            <NavItem 
+              href="/preferences" 
+              icon={<SettingsIcon size={16} />} 
+              label="Preferences" 
+              active={location === "/preferences"} 
+            />
           </ul>
         </div>
       </ScrollArea>
       
-      <div className="p-4 border-t border-gray-200 dark:border-gray-800">
-        <div className="flex items-center">
-          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden mr-3">
+      <div className="cb-sidebar-footer">
+        <div className="cb-sidebar-user">
+          <div className="cb-sidebar-user-avatar">
             {user.avatarUrl ? (
               <img src={user.avatarUrl} alt="User profile" className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
+              <span>
                 {user.displayName?.[0] || user.username?.[0] || "U"}
-              </div>
+              </span>
             )}
           </div>
-          <div className="text-sm">
-            <p className="font-medium">{user.displayName || user.username || "User"}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">{user.role || "Developer"}</p>
+          <div className="cb-sidebar-user-info">
+            <div className="cb-sidebar-user-name">{user.displayName || user.username || "User"}</div>
+            <div className="cb-sidebar-user-role">{user.role || "Developer"}</div>
           </div>
-          <Button variant="ghost" size="icon" className="ml-auto text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary">
-            <LogOutIcon size={16} />
-          </Button>
         </div>
+        <button 
+          className="cb-sidebar-action" 
+          aria-label="Log out"
+          title="Log out"
+        >
+          <LogOutIcon size={16} />
+        </button>
       </div>
     </div>
   );
@@ -115,33 +285,36 @@ const Layout = ({ children }: LayoutProps) => {
   }, []);
   
   return (
-    <div className="flex h-screen overflow-hidden">
-      {/* Desktop Sidebar */}
-      <aside className="hidden md:flex flex-col w-60 lg:w-72 bg-white dark:bg-[#1E1E1E] border-r border-gray-200 dark:border-gray-800 h-full transition-all">
-        <SidebarContent />
-      </aside>
-      
-      {/* Mobile Sidebar */}
-      <Sheet>
-        <SheetTrigger asChild>
-          <Button 
-            variant="default" 
-            size="icon" 
-            className="md:hidden fixed bottom-4 left-4 z-20 rounded-full shadow-lg"
-          >
-            <MenuIcon />
-          </Button>
-        </SheetTrigger>
-        <SheetContent side="left" className="p-0 w-4/5 max-w-xs">
+    <SidebarProvider>
+      <div className="flex h-screen overflow-hidden">
+        {/* Desktop Sidebar */}
+        <aside className="hidden md:block h-full">
           <SidebarContent />
-        </SheetContent>
-      </Sheet>
-      
-      <main className="flex-1 flex flex-col overflow-hidden">
-        <Header />
-        {children}
-      </main>
-    </div>
+        </aside>
+        
+        {/* Mobile Sidebar */}
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button 
+              variant="default" 
+              size="icon" 
+              className="md:hidden fixed bottom-4 left-4 z-20 rounded-full shadow-lg"
+              aria-label="Open navigation menu"
+            >
+              <MenuIcon />
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="left" className="p-0 w-4/5 max-w-xs">
+            <SidebarContent />
+          </SheetContent>
+        </Sheet>
+        
+        <main className="flex-1 flex flex-col overflow-hidden">
+          <Header />
+          {children}
+        </main>
+      </div>
+    </SidebarProvider>
   );
 };
 
