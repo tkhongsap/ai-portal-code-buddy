@@ -212,6 +212,123 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Category endpoints for Library Management
+  // Get all categories
+  app.get("/api/categories", async (req, res) => {
+    try {
+      // Get user ID (demo - in production this would use session data)
+      const userId = 1;
+      
+      // Get categories for the user
+      const categories = await storage.getCategoriesByUserId(userId);
+      res.json(categories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      res.status(500).json({ message: "Failed to fetch categories" });
+    }
+  });
+
+  // Create a new category
+  app.post("/api/categories", async (req, res) => {
+    try {
+      const userId = 1; // Demo user
+      const categoryData = req.body;
+      
+      // Add userId to the category data
+      const newCategory = await storage.createCategory({
+        ...categoryData,
+        userId
+      });
+      
+      res.status(201).json(newCategory);
+    } catch (error) {
+      console.error("Error creating category:", error);
+      res.status(500).json({ message: "Failed to create category" });
+    }
+  });
+
+  // Get a specific category
+  app.get("/api/categories/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const userId = 1; // Demo user
+      
+      // Get the category
+      const category = await storage.getCategory(id);
+      
+      if (!category) {
+        return res.status(404).json({ message: "Category not found" });
+      }
+      
+      // Check if the category belongs to the user
+      if (category.userId !== userId) {
+        return res.status(403).json({ message: "Unauthorized access to category" });
+      }
+      
+      res.json(category);
+    } catch (error) {
+      console.error("Error fetching category:", error);
+      res.status(500).json({ message: "Failed to fetch category" });
+    }
+  });
+
+  // Update a category
+  app.put("/api/categories/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const userId = 1; // Demo user
+      const updateData = req.body;
+      
+      // Get the category first to check if it exists and belongs to the user
+      const category = await storage.getCategory(id);
+      
+      if (!category) {
+        return res.status(404).json({ message: "Category not found" });
+      }
+      
+      // Check if the category belongs to the user
+      if (category.userId !== userId) {
+        return res.status(403).json({ message: "Unauthorized access to category" });
+      }
+      
+      // Update the category
+      const updatedCategory = await storage.updateCategory(id, updateData);
+      
+      res.json(updatedCategory);
+    } catch (error) {
+      console.error("Error updating category:", error);
+      res.status(500).json({ message: "Failed to update category" });
+    }
+  });
+
+  // Delete a category
+  app.delete("/api/categories/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const userId = 1; // Demo user
+      
+      // Get the category first to check if it exists and belongs to the user
+      const category = await storage.getCategory(id);
+      
+      if (!category) {
+        return res.status(404).json({ message: "Category not found" });
+      }
+      
+      // Check if the category belongs to the user
+      if (category.userId !== userId) {
+        return res.status(403).json({ message: "Unauthorized access to category" });
+      }
+      
+      // Delete the category
+      await storage.deleteCategory(id);
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      res.status(500).json({ message: "Failed to delete category" });
+    }
+  });
+
   // Bookmarks endpoints
   // Create a new bookmark
   app.post("/api/bookmarks", async (req, res) => {

@@ -1,6 +1,16 @@
 import { apiRequest } from "./queryClient";
 import { queryClient } from "./queryClient";
-import { CodeSnippet, InsertCodeSnippet, Bookmark, InsertBookmark, UserGoal, InsertUserGoal, ActivityLog } from "@shared/schema";
+import { 
+  CodeSnippet, 
+  InsertCodeSnippet, 
+  Bookmark, 
+  InsertBookmark, 
+  UserGoal, 
+  InsertUserGoal, 
+  ActivityLog,
+  Category,
+  InsertCategory
+} from "@shared/schema";
 
 // Types for code optimization response
 export type OptimizationImprovement = {
@@ -115,6 +125,35 @@ export const exportBookmarks = async (format: 'json' | 'markdown' | 'html' = 'js
 export const importBookmarks = async (bookmarks: InsertBookmark[]): Promise<void> => {
   await apiRequest("POST", "/api/bookmarks/import", { bookmarks });
   queryClient.invalidateQueries({ queryKey: ['/api/bookmarks'] });
+};
+
+// Category endpoints
+export const getCategories = async (): Promise<Category[]> => {
+  const res = await apiRequest("GET", "/api/categories", undefined);
+  return res.json();
+};
+
+export const getCategoryById = async (id: number): Promise<Category> => {
+  const res = await apiRequest("GET", `/api/categories/${id}`, undefined);
+  return res.json();
+};
+
+export const createCategory = async (category: Omit<InsertCategory, "userId">): Promise<Category> => {
+  const res = await apiRequest("POST", "/api/categories", category);
+  queryClient.invalidateQueries({ queryKey: ['/api/categories'] });
+  return res.json();
+};
+
+export const updateCategory = async (id: number, category: Partial<Category>): Promise<Category> => {
+  const res = await apiRequest("PUT", `/api/categories/${id}`, category);
+  queryClient.invalidateQueries({ queryKey: ['/api/categories'] });
+  queryClient.invalidateQueries({ queryKey: ['/api/categories', id] });
+  return res.json();
+};
+
+export const deleteCategory = async (id: number): Promise<void> => {
+  await apiRequest("DELETE", `/api/categories/${id}`, undefined);
+  queryClient.invalidateQueries({ queryKey: ['/api/categories'] });
 };
 
 // Dashboard endpoints
