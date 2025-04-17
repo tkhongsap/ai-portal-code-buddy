@@ -170,7 +170,7 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
           )}
         </div>
         
-        {textContent && <p className="text-sm mb-3">{textContent}</p>}
+        {textContent && <p style={{ font: 'var(--cb-body)' }} className="mb-3">{textContent}</p>}
         
         {hasCode && (
           <CodeDisplay 
@@ -182,7 +182,7 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
           />
         )}
         
-        <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+        <div className="mt-2 text-gray-500 dark:text-gray-400" style={{ font: 'var(--cb-caption)' }}>
           {format(message.timestamp, 'h:mm a')}
         </div>
       </div>

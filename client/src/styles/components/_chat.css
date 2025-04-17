@@ -3,6 +3,54 @@
 /* -------------------- */
 
 /* PRD specified chat bubble styling */
+.chat-message {
+  border-radius: var(--cb-message-radius);
+  padding: var(--cb-message-padding);
+  box-shadow: var(--cb-message-shadow);
+  margin-bottom: 16px;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-message:hover {
+  box-shadow: var(--cb-elev-2);
+}
+
+/* User message bubble - secondary-400 color from PRD */
+.chat-message-user {
+  background-color: var(--cb-message-user-bg);
+  color: var(--cb-text-high);
+}
+
+/* AI message bubble - surface-100 color from PRD */
+.chat-message-ai {
+  background-color: var(--cb-message-ai-bg);
+  color: var(--cb-text-high);
+  border: 1px solid var(--cb-line);
+}
+
+/* PRD specified reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .chat-message, 
+  .chat-message:hover,
+  .chat-title-block,
+  .chat-input-card,
+  .chat-send-button,
+  .developer-tip-card {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* Code blocks in chat */
+.chat-message pre {
+  background-color: var(--cb-surface-200);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 8px 0;
+  overflow-x: auto;
+  font: var(--cb-code);
+}
 
 /* Chat landing page wrapper */
 .chat-landing {
