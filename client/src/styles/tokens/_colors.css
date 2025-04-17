@@ -51,6 +51,8 @@
   --sidebar-accent-foreground: 217 96% 30%; /* #033F93 */
   --sidebar-border: 217 60% 40%; /* #0A4CBC */
   --sidebar-ring: 0 0% 100%; /* #FFFFFF */
+  --cb-sidebar-active-bg: rgba(3, 63, 147, 0.12); /* Translucent primary color for active items */
+  --cb-sidebar-hover-bg: rgba(3, 63, 147, 0.15); /* Slightly more opaque for hover */
 
   /* Chart colors (keeping existing ones) */
   --chart-1: 217 91% 60%; /* #3b82f6 - blue-500 */
@@ -112,6 +114,8 @@
   --sidebar-accent-foreground: 0 0% 100%; /* #FFFFFF */
   --sidebar-border: 217 40% 25%; /* #263544 */
   --sidebar-ring: 217 96% 30%; /* #033F93 */
+  --cb-sidebar-active-bg: rgba(3, 63, 147, 0.24); /* Translucent primary color for dark theme active items */
+  --cb-sidebar-hover-bg: rgba(3, 63, 147, 0.3); /* Slightly more opaque for hover */
 
   /* Chart colors (keeping existing ones, but slightly brighter) */
   --chart-1: 217 91% 67%; /* #60a5fa - blue-400 */
