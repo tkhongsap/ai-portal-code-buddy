@@ -1,0 +1,154 @@
+/* -------------------- */
+/* Chat Interface Styles */
+/* -------------------- */
+
+/* Chat landing page wrapper */
+.chat-landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Mini header */
+.chat-mini-header {
+  height: 48px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: transparent;
+  padding: 0 16px;
+}
+
+/* Title block */
+.chat-title-block {
+  text-align: center;
+  max-width: 720px;
+  margin-top: 64px;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.chat-title {
+  font-size: var(--cb-chat-title-font-size);
+  font-weight: 700;
+  line-height: 32px;
+  margin-bottom: 8px;
+}
+
+.chat-subtitle {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--cb-text-low);
+  font-weight: 400;
+}
+
+/* Message input card */
+.chat-input-card {
+  width: clamp(520px, 60vw, 840px);
+  margin-top: 32px;
+  background-color: var(--cb-chat-card-bg);
+  border: 1px solid var(--cb-line);
+  border-radius: 20px;
+  padding: 32px 24px;
+  position: relative;
+}
+
+/* Input container */
+.chat-input-container {
+  min-height: 100px;
+  width: 100%;
+}
+
+/* Send button */
+.chat-send-button {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background-color: var(--cb-primary-500);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+}
+
+/* Pill buttons */
+.chat-pill-button {
+  height: 32px;
+  border-radius: 12px;
+  background-color: rgba(4, 74, 172, 0.2);
+  color: var(--cb-primary-500);
+  padding: 0 12px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+/* Developer tips carousel */
+.developer-tips-carousel {
+  max-width: 90%;
+  margin: 48px auto;
+}
+
+.developer-tip-card {
+  background-color: var(--cb-surface-100);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.carousel-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  gap: 8px;
+}
+
+.carousel-control {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 1px solid var(--cb-line);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Responsive styles */
+@media (max-width: 420px) {
+  .chat-input-card {
+    width: 96%;
+    padding: 20px 16px;
+  }
+  
+  .chat-pill-button {
+    margin-bottom: 8px;
+  }
+  
+  .chat-send-button {
+    bottom: 16px;
+    right: 16px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Sidebar collapsed by default on tablets */
+}
+
+@media (min-width: 1440px) {
+  .chat-title-block {
+    margin-top: 96px;
+  }
+}

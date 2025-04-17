@@ -17,6 +17,9 @@
 @import './components/_theme-toggle.css';
 @import './components/_sidebar.css';
 
+/* Import token styles */
+@import './tokens/_chat.css';
+
 /* Support for reduced motion */
 @media (prefers-reduced-motion: reduce) {
   * {

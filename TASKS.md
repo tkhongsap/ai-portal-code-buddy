@@ -28,6 +28,17 @@ A living checklist to track adherence to the Product Requirements Document and o
 - [ ] Improve API response caching for better performance
 - [ ] Implement proper error boundaries for component failures
 
+## Chat Interface Visual Alignment Tasks (PRD-10)
+### In Progress
+- [ ] Create chat-specific design tokens for light/dark themes
+- [ ] Update Mini Header (remove search bar, adjust height to 48px) 
+- [ ] Center Title Block with proper typography and spacing
+- [ ] Refactor Message Input Card (width, border radius, padding)
+- [ ] Update Sidebar dimensions and active styles
+- [ ] Implement Developer Tips Carousel styling
+- [ ] Ensure proper responsive behavior
+- [ ] Maintain all accessibility requirements
+
 ## Library/Query Management Tasks (PRD-06)
 ### In Progress
 - [ ] UI for query templates (parameterized queries)

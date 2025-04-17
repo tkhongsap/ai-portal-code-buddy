@@ -1,0 +1,15 @@
+/* -------------------- */
+/* Chat Interface Tokens */
+/* -------------------- */
+
+:root {
+  /* Light mode chat tokens */
+  --cb-chat-card-bg: rgba(3, 63, 147, 0.03);
+  --cb-chat-title-font-size: 24px;
+}
+
+:root.dark {
+  /* Dark mode chat tokens */
+  --cb-chat-card-bg: rgba(3, 63, 147, 0.08);
+  --cb-chat-title-font-size: 24px;
+}
