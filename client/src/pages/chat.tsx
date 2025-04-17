@@ -95,24 +95,22 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
   };
   
   return (
-    <div className={`flex items-start ${message.isAi ? '' : 'justify-end'} group`}>
+    <div className={`flex items-start ${message.isAi ? '' : 'justify-end'} group`} style={{ animation: 'slideIn 0.3s ease forwards' }}>
       {message.isAi && (
         <div className="flex-shrink-0 mr-4">
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
+          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white" style={{ animation: 'fadeIn 0.4s ease' }}>
             <CodeIcon size={16} />
           </div>
         </div>
       )}
       
-      <div className={`flex-1 p-4 rounded-lg shadow-sm max-w-[90%] relative ${
-        message.isAi 
-          ? 'bg-white dark:bg-[#1E1E1E]' 
-          : 'bg-primary/10 dark:bg-primary/20'
-      }`} style={{
+      <div className={`flex-1 rounded-lg shadow-sm max-w-[90%] relative`} style={{
         borderRadius: 'var(--cb-message-radius)',
         padding: 'var(--cb-message-padding)',
         boxShadow: 'var(--cb-message-shadow)',
-        backgroundColor: message.isAi ? 'var(--cb-message-ai-bg)' : 'var(--cb-message-user-bg)'
+        backgroundColor: message.isAi ? 'var(--cb-message-ai-bg)' : 'var(--cb-message-user-bg)',
+        animation: 'fadeIn 0.4s ease forwards',
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease'
       }}>
         {/* Message actions that appear on hover */}
         <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
@@ -624,7 +622,7 @@ const SomeContext = createContext();`}
         ) : (
           <>
             {/* Mini Header for chat with messages */}
-            <div className="chat-mini-header border-b border-gray-200 dark:border-gray-800">
+            <div className="chat-mini-header with-border">
               <div className="flex items-center space-x-2">
                 <h2 className="text-lg font-medium mr-auto">
                   {activeConversation && conversations.find(c => c.id === activeConversation)?.title || "New Chat"}

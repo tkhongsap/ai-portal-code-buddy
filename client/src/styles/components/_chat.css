@@ -18,16 +18,25 @@
   justify-content: flex-end;
   align-items: center;
   background-color: transparent;
-  padding: 0 16px;
+  padding: 0 var(--cb-inset-md);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+.chat-mini-header.with-border {
+  border-bottom-color: var(--cb-line);
 }
 
 /* Title block */
 .chat-title-block {
   text-align: center;
   max-width: 720px;
-  margin-top: 64px;
+  margin-top: var(--cb-spacing-16);
   width: 100%;
-  padding: 0 16px;
+  padding: 0 var(--cb-inset-md);
+  animation: fadeInDown 0.6s ease;
 }
 
 .chat-title {
@@ -75,11 +84,43 @@
   width: 100%;
 }
 
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 /* Send button */
 .chat-send-button {
   position: absolute;
-  bottom: 24px;
-  right: 24px;
+  bottom: var(--cb-inset-lg);
+  right: var(--cb-inset-lg);
   width: 40px;
   height: 40px;
   border-radius: var(--cb-chat-send-button-radius);
@@ -222,6 +263,6 @@
 
 @media (min-width: 1440px) {
   .chat-title-block {
-    margin-top: 96px;
+    margin-top: var(--cb-spacing-24);
   }
 }
