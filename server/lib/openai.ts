@@ -162,7 +162,8 @@ export async function scoreCode(code: string, language: string): Promise<{
       response_format: { type: "json_object" },
     });
 
-    const result = JSON.parse(response.choices[0].message.content);
+    const content = response.choices[0].message.content || '{"score":50,"feedback":{"strengths":[],"weaknesses":[],"suggestions":[]}}';
+    const result = JSON.parse(content);
     
     return {
       score: result.score,
