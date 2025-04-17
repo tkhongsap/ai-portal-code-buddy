@@ -463,6 +463,123 @@ const BookmarkItem = ({
   );
 };
 
+// Create Category Dialog
+const CreateCategoryDialog = ({
+  open,
+  onOpenChange,
+  onSubmit
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSubmit: (data: { name: string; description: string | null; parentId: number | null; order: number | null; }) => void;
+}) => {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [parentId, setParentId] = useState<number | null>(null);
+  const [order, setOrder] = useState<number | null>(null);
+  
+  const { data: categories = [] } = useQuery({
+    queryKey: ['/api/categories'],
+    queryFn: getCategories
+  });
+  
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit({
+      name,
+      description: description || null,
+      parentId,
+      order
+    });
+    onOpenChange(false);
+    
+    // Reset form
+    setName('');
+    setDescription('');
+    setParentId(null);
+    setOrder(null);
+  };
+  
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="sm:max-w-[500px]">
+        <form onSubmit={handleSubmit}>
+          <DialogHeader>
+            <DialogTitle>Create Category</DialogTitle>
+            <DialogDescription>
+              Add a new category to organize your bookmarks.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="name">Name</Label>
+              <Input
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter category name"
+                required
+              />
+            </div>
+            
+            <div className="grid gap-2">
+              <Label htmlFor="description">Description (optional)</Label>
+              <Textarea
+                id="description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Enter category description"
+                className="min-h-[80px]"
+              />
+            </div>
+            
+            <div className="grid gap-2">
+              <Label htmlFor="parentId">Parent Category (optional)</Label>
+              <Select 
+                value={parentId ? String(parentId) : ""}
+                onValueChange={(value) => setParentId(value ? Number(value) : null)}
+              >
+                <SelectTrigger id="parentId">
+                  <SelectValue placeholder="Select parent category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">None</SelectItem>
+                  {categories.map(category => (
+                    <SelectItem key={category.id} value={String(category.id)}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="grid gap-2">
+              <Label htmlFor="order">Display Order (optional)</Label>
+              <Input
+                id="order"
+                type="number"
+                value={order !== null ? String(order) : ''}
+                onChange={(e) => setOrder(e.target.value ? Number(e.target.value) : null)}
+                placeholder="Enter display order (lower numbers appear first)"
+              />
+            </div>
+          </div>
+          
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+              Cancel
+            </Button>
+            <Button type="submit">
+              Create Category
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 // Category Sidebar Component
 const CategorySidebar = ({ 
   categories, 
@@ -475,6 +592,18 @@ const CategorySidebar = ({
   onSelectCategory: (category: string) => void; 
   apiCategories?: Category[];
 }) => {
+  const [createCategoryOpen, setCreateCategoryOpen] = useState(false);
+  const createCategoryMutation = useMutation({
+    mutationFn: (data: { name: string; description: string | null; parentId: number | null; order: number | null; }) => 
+      createCategory(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/categories'] });
+    }
+  });
+  
+  const handleCreateCategory = (data: { name: string; description: string | null; parentId: number | null; order: number | null; }) => {
+    createCategoryMutation.mutate(data);
+  };
   return (
     <div className="w-full md:w-56 mb-6 md:mb-0">
       <div className="mb-4 font-medium text-sm uppercase text-gray-500 dark:text-gray-400">
@@ -511,11 +640,42 @@ const CategorySidebar = ({
         </button>
         
         <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="mb-2 font-medium text-sm uppercase text-gray-500 dark:text-gray-400">
-            Category Folders
+          <div className="mb-2 font-medium text-sm uppercase text-gray-500 dark:text-gray-400 flex justify-between items-center">
+            <span>Category Folders</span>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-7 w-7 p-0"
+              onClick={() => setCreateCategoryOpen(true)}
+            >
+              <PlusCircleIcon size={16} className="text-gray-500" />
+            </Button>
           </div>
+          
+          {/* API Categories */}
+          {apiCategories.length > 0 && (
+            <div className="space-y-1 mb-4">
+              {apiCategories.map((category) => (
+                <button
+                  key={category.id}
+                  className={`w-full text-left px-3 py-2 rounded-md flex justify-between items-center ${
+                    selectedCategory === category.name 
+                      ? 'bg-primary text-primary-foreground font-medium' 
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  }`}
+                  onClick={() => onSelectCategory(category.name)}
+                >
+                  <span className="flex items-center">
+                    <FolderIcon size={16} className="mr-2" /> {category.name}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+          
+          {/* Legacy Categories from bookmarks */}
           {categories.map((category) => (
-            category.name !== 'all' && (
+            category.name !== 'all' && !apiCategories.some(c => c.name === category.name) && (
               <button
                 key={category.name}
                 className={`w-full text-left px-3 py-2 rounded-md flex justify-between items-center ${
@@ -536,6 +696,12 @@ const CategorySidebar = ({
           ))}
         </div>
       </div>
+      
+      <CreateCategoryDialog
+        open={createCategoryOpen}
+        onOpenChange={setCreateCategoryOpen}
+        onSubmit={handleCreateCategory}
+      />
     </div>
   );
 };
@@ -793,6 +959,7 @@ const Bookmarks = () => {
             categories={categories} 
             selectedCategory={selectedCategory}
             onSelectCategory={setSelectedCategory}
+            apiCategories={categoryData}
           />
           
           <div className="flex-1">
