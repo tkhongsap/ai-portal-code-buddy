@@ -141,7 +141,7 @@ const Home = () => {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Recent Activity</h2>
             <Link href="/history">
-              <a className="text-primary text-sm font-medium">View all</a>
+              <div className="text-primary text-sm font-medium cursor-pointer">View all</div>
             </Link>
           </div>
           
@@ -225,7 +225,7 @@ const SomeContext = createContext();`}
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold">Bookmarks</h2>
               <Link href="/bookmarks">
-                <a className="text-primary text-sm font-medium">View all</a>
+                <div className="text-primary text-sm font-medium cursor-pointer">View all</div>
               </Link>
             </div>
             
