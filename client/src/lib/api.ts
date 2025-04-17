@@ -87,8 +87,33 @@ export const getBookmarks = async (): Promise<Bookmark[]> => {
   return res.json();
 };
 
+export const getBookmarksByCategory = async (category: string): Promise<Bookmark[]> => {
+  const res = await apiRequest("GET", `/api/bookmarks/category/${category}`, undefined);
+  return res.json();
+};
+
+export const getBookmarkById = async (id: number): Promise<Bookmark> => {
+  const res = await apiRequest("GET", `/api/bookmarks/${id}`, undefined);
+  return res.json();
+};
+
+export const updateBookmark = async (id: number, bookmark: Partial<Bookmark>): Promise<Bookmark> => {
+  const res = await apiRequest("PUT", `/api/bookmarks/${id}`, bookmark);
+  queryClient.invalidateQueries({ queryKey: ['/api/bookmarks'] });
+  return res.json();
+};
+
 export const deleteBookmark = async (id: number): Promise<void> => {
   await apiRequest("DELETE", `/api/bookmarks/${id}`, undefined);
+  queryClient.invalidateQueries({ queryKey: ['/api/bookmarks'] });
+};
+
+export const exportBookmarks = async (format: 'json' | 'markdown' | 'html' = 'json'): Promise<void> => {
+  window.open(`/api/bookmarks/export?format=${format}`, '_blank');
+};
+
+export const importBookmarks = async (bookmarks: InsertBookmark[]): Promise<void> => {
+  await apiRequest("POST", "/api/bookmarks/import", { bookmarks });
   queryClient.invalidateQueries({ queryKey: ['/api/bookmarks'] });
 };
 

@@ -60,7 +60,13 @@ export const bookmarks = pgTable("bookmarks", {
   title: text("title").notNull(),
   content: text("content").notNull(),
   tags: text("tags").array(),
+  category: text("category").default("General"),
+  notes: text("notes"),
+  contentType: text("content_type").default("chat"),
+  starred: boolean("starred").default(false),
+  url: text("url"),
   createdAt: timestamp("created_at").defaultNow(),
+  lastModified: timestamp("last_modified").defaultNow(),
 });
 
 export const insertBookmarkSchema = createInsertSchema(bookmarks).pick({
@@ -70,6 +76,11 @@ export const insertBookmarkSchema = createInsertSchema(bookmarks).pick({
   title: true,
   content: true,
   tags: true,
+  category: true,
+  notes: true,
+  contentType: true,
+  starred: true,
+  url: true,
 });
 
 // Code snippets schema
