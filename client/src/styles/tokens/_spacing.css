@@ -3,40 +3,60 @@
 /* -------------------- */
 
 :root {
-  /* Base unit of spacing */
-  --cb-spacing-unit: 0.25rem; /* 4px */
+  /* Spacing scale from PRD */
+  --cb-space-0: 0px;
+  --cb-space-1: 4px;
+  --cb-space-2: 8px;
+  --cb-space-3: 16px;
+  --cb-space-4: 24px;
+  --cb-space-5: 32px;
+  --cb-space-6: 48px;
+  --cb-space-7: 64px;
   
-  /* Spacing scale */
-  --cb-spacing-0: 0;
-  --cb-spacing-1: calc(var(--cb-spacing-unit) * 1);   /* 4px */
-  --cb-spacing-2: calc(var(--cb-spacing-unit) * 2);   /* 8px */
-  --cb-spacing-3: calc(var(--cb-spacing-unit) * 3);   /* 12px */
-  --cb-spacing-4: calc(var(--cb-spacing-unit) * 4);   /* 16px */
-  --cb-spacing-5: calc(var(--cb-spacing-unit) * 5);   /* 20px */
-  --cb-spacing-6: calc(var(--cb-spacing-unit) * 6);   /* 24px */
-  --cb-spacing-8: calc(var(--cb-spacing-unit) * 8);   /* 32px */
-  --cb-spacing-10: calc(var(--cb-spacing-unit) * 10); /* 40px */
-  --cb-spacing-12: calc(var(--cb-spacing-unit) * 12); /* 48px */
-  --cb-spacing-16: calc(var(--cb-spacing-unit) * 16); /* 64px */
-  --cb-spacing-20: calc(var(--cb-spacing-unit) * 20); /* 80px */
-  --cb-spacing-24: calc(var(--cb-spacing-unit) * 24); /* 96px */
-  --cb-spacing-32: calc(var(--cb-spacing-unit) * 32); /* 128px */
-  --cb-spacing-40: calc(var(--cb-spacing-unit) * 40); /* 160px */
-  --cb-spacing-48: calc(var(--cb-spacing-unit) * 48); /* 192px */
+  /* For backward compatibility - will map to PRD space values */
+  --cb-spacing-0: var(--cb-space-0);
+  --cb-spacing-1: var(--cb-space-1);
+  --cb-spacing-2: var(--cb-space-2);
+  --cb-spacing-3: var(--cb-space-3);   /* 16px */
+  --cb-spacing-4: var(--cb-space-4);   /* 24px */
+  --cb-spacing-5: var(--cb-space-5);   /* 32px */
+  --cb-spacing-6: var(--cb-space-6);   /* 48px */
+  --cb-spacing-8: var(--cb-space-7);   /* 64px */
+  --cb-spacing-16: var(--cb-space-7);  /* 64px */
+  
+  /* These can be kept for additional granularity */
+  --cb-spacing-10: 40px;
+  --cb-spacing-12: 48px;
+  --cb-spacing-20: 80px;
+  --cb-spacing-24: 96px;
+  --cb-spacing-32: 128px;
+  --cb-spacing-40: 160px;
+  --cb-spacing-48: 192px;
+  
+  /* Grid values from PRD */
+  --cb-grid-desktop-cols: 12;
+  --cb-grid-desktop-margin: 32px;
+  --cb-grid-desktop-gutter: 24px;
+  
+  --cb-grid-tablet-cols: 8;
+  --cb-grid-tablet-margin: 24px;
+  
+  --cb-grid-mobile-cols: 4;
+  --cb-grid-mobile-margin: 16px;
   
   /* Component specific spacing */
-  --cb-container-padding: var(--cb-spacing-4); /* 16px */
-  --cb-card-padding: var(--cb-spacing-6);      /* 24px */
-  --cb-form-gap: var(--cb-spacing-4);          /* 16px */
-  --cb-button-padding: var(--cb-spacing-2) var(--cb-spacing-4); /* 8px 16px */
+  --cb-container-padding: var(--cb-space-3); /* 16px */
+  --cb-card-padding: var(--cb-space-4);      /* 24px */
+  --cb-form-gap: var(--cb-space-3);          /* 16px */
+  --cb-button-padding: var(--cb-space-2) var(--cb-space-3); /* 8px 16px */
   
   /* Layout spacing */
-  --cb-section-spacing: var(--cb-spacing-16);  /* 64px vertical spacing between sections */
-  --cb-grid-gap: var(--cb-spacing-6);          /* 24px gap in grid layouts */
+  --cb-section-spacing: var(--cb-space-7);   /* 64px vertical spacing between sections */
+  --cb-grid-gap: var(--cb-space-4);          /* 24px gap in grid layouts */
   
   /* Set standardized insets */
-  --cb-inset-sm: var(--cb-spacing-2);  /* 8px */
-  --cb-inset-md: var(--cb-spacing-4);  /* 16px */
-  --cb-inset-lg: var(--cb-spacing-6);  /* 24px */
-  --cb-inset-xl: var(--cb-spacing-8);  /* 32px */
+  --cb-inset-sm: var(--cb-space-2);  /* 8px */
+  --cb-inset-md: var(--cb-space-3);  /* 16px */
+  --cb-inset-lg: var(--cb-space-4);  /* 24px */
+  --cb-inset-xl: var(--cb-space-5);  /* 32px */
 }

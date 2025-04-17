@@ -22,6 +22,7 @@
 @import './tokens/_colors.css';
 @import './tokens/_typography.css';
 @import './tokens/_spacing.css';
+@import './tokens/_elevation.css';
 @import './tokens/_chat.css';
 
 /* Support for reduced motion */

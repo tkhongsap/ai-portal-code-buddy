@@ -3,76 +3,78 @@
 /* -------------------- */
 
 :root {
-  /* Primary colors */
-  --cb-primary-50: #EFF6FF;
-  --cb-primary-100: #DBEAFE;
-  --cb-primary-200: #BFDBFE;
-  --cb-primary-300: #93C5FD;
-  --cb-primary-400: #60A5FA;
-  --cb-primary-500: #3B82F6;  /* Primary brand color */
-  --cb-primary-500-rgb: 59, 130, 246; /* RGB values for opacity variants */
-  --cb-primary-600: #2563EB;
-  --cb-primary-700: #1D4ED8;
-  --cb-primary-800: #1E40AF;
-  --cb-primary-900: #1E3A8A;
+  /* Base colors from PRD */
+  --cb-primary-500: #033F93;      /* Primary brand color */
+  --cb-primary-500-rgb: 3, 63, 147; /* RGB values for opacity variants */
+  --cb-secondary-400: #B3D7F3;    /* Hovers, secondary buttons */
+  --cb-surface-100: #FFFFFF;      /* Card backgrounds */
+  --cb-canvas: #F7FCFF;           /* Page background */
+  --cb-line: #E5E5E5;             /* Dividers & borders */
+  --cb-text-high: #333333;        /* Headlines */
+  --cb-text-low: #647989;         /* Body copy */
   
-  /* Surface colors (backgrounds) */
-  --cb-surface-50: #FAFAFA;
-  --cb-surface-100: #F4F4F5;
-  --cb-surface-200: #E4E4E7;
-  --cb-surface-300: #D4D4D8;
-  --cb-surface-400: #A1A1AA;
+  /* Extended primary palette (derived) */
+  --cb-primary-50: #EEF4FC;
+  --cb-primary-100: #D0DFFA;
+  --cb-primary-200: #A4C0F4;
+  --cb-primary-300: #6D93E5;
+  --cb-primary-400: #3A67D2;
+  --cb-primary-600: #023883;
+  --cb-primary-700: #023072;
+  --cb-primary-800: #012961;
+  --cb-primary-900: #01204F;
   
-  /* Text colors */
-  --cb-text-high: #18181B;   /* High emphasis text */
-  --cb-text-medium: #52525B; /* Medium emphasis text */
-  --cb-text-low: #71717A;    /* Low emphasis text */
+  /* Extended surface palette (derived) */
+  --cb-surface-50: #FFFFFF;
+  --cb-surface-200: #F0F7FC;
+  --cb-surface-300: #E6F0F9;
+  --cb-surface-400: #DCE9F5;
   
-  /* UI colors */
-  --cb-line: #E4E4E7;        /* Border lines */
-  --cb-divider: #F4F4F5;     /* Subtle dividers */
+  /* Text colors (extended) */
+  --cb-text-medium: #4D5E6B; /* Medium emphasis text */
   
   /* Feedback colors */
-  --cb-success: #10B981;     /* Success states */
-  --cb-error: #EF4444;       /* Error states */
+  --cb-success: #27AE60;     /* Success states */
+  --cb-error: #E53E3E;       /* Error states */
   --cb-warning: #F59E0B;     /* Warning states */
-  --cb-info: #3B82F6;        /* Info states */
+  --cb-info: #033F93;        /* Info states - matching primary */
 }
 
-/* Dark mode color overrides */
+/* Dark mode color overrides - PRD-defined values */
 .dark {
-  /* Primary colors - slightly adjusted for dark mode */
-  --cb-primary-50: #0F172A;
-  --cb-primary-100: #172554;
-  --cb-primary-200: #1E3A8A;
-  --cb-primary-300: #1D4ED8;
-  --cb-primary-400: #2563EB;
-  --cb-primary-500: #3B82F6; /* Primary brand color */
-  --cb-primary-500-rgb: 59, 130, 246; /* RGB values for opacity variants */
-  --cb-primary-600: #60A5FA;
-  --cb-primary-700: #93C5FD;
-  --cb-primary-800: #BFDBFE;
-  --cb-primary-900: #DBEAFE;
+  /* Base colors from PRD */
+  --cb-primary-500: #033F93;      /* Same primary in both modes */
+  --cb-primary-500-rgb: 3, 63, 147; /* RGB values for opacity variants */
+  --cb-secondary-400: #044AAC;    /* Hovers, secondary buttons in dark mode */
+  --cb-surface-100: #1E1E1E;      /* Card backgrounds */
+  --cb-canvas: #121212;           /* Page background */
+  --cb-line: #263544;             /* Dividers & borders */
+  --cb-text-high: #FFFFFF;        /* Headlines */
+  --cb-text-low: #808080;         /* Body copy */
   
-  /* Surface colors (backgrounds) */
-  --cb-surface-50: #18181B;
-  --cb-surface-100: #27272A;
-  --cb-surface-200: #3F3F46;
-  --cb-surface-300: #52525B;
-  --cb-surface-400: #71717A;
+  /* Extended primary palette (derived for dark) */
+  --cb-primary-50: #0A1A36;
+  --cb-primary-100: #102654;
+  --cb-primary-200: #153272;
+  --cb-primary-300: #1B3E91;
+  --cb-primary-400: #033F93;
+  --cb-primary-600: #1851AC;
+  --cb-primary-700: #2D64C4;
+  --cb-primary-800: #4277DC;
+  --cb-primary-900: #5689F3;
   
-  /* Text colors */
-  --cb-text-high: #F4F4F5;   /* High emphasis text */
-  --cb-text-medium: #A1A1AA; /* Medium emphasis text */
-  --cb-text-low: #71717A;    /* Low emphasis text */
+  /* Extended surface palette (derived) */
+  --cb-surface-50: #121212;
+  --cb-surface-200: #2A2A2A;
+  --cb-surface-300: #363636;
+  --cb-surface-400: #424242;
   
-  /* UI colors */
-  --cb-line: #3F3F46;        /* Border lines */
-  --cb-divider: #27272A;     /* Subtle dividers */
+  /* Text colors (extended) */
+  --cb-text-medium: #B0B0B0; /* Medium emphasis text */
   
-  /* Feedback colors - slightly adjusted for dark mode */
-  --cb-success: #059669;
-  --cb-error: #DC2626;
-  --cb-warning: #D97706;
-  --cb-info: #3B82F6;
+  /* Feedback colors - adjusted for dark mode */
+  --cb-success: #2ECC71;     /* Success states */
+  --cb-error: #E74C3C;       /* Error states */
+  --cb-warning: #F39C12;     /* Warning states */
+  --cb-info: #3498DB;        /* Info states */
 }
