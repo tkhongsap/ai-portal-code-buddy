@@ -20,6 +20,62 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get conversations
+  app.get("/api/conversations", async (req, res) => {
+    try {
+      // Get user ID (demo - in production this would use session data)
+      const userId = 1;
+      
+      // Get conversations for the user
+      const conversations = await storage.getConversationsByUserId(userId);
+      
+      res.json(conversations);
+    } catch (error) {
+      console.error("Error fetching conversations:", error);
+      res.status(500).json({ message: "Failed to fetch conversations" });
+    }
+  });
+
+  // Create a new conversation
+  app.post("/api/conversations", async (req, res) => {
+    try {
+      const { title } = req.body;
+      
+      // Get user ID (demo - in production this would use session data)
+      const userId = 1;
+      
+      // Create new conversation
+      const newConversation = await storage.createConversation({
+        userId,
+        title: title || "New Conversation"
+      });
+      
+      res.status(201).json(newConversation);
+    } catch (error) {
+      console.error("Error creating conversation:", error);
+      res.status(500).json({ message: "Failed to create conversation" });
+    }
+  });
+
+  // Get messages for a conversation
+  app.get("/api/conversations/:conversationId/messages", async (req, res) => {
+    try {
+      const conversationId = parseInt(req.params.conversationId);
+      
+      if (isNaN(conversationId)) {
+        return res.status(400).json({ message: "Invalid conversation ID" });
+      }
+      
+      // Get messages for the conversation
+      const messages = await storage.getChatMessagesByConversationId(conversationId);
+      
+      res.json(messages);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      res.status(500).json({ message: "Failed to fetch messages" });
+    }
+  });
+
   // Chat endpoint
   app.post("/api/chat", async (req, res) => {
     try {
@@ -32,19 +88,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get user (demo - in production this would use session data)
       const userId = 1;
       
-      // Save user message to storage if needed
-      const messageId = Date.now().toString();
+      // Determine conversation ID or create a new conversation
+      let actualConversationId = conversationId;
+      if (!actualConversationId) {
+        const newConversation = await storage.createConversation({
+          userId,
+          title: content.length > 30 ? content.substring(0, 30) + "..." : content
+        });
+        actualConversationId = newConversation.id;
+      }
+      
+      // Save user message to storage
+      await storage.createChatMessage({
+        userId,
+        conversationId: actualConversationId,
+        content: content,
+        isAi: false
+      });
       
       // Generate AI response
       const aiResponse = await generateChatResponse(content);
       
-      // Save AI response to storage if needed
+      // Save AI response to storage
+      const aiMessage = await storage.createChatMessage({
+        userId,
+        conversationId: actualConversationId,
+        content: aiResponse,
+        isAi: true
+      });
+      
+      // Update conversation's last modified time
+      if (actualConversationId) {
+        const conversation = await storage.getConversation(actualConversationId);
+        if (conversation) {
+          await storage.updateConversation(actualConversationId, {
+            lastModified: new Date()
+          });
+        }
+      }
       
       res.json({
-        id: messageId,
+        id: aiMessage.id.toString(),
         content: aiResponse,
-        conversationId: conversationId || Date.now(),
-        timestamp: new Date().toISOString()
+        conversationId: actualConversationId,
+        timestamp: aiMessage.createdAt.toISOString()
       });
     } catch (error) {
       console.error("Chat error:", error);
