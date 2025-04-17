@@ -175,7 +175,7 @@ const SidebarContent = () => {
             <NavItem 
               href="/" 
               icon={<HomeIcon size={16} />} 
-              label="Code Buddy Home" 
+              label="Home" 
               active={location === "/"} 
             />
             <NavItem 

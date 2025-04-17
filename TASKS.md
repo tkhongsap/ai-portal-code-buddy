@@ -65,7 +65,7 @@ A living checklist to track adherence to the Product Requirements Document and o
 - [x] Create collapsible/expandable sidebar with consistent styling
 - [x] Implement keyboard shortcuts (Ctrl+\) for expansion
 - [x] Add hover-to-expand functionality with proper timing
-- [x] Rename "AI Portal Home" to "Code Buddy Home"
+- [x] Simplify navigation label to "Home"
 - [x] Add ARIA attributes and proper accessibility support
 - [x] Persist sidebar state to localStorage
 
