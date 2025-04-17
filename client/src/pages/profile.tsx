@@ -9,13 +9,14 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { UserIcon, SettingsIcon, BellIcon, MoonIcon, SunIcon, CheckIcon } from 'lucide-react';
+import { UserIcon, SettingsIcon, BellIcon, MoonIcon, SunIcon, CheckIcon, SunMoonIcon } from 'lucide-react';
 import { useTheme } from '@/contexts/theme-context';
 import { apiRequest } from '@/lib/queryClient';
+import ThemeToggle from '@/components/theme-toggle';
 
 const Profile = () => {
   const { user, setUser } = useUser();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, activeTheme, setTheme, prefersReducedMotion } = useTheme();
   
   const [displayName, setDisplayName] = useState(user.displayName || '');
   const [username, setUsername] = useState(user.username || '');
@@ -311,21 +312,59 @@ const Profile = () => {
               <CardContent>
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-medium mb-4">Theme</h3>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <Label className="text-base">Dark Mode</Label>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          Toggle between light and dark theme
-                        </p>
+                    <h3 className="text-lg font-medium mb-4 cb-h3">Theme</h3>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label className="text-base">Appearance</Label>
+                          <p className="text-sm" style={{ color: 'var(--cb-text-low)' }}>
+                            Choose your preferred theme
+                          </p>
+                        </div>
+                        <div>
+                          <Select 
+                            value={theme} 
+                            onValueChange={setTheme}
+                          >
+                            <SelectTrigger id="theme" className="w-32">
+                              <SelectValue placeholder="Select theme" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="light">
+                                <div className="flex items-center">
+                                  <SunIcon className="h-4 w-4 mr-2" />
+                                  Light
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="dark">
+                                <div className="flex items-center">
+                                  <MoonIcon className="h-4 w-4 mr-2" />
+                                  Dark
+                                </div>
+                              </SelectItem>
+                              <SelectItem value="system">
+                                <div className="flex items-center">
+                                  <SunMoonIcon className="h-4 w-4 mr-2" />
+                                  System
+                                </div>
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
                       </div>
-                      <div className="flex items-center space-x-2">
-                        <SunIcon className="h-4 w-4 text-gray-500" />
-                        <Switch 
-                          checked={theme === 'dark'}
-                          onCheckedChange={toggleTheme}
-                        />
-                        <MoonIcon className="h-4 w-4 text-gray-500" />
+                      
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label className="text-base">Reduced Motion</Label>
+                          <p className="text-sm" style={{ color: 'var(--cb-text-low)' }}>
+                            Minimize animations for accessibility
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: 'var(--cb-text-low)' }}>
+                            {prefersReducedMotion ? 'Enabled' : 'Disabled'} (System Setting)
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>

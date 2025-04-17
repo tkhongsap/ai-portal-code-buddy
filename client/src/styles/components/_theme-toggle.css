@@ -1,0 +1,42 @@
+/* -------------------- */
+/* Theme Toggle Styles   */
+/* -------------------- */
+
+.cb-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: transparent;
+  color: var(--cb-text-high);
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.cb-theme-toggle:hover {
+  background-color: color-mix(in srgb, var(--cb-primary-500) 10%, transparent);
+}
+
+.cb-theme-toggle:focus-visible {
+  outline: 2px solid var(--cb-primary-500);
+  outline-offset: 2px;
+}
+
+/* When dark theme is active */
+.dark .cb-theme-toggle {
+  color: var(--cb-text-high);
+}
+
+.dark .cb-theme-toggle:hover {
+  background-color: color-mix(in srgb, var(--cb-primary-500) 20%, transparent);
+}
+
+/* For users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .cb-theme-toggle {
+    transition: none;
+  }
+}
