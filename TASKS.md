@@ -16,8 +16,9 @@ A living checklist to track adherence to the Product Requirements Document and o
 - [x] Added "Learn more" links for educational content
 - [x] Added file upload capability
 - [x] Added copy/download functionality for optimized code
-- [x] Basic Bookmarks feature implementation (create, edit, delete, view)
-- [x] Basic Profile page implementation (personal info, security, preferences, notifications)
+- [x] Basic Bookmarks & Query Management system: create, edit, delete, view, organize by category (with hierarchy), tag, search, filter, import/export (JSON/Markdown), batch delete, notes, starred, and content type support
+- [x] Basic Profile page implementation (personal info, password/security, notification preferences, user preferences)
+- [x] Dashboard with usage statistics, activity tracking, and goal management
 
 ## In Progress Tasks
 - [ ] Improve error handling for OpenAI API issues
@@ -26,28 +27,25 @@ A living checklist to track adherence to the Product Requirements Document and o
 - [ ] Implement proper error boundaries for component failures
 
 ## Library/Query Management Tasks (PRD-06)
-- [ ] Enhance query organization system with hierarchical categories
-- [ ] Add saved searches functionality
-- [ ] Implement query templates with parameter configuration
-- [ ] Add version history for saved queries
-- [ ] Implement query execution history tracking
-- [ ] Add bulk operations for queries (delete, categorize, export)
-- [ ] Enhance the import/export functionality with more formats (JSON, Markdown)
-- [ ] Add drag-and-drop organization for queries and categories
-- [ ] Implement query sharing capabilities
-- [ ] Add user library preferences (default view, sort order, preview size)
+- [ ] Query templates with parameter configuration (not yet implemented)
+- [ ] Version history for saved queries (not yet implemented)
+- [ ] Query execution history tracking (not yet implemented)
+- [ ] Bulk operations for queries: categorize, export (delete is implemented)
+- [ ] Drag-and-drop organization for queries and categories (not yet implemented)
+- [ ] Query sharing capabilities (not yet implemented)
+- [ ] User library preferences (default view, sort order, preview size) (partially implemented: sort order)
 
 ## Profile Management Tasks (PRD-07)
-- [ ] Enhance profile information section (bio, professional info, links)
-- [ ] Implement profile photo upload and cropping
-- [ ] Add external profile linking (GitHub, LinkedIn, etc.)
-- [ ] Enhance security settings (session management, API keys)
-- [ ] Implement AI behavior preferences configuration
-- [ ] Add usage statistics and activity tracking
-- [ ] Implement subscription management and billing information
-- [ ] Add connected accounts and integrations management
-- [ ] Enhance notification scheduling and delivery preferences
-- [ ] Implement export of user data and settings
+- [ ] Enhance profile information section (bio, professional info, links) (partially implemented: display name, username, email)
+- [ ] Profile photo upload and cropping (UI present, not fully functional)
+- [ ] External profile linking (GitHub, LinkedIn, etc.) (not yet implemented)
+- [ ] Security settings (session management, API keys) (partially implemented: password change)
+- [ ] AI behavior preferences configuration (not yet implemented)
+- [ ] Usage statistics and activity tracking (partially implemented in Dashboard)
+- [ ] Subscription management and billing information (not yet implemented)
+- [ ] Connected accounts and integrations management (not yet implemented)
+- [ ] Notification scheduling and delivery preferences (basic notification toggles implemented)
+- [ ] Export of user data and settings (not yet implemented)
 
 ## Upcoming Tasks
 - [ ] Implement automated tests (unit, integration, E2E) as required by PRD
