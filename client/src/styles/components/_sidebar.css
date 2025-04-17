@@ -2,7 +2,7 @@
 /* Sidebar Styles        */
 /* -------------------- */
 
-/* Base sidebar container */
+/* Base sidebar container - PRD specified widths */
 .cb-sidebar {
   display: flex;
   flex-direction: column;
@@ -13,14 +13,14 @@
   overflow: hidden;
 }
 
-/* Expanded state */
+/* Expanded state - 240px as per PRD */
 .cb-sidebar--expanded {
   width: 240px;
 }
 
-/* Collapsed state */
+/* Collapsed state - 56px as per PRD */
 .cb-sidebar--collapsed {
-  width: 64px;
+  width: 56px;
 }
 
 /* Header section */
@@ -82,8 +82,8 @@
 }
 
 .cb-sidebar-toggle:hover {
-  background-color: var(--cb-sidebar-hover-bg);
-  color: var(--cb-text-high);
+  background-color: rgba(var(--cb-primary-500-rgb), 0.08);
+  color: var(--cb-primary-500);
 }
 
 .cb-sidebar-toggle:focus-visible {
@@ -156,8 +156,9 @@
 }
 
 .cb-sidebar-nav-link--active {
-  background-color: rgba(var(--cb-primary-500-rgb), 0.12);
-  color: var(--cb-primary-600);
+  /* PRD specified: translucent active state */
+  background-color: rgba(var(--cb-primary-500-rgb), 0.08);
+  color: var(--cb-primary-500);
   font-weight: var(--cb-font-weight-medium);
 }
 
@@ -176,6 +177,11 @@
   width: 16px;
   height: 16px;
   margin-right: var(--cb-spacing-3);
+}
+
+/* PRD specified: icons invert in dark mode */
+.dark .cb-sidebar-nav-icon svg {
+  filter: invert(100%);
 }
 
 .cb-sidebar--collapsed .cb-sidebar-nav-icon {
@@ -296,8 +302,8 @@
 }
 
 .cb-sidebar-action:hover {
-  background-color: var(--cb-sidebar-hover-bg);
-  color: var(--cb-text-high);
+  background-color: rgba(var(--cb-primary-500-rgb), 0.08);
+  color: var(--cb-primary-500);
 }
 
 .cb-sidebar-action:focus-visible {
