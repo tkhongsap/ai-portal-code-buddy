@@ -104,7 +104,7 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
         </div>
       )}
       
-      <div className={`flex-1 rounded-lg shadow-sm max-w-[90%] relative`} style={{
+      <div className={`flex-1 max-w-[90%] relative chat-message ${message.isAi ? 'chat-message-ai' : 'chat-message-user'}`} style={{
         borderRadius: 'var(--cb-message-radius)',
         padding: 'var(--cb-message-padding)',
         boxShadow: 'var(--cb-message-shadow)',

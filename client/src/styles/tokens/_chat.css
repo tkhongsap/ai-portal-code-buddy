@@ -24,19 +24,19 @@
   --cb-chat-pill-radius: 12px;
   --cb-chat-send-button-radius: 12px;
   
-  /* Message tokens */
-  --cb-message-user-bg: rgba(4, 74, 172, 0.1);
-  --cb-message-ai-bg: var(--cb-surface-100);
+  /* Message tokens - PRD specified bubble colors */
+  --cb-message-user-bg: var(--cb-secondary-400); /* User bubble as specified in PRD */
+  --cb-message-ai-bg: var(--cb-surface-100);     /* AI bubble as specified in PRD */
   --cb-message-radius: 16px;
   --cb-message-padding: 16px;
-  --cb-message-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --cb-message-shadow: var(--cb-elev-1);
 }
 
 /* Dark mode adjustments */
 .dark {
   --cb-chat-card-bg: var(--cb-surface-200);
-  --cb-chat-pill-bg: rgba(4, 74, 172, 0.3);
-  --cb-message-user-bg: rgba(4, 74, 172, 0.2);
-  --cb-message-ai-bg: var(--cb-surface-200);
-  --cb-message-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  --cb-chat-pill-bg: rgba(var(--cb-primary-500-rgb), 0.3);
+  --cb-message-user-bg: var(--cb-secondary-400); /* Secondary-400 in dark mode is #044AAC per PRD */
+  --cb-message-ai-bg: var(--cb-surface-100);     /* Surface-100 in dark mode is #1E1E1E per PRD */
+  --cb-message-shadow: var(--cb-elev-2);
 }
