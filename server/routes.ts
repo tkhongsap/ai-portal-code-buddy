@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { generateChatResponse, optimizeCode, scoreCode } from "./lib/openai";
@@ -309,6 +309,213 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error updating password:", error);
       res.status(500).json({ message: "Failed to update password" });
+    }
+  });
+
+  // Dashboard endpoints
+  
+  // Get dashboard activity stats
+  app.get("/api/dashboard/activity", async (req, res) => {
+    try {
+      // Get user ID (demo - in production this would use session data)
+      const userId = 1;
+      
+      // Get timeframe from query params
+      const { timeframe } = req.query;
+      
+      // Get activity stats
+      const stats = await storage.getActivityStats(
+        userId, 
+        typeof timeframe === 'string' ? timeframe : undefined
+      );
+      
+      // Get recent activities
+      const recentActivities = await storage.getActivityLogsByUserId(userId, 10);
+      
+      // Prepare dashboard data
+      const response = {
+        stats,
+        recentActivities
+      };
+      
+      res.json(response);
+    } catch (error) {
+      console.error("Error fetching dashboard activity:", error);
+      res.status(500).json({ message: "Failed to fetch dashboard activity data" });
+    }
+  });
+  
+  // Get dashboard language stats
+  app.get("/api/dashboard/languages", async (req, res) => {
+    try {
+      // Get user ID (demo - in production this would use session data)
+      const userId = 1;
+      
+      // Get timeframe from query params
+      const { timeframe } = req.query;
+      
+      // Get activity stats with language breakdown
+      const stats = await storage.getActivityStats(
+        userId, 
+        typeof timeframe === 'string' ? timeframe : undefined
+      );
+      
+      res.json({ 
+        languageDistribution: stats.activitiesByLanguage
+      });
+    } catch (error) {
+      console.error("Error fetching language stats:", error);
+      res.status(500).json({ message: "Failed to fetch language statistics" });
+    }
+  });
+  
+  // User goals endpoints
+  app.get("/api/goals", async (req, res) => {
+    try {
+      // Get user ID (demo - in production this would use session data)
+      const userId = 1;
+      
+      // Get goals for the user
+      const goals = await storage.getUserGoalsByUserId(userId);
+      
+      res.json(goals);
+    } catch (error) {
+      console.error("Error fetching user goals:", error);
+      res.status(500).json({ message: "Failed to fetch user goals" });
+    }
+  });
+  
+  app.post("/api/goals", async (req, res) => {
+    try {
+      const goal = req.body;
+      
+      // Get user ID (demo - in production this would use session data)
+      const userId = 1;
+      
+      // Validate required fields
+      if (!goal.title || !goal.category || goal.targetValue === undefined) {
+        return res.status(400).json({ message: "Title, category, and targetValue are required" });
+      }
+      
+      // Create new goal
+      const newGoal = await storage.createUserGoal({
+        ...goal,
+        userId,
+      });
+      
+      res.status(201).json(newGoal);
+    } catch (error) {
+      console.error("Error creating user goal:", error);
+      res.status(500).json({ message: "Failed to create user goal" });
+    }
+  });
+  
+  app.put("/api/goals/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid goal ID" });
+      }
+      
+      const goalData = req.body;
+      
+      // Get user ID (demo - in production this would use session data)
+      const userId = 1;
+      
+      // Get the goal
+      const goal = await storage.getUserGoal(id);
+      
+      if (!goal) {
+        return res.status(404).json({ message: "Goal not found" });
+      }
+      
+      // Verify the goal belongs to the user
+      if (goal.userId !== userId) {
+        return res.status(403).json({ message: "Not authorized to update this goal" });
+      }
+      
+      // Update the goal
+      const updatedGoal = await storage.updateUserGoal(id, goalData);
+      
+      res.json(updatedGoal);
+    } catch (error) {
+      console.error("Error updating user goal:", error);
+      res.status(500).json({ message: "Failed to update user goal" });
+    }
+  });
+  
+  app.delete("/api/goals/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      
+      if (isNaN(id)) {
+        return res.status(400).json({ message: "Invalid goal ID" });
+      }
+      
+      // Get user ID (demo - in production this would use session data)
+      const userId = 1;
+      
+      // Get the goal
+      const goal = await storage.getUserGoal(id);
+      
+      if (!goal) {
+        return res.status(404).json({ message: "Goal not found" });
+      }
+      
+      // Verify the goal belongs to the user
+      if (goal.userId !== userId) {
+        return res.status(403).json({ message: "Not authorized to delete this goal" });
+      }
+      
+      // Delete the goal
+      await storage.deleteUserGoal(id);
+      
+      res.status(204).send();
+    } catch (error) {
+      console.error("Error deleting user goal:", error);
+      res.status(500).json({ message: "Failed to delete user goal" });
+    }
+  });
+  
+  // Export dashboard data endpoint
+  app.get("/api/dashboard/export", async (req, res) => {
+    try {
+      // Get user ID (demo - in production this would use session data)
+      const userId = 1;
+      
+      // Get timeframe from query params
+      const { timeframe } = req.query;
+      
+      // Get activity stats
+      const stats = await storage.getActivityStats(
+        userId, 
+        typeof timeframe === 'string' ? timeframe : undefined
+      );
+      
+      // Get user goals
+      const goals = await storage.getUserGoalsByUserId(userId);
+      
+      // Get recent activities 
+      const activities = await storage.getActivityLogsByUserId(userId, 100);
+      
+      // Prepare export data
+      const exportData = {
+        timestamp: new Date().toISOString(),
+        user: { id: userId },
+        stats,
+        goals,
+        activities
+      };
+      
+      // Set headers for file download
+      res.setHeader('Content-Disposition', 'attachment; filename=dashboard-export.json');
+      res.setHeader('Content-Type', 'application/json');
+      
+      res.json(exportData);
+    } catch (error) {
+      console.error("Error exporting dashboard data:", error);
+      res.status(500).json({ message: "Failed to export dashboard data" });
     }
   });
 

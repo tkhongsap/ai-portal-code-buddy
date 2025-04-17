@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, json } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp, json, date } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -93,6 +93,48 @@ export const insertCodeSnippetSchema = createInsertSchema(codeSnippets).pick({
   feedback: true,
 });
 
+// User goals schema for dashboard
+export const userGoals = pgTable("user_goals", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  category: text("category").notNull(), // 'performance', 'readability', 'best_practices', 'error_handling'
+  targetValue: integer("target_value").notNull(),
+  currentValue: integer("current_value").notNull().default(0),
+  deadline: date("deadline"),
+  completed: boolean("completed").notNull().default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertUserGoalSchema = createInsertSchema(userGoals).pick({
+  userId: true,
+  title: true,
+  description: true,
+  category: true,
+  targetValue: true,
+  currentValue: true,
+  deadline: true,
+  completed: true,
+});
+
+// Activity logs for dashboard analytics
+export const activityLogs = pgTable("activity_logs", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  actionType: text("action_type").notNull(), // 'chat', 'optimize', 'score', etc.
+  language: text("language"), // programming language if applicable
+  metadata: json("metadata"), // additional data about the activity
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertActivityLogSchema = createInsertSchema(activityLogs).pick({
+  userId: true,
+  actionType: true,
+  language: true,
+  metadata: true,
+});
+
 // Export types
 export type User = typeof users.$inferSelect;
 export type InsertUser = z.infer<typeof insertUserSchema>;
@@ -108,3 +150,9 @@ export type InsertBookmark = z.infer<typeof insertBookmarkSchema>;
 
 export type CodeSnippet = typeof codeSnippets.$inferSelect;
 export type InsertCodeSnippet = z.infer<typeof insertCodeSnippetSchema>;
+
+export type UserGoal = typeof userGoals.$inferSelect;
+export type InsertUserGoal = z.infer<typeof insertUserGoalSchema>;
+
+export type ActivityLog = typeof activityLogs.$inferSelect;
+export type InsertActivityLog = z.infer<typeof insertActivityLogSchema>;
