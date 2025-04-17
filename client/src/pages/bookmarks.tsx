@@ -33,11 +33,12 @@ import {
   updateBookmark, 
   getBookmarksByCategory, 
   exportBookmarks, 
-  importBookmarks 
+  importBookmarks,
+  getCategories
 } from '@/lib/api';
 import CodeDisplay from '@/components/code-display';
 import { queryClient } from '@/lib/queryClient';
-import { Bookmark, InsertBookmark } from '@shared/schema';
+import { Bookmark, InsertBookmark, Category } from '@shared/schema';
 
 // Component for the tag input
 const TagInput = ({ 
@@ -122,11 +123,18 @@ const BookmarkFormDialog = ({
   const [title, setTitle] = useState(bookmark?.title || '');
   const [content, setContent] = useState(bookmark?.content || '');
   const [category, setCategory] = useState(bookmark?.category || 'General');
+  const [categoryId, setCategoryId] = useState<number | null>(bookmark?.categoryId || null);
   const [tags, setTags] = useState<string[]>(bookmark?.tags || []);
   const [notes, setNotes] = useState(bookmark?.notes || '');
   const [contentType, setContentType] = useState(bookmark?.contentType || 'chat');
   const [url, setUrl] = useState(bookmark?.url || '');
   const [starred, setStarred] = useState(bookmark?.starred || false);
+  
+  // Fetch available categories
+  const { data: categories = [] } = useQuery({
+    queryKey: ['/api/categories'],
+    queryFn: getCategories
+  });
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -135,6 +143,7 @@ const BookmarkFormDialog = ({
       title,
       content,
       category,
+      categoryId,
       tags,
       notes,
       contentType,
@@ -182,17 +191,32 @@ const BookmarkFormDialog = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="category">Category</Label>
-                <Select value={category} onValueChange={setCategory}>
+                <Select 
+                  value={categoryId ? String(categoryId) : ""}
+                  onValueChange={(value) => {
+                    if (value) {
+                      setCategoryId(Number(value));
+                      // Find category name for backward compatibility
+                      const selectedCategory = categories.find(cat => cat.id === Number(value));
+                      if (selectedCategory) {
+                        setCategory(selectedCategory.name);
+                      }
+                    } else {
+                      setCategoryId(null);
+                      setCategory('General');
+                    }
+                  }}
+                >
                   <SelectTrigger id="category">
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="General">General</SelectItem>
-                    <SelectItem value="Code">Code</SelectItem>
-                    <SelectItem value="Documentation">Documentation</SelectItem>
-                    <SelectItem value="Tutorial">Tutorial</SelectItem>
-                    <SelectItem value="Reference">Reference</SelectItem>
-                    <SelectItem value="Snippet">Snippet</SelectItem>
+                    <SelectItem value="">General</SelectItem>
+                    {categories.map(category => (
+                      <SelectItem key={category.id} value={String(category.id)}>
+                        {category.name}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
@@ -443,11 +467,13 @@ const BookmarkItem = ({
 const CategorySidebar = ({ 
   categories, 
   selectedCategory, 
-  onSelectCategory 
+  onSelectCategory,
+  apiCategories = [] 
 }: { 
   categories: {name: string, count: number}[]; 
   selectedCategory: string; 
   onSelectCategory: (category: string) => void; 
+  apiCategories?: Category[];
 }) => {
   return (
     <div className="w-full md:w-56 mb-6 md:mb-0">
@@ -530,6 +556,11 @@ const Bookmarks = () => {
   const { data: bookmarks = [], isLoading, error } = useQuery({
     queryKey: ['/api/bookmarks'],
     queryFn: getBookmarks
+  });
+  
+  const { data: categoryData = [] } = useQuery({
+    queryKey: ['/api/categories'],
+    queryFn: getCategories
   });
   
   const deleteMutation = useMutation({
