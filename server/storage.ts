@@ -149,7 +149,7 @@ export class MemStorage implements IStorage {
       category: "readability",
       targetValue: 100,
       currentValue: 65,
-      deadline: new Date(2023, 11, 31),
+      deadline: new Date(2023, 11, 31).toISOString(),
       completed: false
     });
     
@@ -160,7 +160,7 @@ export class MemStorage implements IStorage {
       category: "performance",
       targetValue: 100,
       currentValue: 40,
-      deadline: new Date(2023, 11, 15),
+      deadline: new Date(2023, 11, 15).toISOString(),
       completed: false
     });
     
@@ -408,7 +408,7 @@ export class MemStorage implements IStorage {
         }
         
         if (a.deadline && b.deadline) {
-          return a.deadline.getTime() - b.deadline.getTime();
+          return new Date(a.deadline).getTime() - new Date(b.deadline).getTime();
         }
         
         if (a.deadline) return -1;

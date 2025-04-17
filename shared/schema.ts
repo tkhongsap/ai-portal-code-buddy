@@ -102,7 +102,7 @@ export const userGoals = pgTable("user_goals", {
   category: text("category").notNull(), // 'performance', 'readability', 'best_practices', 'error_handling'
   targetValue: integer("target_value").notNull(),
   currentValue: integer("current_value").notNull().default(0),
-  deadline: date("deadline"),
+  deadline: text("deadline"), // Stored as ISO string
   completed: boolean("completed").notNull().default(false),
   createdAt: timestamp("created_at").defaultNow(),
 });

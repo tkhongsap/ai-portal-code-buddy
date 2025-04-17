@@ -3,6 +3,22 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --chart-1: #3b82f6; /* blue-500 */
+    --chart-2: #10b981; /* emerald-500 */
+    --chart-3: #f97316; /* orange-500 */
+    --chart-4: #8b5cf6; /* violet-500 */
+    --chart-5: #ec4899; /* pink-500 */
+  }
+
+  .dark {
+    --chart-1: #60a5fa; /* blue-400 */
+    --chart-2: #34d399; /* emerald-400 */
+    --chart-3: #fb923c; /* orange-400 */
+    --chart-4: #a78bfa; /* violet-400 */
+    --chart-5: #f472b6; /* pink-400 */
+  }
+
   * {
     @apply border-border;
   }

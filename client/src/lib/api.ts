@@ -1,6 +1,6 @@
 import { apiRequest } from "./queryClient";
 import { queryClient } from "./queryClient";
-import { CodeSnippet, InsertCodeSnippet, Bookmark, InsertBookmark } from "@shared/schema";
+import { CodeSnippet, InsertCodeSnippet, Bookmark, InsertBookmark, UserGoal, InsertUserGoal, ActivityLog } from "@shared/schema";
 
 // Types for code optimization response
 export type OptimizationImprovement = {
@@ -25,6 +25,22 @@ export type OptimizationResponse = {
   optimized: string;
   improvements: OptimizationImprovement[];
   summary: OptimizationSummary;
+};
+
+// Types for dashboard
+export type ActivityStats = {
+  totalActivities: number;
+  activitiesByType: Record<string, number>;
+  activitiesByLanguage: Record<string, number>;
+};
+
+export type DashboardActivityResponse = {
+  stats: ActivityStats;
+  recentActivities: ActivityLog[];
+};
+
+export type LanguageDistributionResponse = {
+  languageDistribution: Record<string, number>;
 };
 
 // Code optimization
@@ -74,4 +90,47 @@ export const getBookmarks = async (): Promise<Bookmark[]> => {
 export const deleteBookmark = async (id: number): Promise<void> => {
   await apiRequest("DELETE", `/api/bookmarks/${id}`, undefined);
   queryClient.invalidateQueries({ queryKey: ['/api/bookmarks'] });
+};
+
+// Dashboard endpoints
+export const getDashboardActivity = async (timeframe?: string): Promise<DashboardActivityResponse> => {
+  const queryParams = timeframe ? `?timeframe=${timeframe}` : '';
+  const res = await apiRequest("GET", `/api/dashboard/activity${queryParams}`, undefined);
+  return res.json();
+};
+
+export const getLanguageDistribution = async (timeframe?: string): Promise<LanguageDistributionResponse> => {
+  const queryParams = timeframe ? `?timeframe=${timeframe}` : '';
+  const res = await apiRequest("GET", `/api/dashboard/languages${queryParams}`, undefined);
+  return res.json();
+};
+
+export const exportDashboardData = async (timeframe?: string): Promise<void> => {
+  const queryParams = timeframe ? `?timeframe=${timeframe}` : '';
+  
+  // Use direct window.open to trigger a download
+  window.open(`/api/dashboard/export${queryParams}`, '_blank');
+};
+
+// User Goals
+export const getUserGoals = async (): Promise<UserGoal[]> => {
+  const res = await apiRequest("GET", "/api/goals", undefined);
+  return res.json();
+};
+
+export const createUserGoal = async (goal: Omit<InsertUserGoal, 'userId'>): Promise<UserGoal> => {
+  const res = await apiRequest("POST", "/api/goals", goal);
+  queryClient.invalidateQueries({ queryKey: ['/api/goals'] });
+  return res.json();
+};
+
+export const updateUserGoal = async (id: number, goal: Partial<UserGoal>): Promise<UserGoal> => {
+  const res = await apiRequest("PUT", `/api/goals/${id}`, goal);
+  queryClient.invalidateQueries({ queryKey: ['/api/goals'] });
+  return res.json();
+};
+
+export const deleteUserGoal = async (id: number): Promise<void> => {
+  await apiRequest("DELETE", `/api/goals/${id}`, undefined);
+  queryClient.invalidateQueries({ queryKey: ['/api/goals'] });
 };
