@@ -698,7 +698,7 @@ const Dashboard = () => {
                       key={activity.id}
                       type={activity.actionType}
                       language={activity.language}
-                      date={new Date(activity.createdAt)}
+                      date={activity.createdAt ? new Date(activity.createdAt) : new Date()}
                     />
                   ))}
                 </div>

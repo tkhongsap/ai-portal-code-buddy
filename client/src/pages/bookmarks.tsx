@@ -717,12 +717,12 @@ const Bookmarks = () => {
   // Sort bookmarks
   filteredBookmarks.sort((a, b) => {
     if (sortOrder === 'newest') {
-      const dateA = a.createdAt ? new Date(a.createdAt as string).getTime() : 0;
-      const dateB = b.createdAt ? new Date(b.createdAt as string).getTime() : 0;
+      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
       return dateB - dateA;
     } else if (sortOrder === 'oldest') {
-      const dateA = a.createdAt ? new Date(a.createdAt as string).getTime() : 0;
-      const dateB = b.createdAt ? new Date(b.createdAt as string).getTime() : 0;
+      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
       return dateA - dateB;
     } else if (sortOrder === 'alphabetical') {
       return a.title.localeCompare(b.title);
