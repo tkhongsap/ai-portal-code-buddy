@@ -131,7 +131,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         id: aiMessage.id.toString(),
         content: aiResponse,
         conversationId: actualConversationId,
-        timestamp: aiMessage.createdAt.toISOString()
+        timestamp: aiMessage.createdAt ? aiMessage.createdAt.toISOString() : new Date().toISOString()
       });
     } catch (error) {
       console.error("Chat error:", error);

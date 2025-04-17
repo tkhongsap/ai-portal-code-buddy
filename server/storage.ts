@@ -32,6 +32,7 @@ export interface IStorage {
   createConversation(conversation: InsertConversation): Promise<Conversation>;
   getConversationsByUserId(userId: number): Promise<Conversation[]>;
   getConversation(id: number): Promise<Conversation | undefined>;
+  updateConversation(id: number, conversationData: Partial<Conversation>): Promise<Conversation>;
   
   // Bookmark methods
   createBookmark(bookmark: InsertBookmark): Promise<Bookmark>;
@@ -122,8 +123,17 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.userIdCounter++;
-    const now = new Date();
-    const user: User = { ...insertUser, id };
+    
+    // Handle nullability of optional fields
+    const user: User = { 
+      id,
+      username: insertUser.username,
+      password: insertUser.password,
+      displayName: insertUser.displayName || null,
+      avatarUrl: insertUser.avatarUrl || null,
+      role: insertUser.role || null
+    };
+    
     this.users.set(id, user);
     return user;
   }
@@ -151,7 +161,11 @@ export class MemStorage implements IStorage {
   async getChatMessagesByConversationId(conversationId: number): Promise<ChatMessage[]> {
     return Array.from(this.chatMessages.values()).filter(
       (message) => message.conversationId === conversationId
-    ).sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+    ).sort((a, b) => {
+      const aTime = a.createdAt ? a.createdAt.getTime() : 0;
+      const bTime = b.createdAt ? b.createdAt.getTime() : 0;
+      return aTime - bTime;
+    });
   }
   
   // Conversation methods
@@ -167,11 +181,26 @@ export class MemStorage implements IStorage {
   async getConversationsByUserId(userId: number): Promise<Conversation[]> {
     return Array.from(this.conversations.values())
       .filter(conversation => conversation.userId === userId)
-      .sort((a, b) => b.lastModified.getTime() - a.lastModified.getTime());
+      .sort((a, b) => {
+        const aTime = a.lastModified ? a.lastModified.getTime() : 0;
+        const bTime = b.lastModified ? b.lastModified.getTime() : 0;
+        return bTime - aTime;
+      });
   }
   
   async getConversation(id: number): Promise<Conversation | undefined> {
     return this.conversations.get(id);
+  }
+
+  async updateConversation(id: number, conversationData: Partial<Conversation>): Promise<Conversation> {
+    const conversation = await this.getConversation(id);
+    if (!conversation) {
+      throw new Error(`Conversation with ID ${id} not found`);
+    }
+    
+    const updatedConversation = { ...conversation, ...conversationData };
+    this.conversations.set(id, updatedConversation);
+    return updatedConversation;
   }
   
   // Bookmark methods
@@ -182,7 +211,18 @@ export class MemStorage implements IStorage {
     // Ensure tags is an array
     const tags = bookmark.tags || [];
     
-    const newBookmark: Bookmark = { ...bookmark, id, tags, createdAt };
+    // Handle nullability of optional fields
+    const newBookmark: Bookmark = {
+      id,
+      userId: bookmark.userId,
+      title: bookmark.title,
+      content: bookmark.content,
+      conversationId: bookmark.conversationId || null,
+      messageId: bookmark.messageId || null,
+      tags: tags,
+      createdAt
+    };
+    
     this.bookmarks.set(id, newBookmark);
     return newBookmark;
   }
@@ -190,7 +230,11 @@ export class MemStorage implements IStorage {
   async getBookmarksByUserId(userId: number): Promise<Bookmark[]> {
     return Array.from(this.bookmarks.values())
       .filter(bookmark => bookmark.userId === userId)
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      .sort((a, b) => {
+        const aTime = a.createdAt ? a.createdAt.getTime() : 0;
+        const bTime = b.createdAt ? b.createdAt.getTime() : 0;
+        return bTime - aTime;
+      });
   }
   
   async getBookmark(id: number): Promise<Bookmark | undefined> {
@@ -205,7 +249,19 @@ export class MemStorage implements IStorage {
   async createCodeSnippet(snippet: InsertCodeSnippet): Promise<CodeSnippet> {
     const id = this.snippetIdCounter++;
     const createdAt = new Date();
-    const newSnippet: CodeSnippet = { ...snippet, id, createdAt };
+    
+    // Handle nullability of optional fields
+    const newSnippet: CodeSnippet = {
+      id,
+      userId: snippet.userId,
+      title: snippet.title,
+      code: snippet.code,
+      language: snippet.language,
+      score: snippet.score || null,
+      feedback: snippet.feedback || null,
+      createdAt
+    };
+    
     this.codeSnippets.set(id, newSnippet);
     return newSnippet;
   }
@@ -213,7 +269,11 @@ export class MemStorage implements IStorage {
   async getCodeSnippetsByUserId(userId: number): Promise<CodeSnippet[]> {
     return Array.from(this.codeSnippets.values())
       .filter(snippet => snippet.userId === userId)
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      .sort((a, b) => {
+        const aTime = a.createdAt ? a.createdAt.getTime() : 0;
+        const bTime = b.createdAt ? b.createdAt.getTime() : 0;
+        return bTime - aTime;
+      });
   }
   
   async getCodeSnippet(id: number): Promise<CodeSnippet | undefined> {
