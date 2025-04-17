@@ -1,0 +1,42 @@
+/* -------------------- */
+/* Spacing Tokens        */
+/* -------------------- */
+
+:root {
+  /* Base spacing unit: 4px */
+  --cb-spacing-unit: 0.25rem;
+  
+  /* Spacing scale */
+  --cb-spacing-0: 0;
+  --cb-spacing-1: calc(var(--cb-spacing-unit) * 1);   /* 4px */
+  --cb-spacing-2: calc(var(--cb-spacing-unit) * 2);   /* 8px */
+  --cb-spacing-3: calc(var(--cb-spacing-unit) * 3);   /* 12px */
+  --cb-spacing-4: calc(var(--cb-spacing-unit) * 4);   /* 16px */
+  --cb-spacing-5: calc(var(--cb-spacing-unit) * 5);   /* 20px */
+  --cb-spacing-6: calc(var(--cb-spacing-unit) * 6);   /* 24px */
+  --cb-spacing-8: calc(var(--cb-spacing-unit) * 8);   /* 32px */
+  --cb-spacing-10: calc(var(--cb-spacing-unit) * 10); /* 40px */
+  --cb-spacing-12: calc(var(--cb-spacing-unit) * 12); /* 48px */
+  --cb-spacing-16: calc(var(--cb-spacing-unit) * 16); /* 64px */
+  --cb-spacing-20: calc(var(--cb-spacing-unit) * 20); /* 80px */
+  --cb-spacing-24: calc(var(--cb-spacing-unit) * 24); /* 96px */
+  
+  /* Component-specific spacing */
+  --cb-card-padding: var(--cb-spacing-6);
+  --cb-button-padding-y: var(--cb-spacing-2);
+  --cb-button-padding-x: var(--cb-spacing-4);
+  --cb-input-padding-y: var(--cb-spacing-2);
+  --cb-input-padding-x: var(--cb-spacing-3);
+  --cb-section-spacing: var(--cb-spacing-12);
+  --cb-sidebar-width: 18rem; /* 288px */
+  
+  /* Layout Grid */
+  --cb-grid-gap: var(--cb-spacing-6);
+  --cb-container-padding: var(--cb-spacing-4);
+  
+  /* Breakpoints */
+  --cb-breakpoint-sm: 640px;
+  --cb-breakpoint-md: 768px;
+  --cb-breakpoint-lg: 1024px;
+  --cb-breakpoint-xl: 1280px;
+}

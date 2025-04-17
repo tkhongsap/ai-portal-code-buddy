@@ -1,0 +1,176 @@
+/* -------------------- */
+/* Form Styles           */
+/* -------------------- */
+
+/* Form group */
+.cb-form-group {
+  margin-bottom: var(--cb-spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cb-spacing-2);
+}
+
+/* Form label */
+.cb-form-label {
+  font-weight: var(--cb-font-medium);
+  color: var(--cb-text-high);
+  display: block;
+  font-size: var(--cb-body-size);
+}
+
+/* Form hint/help text */
+.cb-form-hint {
+  font-size: var(--cb-caption-size);
+  color: var(--cb-text-low);
+  margin-top: var(--cb-spacing-1);
+}
+
+/* Form error message */
+.cb-form-error {
+  font-size: var(--cb-caption-size);
+  color: var(--destructive);
+  margin-top: var(--cb-spacing-1);
+}
+
+/* Base input styles */
+.cb-input {
+  width: 100%;
+  padding: var(--cb-input-padding-y) var(--cb-input-padding-x);
+  border: 1px solid var(--cb-line);
+  border-radius: var(--radius);
+  background-color: var(--cb-surface-100);
+  color: var(--cb-text-high);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.cb-input:focus {
+  outline: none;
+  border-color: var(--cb-primary-500);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--cb-primary-500) 30%, transparent);
+}
+
+.cb-input::placeholder {
+  color: var(--cb-text-low);
+  opacity: 0.7;
+}
+
+.cb-input:disabled,
+.cb-input[readonly] {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background-color: color-mix(in srgb, var(--cb-line) 30%, var(--cb-surface-100));
+}
+
+/* Error state for inputs */
+.cb-input.error {
+  border-color: var(--destructive);
+}
+
+.cb-input.error:focus {
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--destructive) 30%, transparent);
+}
+
+/* Select */
+.cb-select {
+  width: 100%;
+  padding: var(--cb-input-padding-y) var(--cb-input-padding-x);
+  border: 1px solid var(--cb-line);
+  border-radius: var(--radius);
+  background-color: var(--cb-surface-100);
+  color: var(--cb-text-high);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--cb-input-padding-x) center;
+  background-size: 16px;
+  padding-right: calc(var(--cb-input-padding-x) * 2 + 16px);
+}
+
+.cb-select:focus {
+  outline: none;
+  border-color: var(--cb-primary-500);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--cb-primary-500) 30%, transparent);
+}
+
+/* Textarea */
+.cb-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Checkbox and Radio */
+.cb-checkbox,
+.cb-radio {
+  display: flex;
+  align-items: center;
+  gap: var(--cb-spacing-2);
+  margin-bottom: var(--cb-spacing-2);
+  cursor: pointer;
+}
+
+.cb-checkbox input[type="checkbox"],
+.cb-radio input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--cb-primary-500);
+  cursor: pointer;
+}
+
+/* Toggle/Switch */
+.cb-toggle {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 24px;
+}
+
+.cb-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.cb-toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--cb-line);
+  transition: 0.15s;
+  border-radius: 24px;
+}
+
+.cb-toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.15s;
+  border-radius: 50%;
+}
+
+.cb-toggle input:checked + .cb-toggle-slider {
+  background-color: var(--cb-primary-500);
+}
+
+.cb-toggle input:checked + .cb-toggle-slider:before {
+  transform: translateX(24px);
+}
+
+/* Form groups in a row (for layout) */
+.cb-form-row {
+  display: flex;
+  gap: var(--cb-spacing-4);
+}
+
+@media (max-width: 767px) {
+  .cb-form-row {
+    flex-direction: column;
+  }
+}

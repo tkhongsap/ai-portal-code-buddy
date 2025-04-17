@@ -1,0 +1,26 @@
+/* -------------------- */
+/* Main Stylesheet       */
+/* -------------------- */
+
+/* Import design tokens */
+@import './tokens/_colors.css';
+@import './tokens/_typography.css';
+@import './tokens/_spacing.css';
+
+/* Import base styles */
+@import './base/_reset.css';
+@import './base/_globals.css';
+
+/* Import component styles */
+@import './components/_buttons.css';
+@import './components/_forms.css';
+
+/* Support for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

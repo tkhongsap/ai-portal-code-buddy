@@ -1,9 +1,13 @@
+/* Import our custom styles */
+@import './styles/main.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
+    /* These chart colors are kept for compatibility */
     --chart-1: #3b82f6; /* blue-500 */
     --chart-2: #10b981; /* emerald-500 */
     --chart-3: #f97316; /* orange-500 */
