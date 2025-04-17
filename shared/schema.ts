@@ -51,6 +51,30 @@ export const insertConversationSchema = createInsertSchema(conversations).pick({
   title: true,
 });
 
+// Categories schema for library organization
+export const categories = pgTable("categories", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  name: text("name").notNull(),
+  description: text("description"),
+  parentId: integer("parent_id"),
+  order: integer("order").default(0),
+  color: text("color"),
+  icon: text("icon"),
+  createdAt: timestamp("created_at").defaultNow(),
+  lastModified: timestamp("last_modified").defaultNow(),
+});
+
+export const insertCategorySchema = createInsertSchema(categories).pick({
+  userId: true,
+  name: true,
+  description: true,
+  parentId: true,
+  order: true,
+  color: true,
+  icon: true,
+});
+
 // Bookmarks schema
 export const bookmarks = pgTable("bookmarks", {
   id: serial("id").primaryKey(),
@@ -60,11 +84,16 @@ export const bookmarks = pgTable("bookmarks", {
   title: text("title").notNull(),
   content: text("content").notNull(),
   tags: text("tags").array(),
-  category: text("category").default("General"),
+  category: text("category").default("General"), // Legacy field 
+  categoryId: integer("category_id"), // Reference to categories table
   notes: text("notes"),
   contentType: text("content_type").default("chat"),
   starred: boolean("starred").default(false),
   url: text("url"),
+  isTemplate: boolean("is_template").default(false),
+  version: integer("version").default(1),
+  executionCount: integer("execution_count").default(0),
+  lastExecutedAt: timestamp("last_executed_at"),
   createdAt: timestamp("created_at").defaultNow(),
   lastModified: timestamp("last_modified").defaultNow(),
 });
@@ -76,11 +105,16 @@ export const insertBookmarkSchema = createInsertSchema(bookmarks).pick({
   title: true,
   content: true,
   tags: true,
-  category: true,
+  category: true, // Legacy field
+  categoryId: true, // New field
   notes: true,
   contentType: true,
   starred: true,
   url: true,
+  isTemplate: true,
+  version: true,
+  executionCount: true,
+  lastExecutedAt: true,
 });
 
 // Code snippets schema
@@ -155,6 +189,9 @@ export type InsertChatMessage = z.infer<typeof insertChatMessageSchema>;
 
 export type Conversation = typeof conversations.$inferSelect;
 export type InsertConversation = z.infer<typeof insertConversationSchema>;
+
+export type Category = typeof categories.$inferSelect;
+export type InsertCategory = z.infer<typeof insertCategorySchema>;
 
 export type Bookmark = typeof bookmarks.$inferSelect;
 export type InsertBookmark = z.infer<typeof insertBookmarkSchema>;

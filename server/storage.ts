@@ -298,6 +298,58 @@ export class MemStorage implements IStorage {
     return updatedConversation;
   }
   
+  // Category methods
+  async createCategory(category: InsertCategory): Promise<Category> {
+    const id = ++this.categoryIdCounter;
+    const createdAt = new Date();
+    const lastModified = new Date();
+    
+    const newCategory: Category = {
+      id,
+      userId: category.userId,
+      name: category.name,
+      description: category.description || null,
+      parentId: category.parentId || null,
+      order: category.order || 0,
+      color: category.color || null,
+      icon: category.icon || null,
+      createdAt,
+      lastModified
+    };
+    
+    this.categories.set(id, newCategory);
+    return newCategory;
+  }
+  
+  async getCategoriesByUserId(userId: number): Promise<Category[]> {
+    return Array.from(this.categories.values())
+      .filter(category => category.userId === userId)
+      .sort((a, b) => a.order - b.order);
+  }
+  
+  async getCategory(id: number): Promise<Category | undefined> {
+    return this.categories.get(id);
+  }
+  
+  async updateCategory(id: number, categoryData: Partial<Category>): Promise<Category> {
+    const category = await this.getCategory(id);
+    if (!category) {
+      throw new Error(`Category with ID ${id} not found`);
+    }
+    
+    const updatedCategory = { 
+      ...category, 
+      ...categoryData,
+      lastModified: new Date()
+    };
+    this.categories.set(id, updatedCategory);
+    return updatedCategory;
+  }
+  
+  async deleteCategory(id: number): Promise<void> {
+    this.categories.delete(id);
+  }
+  
   // Bookmark methods
   async createBookmark(bookmark: InsertBookmark): Promise<Bookmark> {
     const id = this.bookmarkIdCounter++;
@@ -316,11 +368,16 @@ export class MemStorage implements IStorage {
       conversationId: bookmark.conversationId || null,
       messageId: bookmark.messageId || null,
       tags: tags,
-      category: bookmark.category || "General",
+      category: bookmark.category || "General", // Legacy field
+      categoryId: bookmark.categoryId || null, // New field
       notes: bookmark.notes || null,
       contentType: bookmark.contentType || "chat",
       starred: bookmark.starred || false,
       url: bookmark.url || null,
+      isTemplate: bookmark.isTemplate || false,
+      version: bookmark.version || 1,
+      executionCount: bookmark.executionCount || 0,
+      lastExecutedAt: bookmark.lastExecutedAt || null,
       createdAt,
       lastModified
     };

@@ -693,14 +693,23 @@ const Dashboard = () => {
             <CardContent>
               {hasActivityData && activityData.recentActivities.length > 0 ? (
                 <div className="space-y-1 max-h-[200px] overflow-y-auto">
-                  {activityData.recentActivities.slice(0, 5).map((activity) => (
-                    <ActivityItem 
-                      key={activity.id}
-                      type={activity.actionType}
-                      language={activity.language}
-                      date={activity.createdAt ? new Date(activity.createdAt) : new Date()}
-                    />
-                  ))}
+                  {activityData.recentActivities.slice(0, 5).map((activity) => {
+                    // Handle the createdAt date safely
+                    const activityDate = activity.createdAt 
+                      ? (typeof activity.createdAt === 'string' 
+                          ? new Date(activity.createdAt) 
+                          : activity.createdAt)
+                      : new Date();
+                      
+                    return (
+                      <ActivityItem 
+                        key={activity.id}
+                        type={activity.actionType}
+                        language={activity.language}
+                        date={activityDate}
+                      />
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="py-4 text-center">
