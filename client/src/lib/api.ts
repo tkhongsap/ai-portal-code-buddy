@@ -2,11 +2,33 @@ import { apiRequest } from "./queryClient";
 import { queryClient } from "./queryClient";
 import { CodeSnippet, InsertCodeSnippet, Bookmark, InsertBookmark } from "@shared/schema";
 
-// Code optimization
-export const optimizeCode = async (code: string, language: string): Promise<{ 
+// Types for code optimization response
+export type OptimizationImprovement = {
+  category: 'performance' | 'readability' | 'best_practices' | 'error_handling';
+  title: string;
+  description: string;
+  severity: 'high' | 'medium' | 'low';
+  learn_more_url?: string;
+  original_code?: string;
+  optimized_code?: string;
+};
+
+export type OptimizationSummary = {
+  total_issues: number;
+  performance_issues: number;
+  readability_issues: number;
+  best_practices_issues: number;
+  error_handling_issues: number;
+};
+
+export type OptimizationResponse = {
   optimized: string;
-  improvements: { title: string; description: string }[];
-}> => {
+  improvements: OptimizationImprovement[];
+  summary: OptimizationSummary;
+};
+
+// Code optimization
+export const optimizeCode = async (code: string, language: string): Promise<OptimizationResponse> => {
   const res = await apiRequest("POST", "/api/code/optimize", { code, language });
   return res.json();
 };
