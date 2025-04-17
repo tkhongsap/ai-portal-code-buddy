@@ -13,16 +13,50 @@
   color: var(--cb-text-high);
   border: none;
   cursor: pointer;
-  transition: background-color 0.15s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.cb-theme-toggle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--cb-primary-500);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+  transition: transform 0.3s ease, opacity 0.2s ease;
 }
 
 .cb-theme-toggle:hover {
-  background-color: color-mix(in srgb, var(--cb-primary-500) 10%, transparent);
+  color: var(--cb-primary-500);
+}
+
+.cb-theme-toggle:hover::before {
+  opacity: 0.1;
+  transform: scale(1);
 }
 
 .cb-theme-toggle:focus-visible {
   outline: 2px solid var(--cb-primary-500);
   outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+}
+
+.cb-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 /* When dark theme is active */
@@ -31,7 +65,16 @@
 }
 
 .dark .cb-theme-toggle:hover {
-  background-color: color-mix(in srgb, var(--cb-primary-500) 20%, transparent);
+  color: var(--cb-primary-400);
+}
+
+.dark .cb-theme-toggle::before {
+  background-color: var(--cb-primary-400);
+}
+
+.dark .cb-theme-toggle:hover::before {
+  opacity: 0.15;
+  transform: scale(1);
 }
 
 /* For users who prefer reduced motion */

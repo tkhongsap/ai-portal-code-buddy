@@ -10,6 +10,7 @@
   --cb-primary-300: #93C5FD;
   --cb-primary-400: #60A5FA;
   --cb-primary-500: #3B82F6;  /* Primary brand color */
+  --cb-primary-500-rgb: 59, 130, 246; /* RGB values for opacity variants */
   --cb-primary-600: #2563EB;
   --cb-primary-700: #1D4ED8;
   --cb-primary-800: #1E40AF;
