@@ -23,12 +23,12 @@ const NavItem = ({ href, icon, children, active }: NavItemProps) => {
   return (
     <li>
       <Link href={href}>
-        <a className={`flex items-center px-3 py-2 text-sm rounded-lg mb-1 ${
+        <div className={`flex items-center px-3 py-2 text-sm rounded-lg mb-1 cursor-pointer ${
           active ? "bg-primary bg-opacity-10 text-primary" : "hover:bg-gray-100 dark:hover:bg-gray-800"
         }`}>
           {icon}
           <span>{children}</span>
-        </a>
+        </div>
       </Link>
     </li>
   );

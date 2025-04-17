@@ -32,9 +32,9 @@ const FeatureCard = ({
       </div>
       <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">{description}</p>
       <Link href={linkHref}>
-        <a className={`${color.replace('bg-', 'text-')} text-sm font-medium flex items-center`}>
+        <div className={`${color.replace('bg-', 'text-')} text-sm font-medium flex items-center cursor-pointer`}>
           {linkText} <ArrowRightIcon className="ml-1" size={16} />
-        </a>
+        </div>
       </Link>
     </CardContent>
   </Card>

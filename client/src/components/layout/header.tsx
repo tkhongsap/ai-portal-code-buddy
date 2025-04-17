@@ -43,17 +43,15 @@ const Header = () => {
         
         <div className="ml-2 md:hidden">
           <Link href="/profile">
-            <a>
-              <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
-                {user.avatarUrl ? (
-                  <img src={user.avatarUrl} alt="User profile" className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
-                    {user.displayName?.[0] || user.username?.[0] || "U"}
-                  </div>
-                )}
-              </div>
-            </a>
+            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden cursor-pointer">
+              {user.avatarUrl ? (
+                <img src={user.avatarUrl} alt="User profile" className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
+                  {user.displayName?.[0] || user.username?.[0] || "U"}
+                </div>
+              )}
+            </div>
           </Link>
         </div>
       </div>
