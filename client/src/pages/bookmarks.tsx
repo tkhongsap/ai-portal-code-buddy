@@ -34,7 +34,8 @@ import {
   getBookmarksByCategory, 
   exportBookmarks, 
   importBookmarks,
-  getCategories
+  getCategories,
+  createCategory
 } from '@/lib/api';
 import CodeDisplay from '@/components/code-display';
 import { queryClient } from '@/lib/queryClient';
