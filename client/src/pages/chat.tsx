@@ -6,13 +6,40 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { BookmarkIcon, ClipboardIcon, ThumbsUpIcon, SearchIcon, SendIcon, CodeIcon, PaperclipIcon, SmileIcon } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { 
+  BookmarkIcon, 
+  ClipboardIcon, 
+  ThumbsUpIcon, 
+  SearchIcon, 
+  SendIcon, 
+  CodeIcon, 
+  PaperclipIcon, 
+  SmileIcon,
+  PlusIcon,
+  MessageSquareIcon,
+  MoreVerticalIcon,
+  XIcon,
+  ChevronRightIcon,
+  StarIcon,
+  TrashIcon,
+  CalendarIcon,
+  HistoryIcon,
+  FolderIcon,
+  ChevronLeftIcon
+} from 'lucide-react';
 import CodeEditor from '@/components/code-editor';
 import CodeDisplay from '@/components/code-display';
 import { useChat, type Message } from '@/hooks/use-chat';
+import { useToast } from '@/hooks/use-toast';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { apiRequest } from '@/lib/queryClient';
+import { format, formatDistanceToNow } from 'date-fns';
 
+// Chat message component
 const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: () => void }) => {
   const { user } = useUser();
+  const { toast } = useToast();
   
   // Determine if the message contains code
   const hasCode = message.content.includes('```');
@@ -43,9 +70,29 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
       }
     }
   }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(message.content);
+    toast({
+      title: "Copied to clipboard",
+      description: "The content has been copied to your clipboard.",
+      duration: 2000,
+    });
+  };
+  
+  const handleBookmark = () => {
+    if (onBookmark) {
+      onBookmark();
+      toast({
+        title: "Bookmarked",
+        description: "The message has been added to your bookmarks.",
+        duration: 2000,
+      });
+    }
+  };
   
   return (
-    <div className={`flex items-start ${message.isAi ? '' : 'justify-end'}`}>
+    <div className={`flex items-start ${message.isAi ? '' : 'justify-end'} group`}>
       {message.isAi && (
         <div className="flex-shrink-0 mr-4">
           <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white">
@@ -54,11 +101,69 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
         </div>
       )}
       
-      <div className={`flex-1 p-4 rounded-lg shadow-sm max-w-[90%] ${
+      <div className={`flex-1 p-4 rounded-lg shadow-sm max-w-[90%] relative ${
         message.isAi 
           ? 'bg-white dark:bg-[#1E1E1E]' 
           : 'bg-primary bg-opacity-10 dark:bg-opacity-20'
       }`}>
+        {/* Message actions that appear on hover */}
+        <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                  onClick={handleCopy}
+                >
+                  <ClipboardIcon size={14} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Copy to clipboard</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                  onClick={handleBookmark}
+                >
+                  <BookmarkIcon size={14} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Bookmark this message</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          {message.isAi && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-6 w-6 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                  >
+                    <ThumbsUpIcon size={14} />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Like this response</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
+        </div>
+        
         {textContent && <p className="text-sm mb-3">{textContent}</p>}
         
         {hasCode && (
@@ -66,10 +171,14 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
             code={codeContent} 
             language={language}
             onBookmark={onBookmark}
-            onCopy={() => {}}
+            onCopy={handleCopy}
             onLike={() => {}}
           />
         )}
+        
+        <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+          {format(message.timestamp, 'h:mm a')}
+        </div>
       </div>
       
       {!message.isAi && (
@@ -89,74 +198,91 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
   );
 };
 
-interface ConversationItem {
-  id: number;
-  title: string;
-  preview: string;
-  date: string;
-  isActive?: boolean;
-}
-
-const ConversationItem = ({ conversation, onClick }: { conversation: ConversationItem, onClick: () => void }) => {
+// Conversation item in the sidebar
+const ConversationItem = ({ 
+  conversation, 
+  isActive,
+  onClick 
+}: { 
+  conversation: any, 
+  isActive: boolean,
+  onClick: () => void 
+}) => {
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const isToday = date.getDate() === now.getDate() && 
+                    date.getMonth() === now.getMonth() && 
+                    date.getFullYear() === now.getFullYear();
+    
+    if (isToday) {
+      return format(date, 'h:mm a');
+    } else {
+      return formatDistanceToNow(date, { addSuffix: true });
+    }
+  };
+  
   return (
     <div 
-      className={`p-4 ${conversation.isActive 
+      className={`p-4 cursor-pointer ${isActive 
         ? 'bg-primary bg-opacity-5 dark:bg-opacity-10 border-l-4 border-primary' 
         : 'hover:bg-gray-50 dark:hover:bg-gray-800'}`}
       onClick={onClick}
     >
-      <h3 className="font-medium text-sm mb-1">{conversation.title}</h3>
-      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1 line-clamp-2">{conversation.preview}</p>
-      <p className="text-xs text-gray-500 dark:text-gray-400">{conversation.date}</p>
+      <div className="flex items-center justify-between mb-1">
+        <h3 className="font-medium text-sm truncate">{conversation.title}</h3>
+        <span className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">
+          {formatDate(conversation.lastModified)}
+        </span>
+      </div>
+      {/* Assuming the first few characters of a message might serve as a preview */}
+      <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
+        {conversation.title}
+      </p>
     </div>
   );
 };
 
+// Empty state when there are no conversations
+const EmptyConversation = ({ onNewChat }: { onNewChat: () => void }) => (
+  <div className="flex flex-col items-center justify-center h-full p-8 text-center">
+    <div className="w-16 h-16 rounded-full bg-primary bg-opacity-10 flex items-center justify-center mb-4">
+      <MessageSquareIcon className="text-primary" size={24} />
+    </div>
+    <h3 className="text-lg font-medium mb-2">No conversations yet</h3>
+    <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+      Start a new chat to get coding assistance, explain concepts, or optimize your code.
+    </p>
+    <Button onClick={onNewChat}>
+      <PlusIcon className="mr-2" size={16} />
+      New Chat
+    </Button>
+  </div>
+);
+
+// Main Chat component
 const Chat = () => {
   const [query, setQuery] = useState('');
-  const [activeConversation, setActiveConversation] = useState<number | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [searchText, setSearchText] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
+  const isMobile = useIsMobile();
   
-  const { messages, sendMessage, isLoading } = useChat(activeConversation || undefined);
+  const { 
+    messages, 
+    conversations, 
+    activeConversation,
+    sendMessage, 
+    createConversation,
+    selectConversation,
+    clearMessages,
+    isLoading,
+    isFetchingMessages,
+    isFetchingConversations 
+  } = useChat();
   
-  const recentConversations: ConversationItem[] = [
-    {
-      id: 1,
-      title: "React useEffect optimization",
-      preview: "How can I prevent unnecessary re-renders with useEffect?",
-      date: "Today, 11:42 AM",
-      isActive: activeConversation === 1
-    },
-    {
-      id: 2,
-      title: "TypeScript generics example",
-      preview: "Can you show me how to use generics with React components?",
-      date: "Yesterday, 3:15 PM",
-      isActive: activeConversation === 2
-    },
-    {
-      id: 3,
-      title: "Next.js API routes",
-      preview: "What's the best practice for handling authentication in Next.js API routes?",
-      date: "Jun 15, 2023",
-      isActive: activeConversation === 3
-    },
-    {
-      id: 4,
-      title: "CSS Grid layout",
-      preview: "How do I create a responsive masonry layout with CSS Grid?",
-      date: "Jun 12, 2023",
-      isActive: activeConversation === 4
-    },
-    {
-      id: 5,
-      title: "JavaScript Promise.all",
-      preview: "What's the difference between Promise.all and Promise.allSettled?",
-      date: "Jun 10, 2023",
-      isActive: activeConversation === 5
-    }
-  ];
-  
+  // Handle form submission for sending a message
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
@@ -165,9 +291,58 @@ const Chat = () => {
     }
   };
   
-  const selectConversation = (id: number) => {
-    setActiveConversation(id);
+  // Handle creating a new conversation
+  const handleNewChat = async () => {
+    clearMessages();
+    // Force mobile sidebar to close when starting a new chat
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
   };
+  
+  // Handle selecting a conversation from the sidebar
+  const handleSelectConversation = (id: number) => {
+    selectConversation(id);
+    // Force mobile sidebar to close when selecting a conversation
+    if (isMobile) {
+      setSidebarOpen(false);
+    }
+  };
+  
+  // Handle bookmarking a message
+  const handleBookmark = async (message: Message) => {
+    try {
+      await apiRequest('POST', '/api/bookmarks', {
+        userId: 1, // Demo user ID
+        title: message.content.length > 50 
+          ? message.content.substring(0, 50) + "..." 
+          : message.content,
+        content: message.content,
+        conversationId: activeConversation,
+        messageId: message.id,
+        tags: ["Chat"]
+      });
+      
+      toast({
+        title: "Bookmark created",
+        description: "The message has been saved to your bookmarks.",
+      });
+    } catch (err) {
+      console.error("Failed to create bookmark:", err);
+      toast({
+        title: "Failed to bookmark",
+        description: "There was an error saving this message.",
+        variant: "destructive"
+      });
+    }
+  };
+  
+  // Filter conversations based on search text
+  const filteredConversations = searchText
+    ? conversations.filter(conv => 
+        conv.title.toLowerCase().includes(searchText.toLowerCase())
+      )
+    : conversations;
   
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -178,17 +353,47 @@ const Chat = () => {
   
   // Initialize with system message if no messages
   useEffect(() => {
-    if (messages.length === 0) {
+    if (messages.length === 0 && !activeConversation && !isFetchingMessages) {
       sendMessage("Hi! I'm Code Buddy, your AI coding assistant. How can I help you with your coding questions today?");
     }
-  }, []);
+  }, [messages, activeConversation, isFetchingMessages]);
+  
+  // Toggle sidebar visibility on mobile
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
   
   return (
-    <div className="flex-1 flex overflow-hidden">
+    <div className="flex-1 flex overflow-hidden relative">
+      {/* Mobile sidebar toggle button */}
+      {isMobile && (
+        <button
+          className="absolute top-4 left-4 z-50 rounded-full p-2 bg-white dark:bg-gray-800 shadow-md"
+          onClick={toggleSidebar}
+        >
+          {sidebarOpen ? <ChevronLeftIcon size={16} /> : <ChevronRightIcon size={16} />}
+        </button>
+      )}
+      
       {/* Chat History Sidebar */}
-      <aside className="hidden lg:block w-80 border-r border-gray-200 dark:border-gray-800 flex flex-col">
+      <aside 
+        className={`${
+          isMobile 
+            ? sidebarOpen 
+              ? 'absolute inset-y-0 left-0 z-40 w-80' 
+              : 'hidden' 
+            : 'relative w-80'
+        } border-r border-gray-200 dark:border-gray-800 flex flex-col bg-white dark:bg-gray-900`}
+      >
         <div className="p-4 border-b border-gray-200 dark:border-gray-800">
-          <h2 className="text-lg font-semibold mb-2">Recent Queries</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold">Recent Chats</h2>
+            <Button variant="outline" size="sm" onClick={handleNewChat}>
+              <PlusIcon size={16} className="mr-1" />
+              New
+            </Button>
+          </div>
+          
           <div className="relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <SearchIcon className="h-4 w-4 text-gray-400" />
@@ -197,38 +402,135 @@ const Chat = () => {
               type="search" 
               className="pl-10" 
               placeholder="Search conversations..." 
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
             />
           </div>
         </div>
         
         <ScrollArea className="flex-1">
-          <div className="divide-y divide-gray-200 dark:divide-gray-800">
-            {recentConversations.map(conversation => (
-              <ConversationItem 
-                key={conversation.id} 
-                conversation={conversation} 
-                onClick={() => selectConversation(conversation.id)} 
-              />
-            ))}
-          </div>
+          {isFetchingConversations ? (
+            <div className="p-4 text-center text-sm text-gray-500 dark:text-gray-400">
+              Loading conversations...
+            </div>
+          ) : filteredConversations.length === 0 ? (
+            <div className="p-4 text-center text-sm text-gray-500 dark:text-gray-400">
+              {searchText ? "No matching conversations" : "No conversations yet"}
+            </div>
+          ) : (
+            <div className="divide-y divide-gray-200 dark:divide-gray-800">
+              {filteredConversations.map(conversation => (
+                <ConversationItem 
+                  key={conversation.id} 
+                  conversation={conversation} 
+                  isActive={activeConversation === conversation.id}
+                  onClick={() => handleSelectConversation(conversation.id)} 
+                />
+              ))}
+            </div>
+          )}
         </ScrollArea>
+        
+        {/* Sidebar footer with quick links */}
+        <div className="border-t border-gray-200 dark:border-gray-800 p-4">
+          <div className="grid grid-cols-3 gap-2 mb-2">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="sm" className="flex flex-col items-center justify-center h-14 w-full">
+                    <StarIcon size={16} className="mb-1" />
+                    <span className="text-xs">Starred</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>View starred conversations</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="sm" className="flex flex-col items-center justify-center h-14 w-full">
+                    <HistoryIcon size={16} className="mb-1" />
+                    <span className="text-xs">History</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>View chat history</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="sm" className="flex flex-col items-center justify-center h-14 w-full">
+                    <FolderIcon size={16} className="mb-1" />
+                    <span className="text-xs">Folders</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Organize chats in folders</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        </div>
       </aside>
       
       {/* Chat Main Area */}
       <div className="flex-1 flex flex-col h-full overflow-hidden">
         {/* Chat Messages */}
-        <ScrollArea className="flex-1 p-4">
-          <div className="max-w-3xl mx-auto space-y-6">
-            {messages.map((message, index) => (
-              <ChatMessage 
-                key={index} 
-                message={message} 
-                onBookmark={() => console.log('Bookmark message', message.id)} 
-              />
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-        </ScrollArea>
+        {messages.length === 0 && !isFetchingMessages ? (
+          <EmptyConversation onNewChat={handleNewChat} />
+        ) : (
+          <>
+            {/* Chat header */}
+            <div className="border-b border-gray-200 dark:border-gray-800 px-6 py-4">
+              <div className="flex items-center justify-between max-w-3xl mx-auto">
+                <h2 className="text-lg font-medium">
+                  {activeConversation && conversations.find(c => c.id === activeConversation)?.title || "New Chat"}
+                </h2>
+                
+                <div className="flex items-center space-x-2">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon" className="text-gray-500">
+                          <MoreVerticalIcon size={18} />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Chat options</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+              </div>
+            </div>
+            
+            {/* Messages area */}
+            <ScrollArea className="flex-1 p-4">
+              <div className="max-w-3xl mx-auto space-y-6">
+                {isFetchingMessages ? (
+                  <div className="p-4 text-center">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">Loading messages...</p>
+                  </div>
+                ) : (
+                  messages.map((message, index) => (
+                    <ChatMessage 
+                      key={`${message.id}-${index}`} 
+                      message={message} 
+                      onBookmark={() => handleBookmark(message)} 
+                    />
+                  ))
+                )}
+                <div ref={messagesEndRef} />
+              </div>
+            </ScrollArea>
+          </>
+        )}
         
         {/* Chat Input */}
         <div className="border-t border-gray-200 dark:border-gray-800 p-4">
