@@ -16,9 +16,9 @@ A living checklist to track adherence to the Product Requirements Document and o
 - [x] Added "Learn more" links for educational content
 - [x] Added file upload capability
 - [x] Added copy/download functionality for optimized code
-- [x] Basic Bookmarks & Query Management system: create, edit, delete, view, organize by category (with hierarchy), tag, search, filter, import/export (JSON/Markdown), batch delete, notes, starred, and content type support
-- [x] Basic Profile page implementation (personal info, password/security, notification preferences, user preferences)
-- [x] Dashboard with usage statistics, activity tracking, and goal management
+- [x] Bookmarks & Query Management: create, edit, delete, view, organize by category (with hierarchy), tag, search, filter, import/export (JSON/Markdown), batch delete, notes, starred, and content type support
+- [x] Profile: display name, username, email (view only), password change, notification toggles, user preferences (theme, code editor, default view)
+- [x] Dashboard: usage statistics, activity tracking, and goal management
 
 ## In Progress Tasks
 - [ ] Improve error handling for OpenAI API issues
@@ -27,25 +27,38 @@ A living checklist to track adherence to the Product Requirements Document and o
 - [ ] Implement proper error boundaries for component failures
 
 ## Library/Query Management Tasks (PRD-06)
-- [ ] Query templates with parameter configuration (not yet implemented)
-- [ ] Version history for saved queries (not yet implemented)
-- [ ] Query execution history tracking (not yet implemented)
-- [ ] Bulk operations for queries: categorize, export (delete is implemented)
-- [ ] Drag-and-drop organization for queries and categories (not yet implemented)
-- [ ] Query sharing capabilities (not yet implemented)
-- [ ] User library preferences (default view, sort order, preview size) (partially implemented: sort order)
+### In Progress
+- [ ] UI for query templates (parameterized queries)
+- [ ] UI for query version history (view, restore, compare)
+- [ ] UI for query execution history (view, notes)
+- [ ] UI for batch categorize/export (delete is implemented)
+- [ ] UI for user library preferences (default view, sort order, preview size)
+- [ ] UI for saved searches (save, view, delete)
+
+### Upcoming
+- [ ] Query forking and comparison features
+- [ ] Query sharing (generate shareable links, team sharing)
+- [ ] Drag-and-drop organization for queries and categories
+- [ ] Advanced execution interface (parameter input, execution notes/history)
+- [ ] Collaborative query development
+- [ ] Import/export: support for more formats (text, full category export)
 
 ## Profile Management Tasks (PRD-07)
-- [ ] Enhance profile information section (bio, professional info, links) (partially implemented: display name, username, email)
-- [ ] Profile photo upload and cropping (UI present, not fully functional)
-- [ ] External profile linking (GitHub, LinkedIn, etc.) (not yet implemented)
-- [ ] Security settings (session management, API keys) (partially implemented: password change)
-- [ ] AI behavior preferences configuration (not yet implemented)
-- [ ] Usage statistics and activity tracking (partially implemented in Dashboard)
-- [ ] Subscription management and billing information (not yet implemented)
-- [ ] Connected accounts and integrations management (not yet implemented)
-- [ ] Notification scheduling and delivery preferences (basic notification toggles implemented)
-- [ ] Export of user data and settings (not yet implemented)
+### In Progress
+- [ ] UI for avatar upload and cropping (button present, not functional)
+- [ ] UI for bio, professional info, and links (not present)
+- [ ] UI for advanced security settings (2FA, API keys, session management)
+- [ ] UI for notification channels, scheduling, grouping, custom sounds
+- [ ] UI for AI behavior preferences (response style, code style, explanation depth, personality, knowledge level, preferred sources)
+- [ ] UI for usage statistics (partially in dashboard)
+
+### Upcoming
+- [ ] UI for external profile linking (GitHub, LinkedIn, etc.)
+- [ ] UI for subscription management and billing information
+- [ ] UI for connected accounts and integrations management
+- [ ] UI for export of user data and settings
+- [ ] UI for application preferences: color accent, interface density, font size/family, dashboard layout, keyboard shortcuts, accessibility
+- [ ] UI for trusted devices, recovery options
 
 ## Upcoming Tasks
 - [ ] Implement automated tests (unit, integration, E2E) as required by PRD
