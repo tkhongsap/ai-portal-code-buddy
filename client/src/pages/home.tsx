@@ -63,12 +63,12 @@ const ActivityItem = ({
       <div className="flex-1">
         <div className="flex justify-between items-start mb-1">
           <h4 className="font-medium text-sm text-cb-text-high">{title}</h4>
-          <span className="text-xs text-cb-text-low">{time}</span>
+          <span className="text-xs text-cb-text-high">{time}</span>
         </div>
-        <p className="text-sm text-cb-text-low mb-1 line-clamp-1">{description}</p>
+        <p className="text-sm text-cb-text-high mb-1 line-clamp-1">{description}</p>
         <div className="flex flex-wrap gap-2">
           {tags.map((tag, index) => (
-            <span key={index} className="text-xs px-2 py-1 bg-primary/10 rounded text-primary">
+            <span key={index} className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">
               {tag}
             </span>
           ))}
@@ -81,10 +81,10 @@ const ActivityItem = ({
 const BookmarkItem = ({ title, time, tags }: { title: string; time: string; tags: string[] }) => (
   <div className="p-4 hover:bg-surface-200 transition-colors">
     <h4 className="font-medium text-sm mb-1 text-cb-text-high">{title}</h4>
-    <p className="text-xs text-cb-text-low mb-2">Saved {time}</p>
+    <p className="text-xs text-cb-text-high mb-2">Saved {time}</p>
     <div className="flex flex-wrap gap-2">
       {tags.map((tag, index) => (
-        <span key={index} className="text-xs px-2 py-1 bg-primary/10 rounded text-primary">
+        <span key={index} className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">
           {tag}
         </span>
       ))}
