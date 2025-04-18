@@ -148,32 +148,62 @@ const Home = () => {
           <Card className="bg-surface-100">
             <CardContent className="p-0">
               <div className="divide-y divide-cb-line">
-                <ActivityItem
-                  icon={<MessageSquareIcon size={16} className="text-primary" />}
-                  title="React useEffect optimization question"
-                  time="2h ago"
-                  description="How can I prevent unnecessary re-renders with useEffect?"
-                  tags={["React", "Hooks"]}
-                  iconColor="bg-primary-100 text-primary"
-                />
+                <div className="p-4 hover:bg-surface-200 transition-colors">
+                  <div className="flex items-start">
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-3 mt-1">
+                      <MessageSquareIcon size={16} className="text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex justify-between items-start mb-1">
+                        <h4 className="font-medium text-sm text-cb-text-high">React useEffect optimization question</h4>
+                        <span className="text-xs text-cb-text-high">2h ago</span>
+                      </div>
+                      <p className="text-sm text-cb-text-high mb-1 line-clamp-1">How can I prevent unnecessary re-renders with useEffect?</p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">React</span>
+                        <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">Hooks</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 
-                <ActivityItem
-                  icon={<CodeIcon size={16} className="text-primary" />}
-                  title="Array manipulation function optimized"
-                  time="1d ago"
-                  description="Reduced time complexity from O(n²) to O(n log n)"
-                  tags={["JavaScript", "Performance"]}
-                  iconColor="bg-primary-100 text-primary"
-                />
+                <div className="p-4 hover:bg-surface-200 transition-colors">
+                  <div className="flex items-start">
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-3 mt-1">
+                      <CodeIcon size={16} className="text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex justify-between items-start mb-1">
+                        <h4 className="font-medium text-sm text-cb-text-high">Array manipulation function optimized</h4>
+                        <span className="text-xs text-cb-text-high">1d ago</span>
+                      </div>
+                      <p className="text-sm text-cb-text-high mb-1 line-clamp-1">Reduced time complexity from O(n²) to O(n log n)</p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">JavaScript</span>
+                        <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">Performance</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 
-                <ActivityItem
-                  icon={<BarChartIcon size={16} className="text-primary" />}
-                  title="SQL query assessment"
-                  time="3d ago"
-                  description="Score: 85/100 - Suggestions for indexing and query structure"
-                  tags={["SQL", "Database"]}
-                  iconColor="bg-primary-100 text-primary"
-                />
+                <div className="p-4 hover:bg-surface-200 transition-colors">
+                  <div className="flex items-start">
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-3 mt-1">
+                      <BarChartIcon size={16} className="text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex justify-between items-start mb-1">
+                        <h4 className="font-medium text-sm text-cb-text-high">SQL query assessment</h4>
+                        <span className="text-xs text-cb-text-high">3d ago</span>
+                      </div>
+                      <p className="text-sm text-cb-text-high mb-1 line-clamp-1">Score: 85/100 - Suggestions for indexing and query structure</p>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">SQL</span>
+                        <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">Database</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -232,23 +262,31 @@ const SomeContext = createContext();`}
             <Card className="bg-surface-100">
               <CardContent className="p-0">
                 <div className="divide-y divide-cb-line">
-                  <BookmarkItem
-                    title="Optimizing API calls with React Query"
-                    time="5 days ago"
-                    tags={["React", "API"]}
-                  />
+                  <div className="p-4 hover:bg-surface-200 transition-colors">
+                    <h4 className="font-medium text-sm mb-1 text-cb-text-high">Optimizing API calls with React Query</h4>
+                    <p className="text-xs text-cb-text-high mb-2">Saved 5 days ago</p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">React</span>
+                      <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">API</span>
+                    </div>
+                  </div>
                   
-                  <BookmarkItem
-                    title="TypeScript interface vs type alias"
-                    time="1 week ago"
-                    tags={["TypeScript"]}
-                  />
+                  <div className="p-4 hover:bg-surface-200 transition-colors">
+                    <h4 className="font-medium text-sm mb-1 text-cb-text-high">TypeScript interface vs type alias</h4>
+                    <p className="text-xs text-cb-text-high mb-2">Saved 1 week ago</p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">TypeScript</span>
+                    </div>
+                  </div>
                   
-                  <BookmarkItem
-                    title="CSS Grid vs Flexbox decision tree"
-                    time="2 weeks ago"
-                    tags={["CSS", "Layout"]}
-                  />
+                  <div className="p-4 hover:bg-surface-200 transition-colors">
+                    <h4 className="font-medium text-sm mb-1 text-cb-text-high">CSS Grid vs Flexbox decision tree</h4>
+                    <p className="text-xs text-cb-text-high mb-2">Saved 2 weeks ago</p>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">CSS</span>
+                      <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">Layout</span>
+                    </div>
+                  </div>
                 </div>
               </CardContent>
             </Card>
