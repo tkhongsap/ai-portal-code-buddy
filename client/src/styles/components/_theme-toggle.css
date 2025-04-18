@@ -60,19 +60,23 @@
 }
 
 /* When dark theme is active */
-.dark .cb-theme-toggle {
+.dark .cb-theme-toggle,
+[data-theme='dark'] .cb-theme-toggle {
   color: var(--cb-text-high);
 }
 
-.dark .cb-theme-toggle:hover {
+.dark .cb-theme-toggle:hover,
+[data-theme='dark'] .cb-theme-toggle:hover {
   color: var(--cb-primary-400);
 }
 
-.dark .cb-theme-toggle::before {
+.dark .cb-theme-toggle::before,
+[data-theme='dark'] .cb-theme-toggle::before {
   background-color: var(--cb-primary-400);
 }
 
-.dark .cb-theme-toggle:hover::before {
+.dark .cb-theme-toggle:hover::before,
+[data-theme='dark'] .cb-theme-toggle:hover::before {
   opacity: 0.15;
   transform: scale(1);
 }

@@ -43,7 +43,7 @@ const StatCard = ({ title, value, change, icon, changeType = 'positive' }: {
   const changeColor = 
     changeType === 'positive' ? 'text-green-500' : 
     changeType === 'negative' ? 'text-red-500' : 
-    'text-gray-500';
+    '';
   
   const ChangeIcon = changeType === 'positive' ? ArrowUpIcon : changeType === 'negative' ? ArrowDownIcon : null;
   
@@ -54,7 +54,7 @@ const StatCard = ({ title, value, change, icon, changeType = 'positive' }: {
           <div>
             <p className="text-sm font-medium text-cb-text-low">{title}</p>
             <h3 className="text-2xl font-bold mt-1">{value}</h3>
-            <div className={`flex items-center mt-1 ${changeColor}`}>
+            <div className={`flex items-center mt-1`} style={changeType === 'neutral' ? { color: 'var(--cb-text-low)' } : {}}>
               {ChangeIcon && <ChangeIcon className="h-4 w-4 mr-1" />}
               <span className="text-sm">{change}</span>
             </div>
@@ -88,7 +88,7 @@ const GoalCard = ({
       case 'readability': return 'bg-blue-500';
       case 'best_practices': return 'bg-green-500';
       case 'error_handling': return 'bg-red-500';
-      default: return 'bg-gray-500';
+      default: return '';
     }
   };
   
@@ -105,11 +105,11 @@ const GoalCard = ({
               <Badge className={`${getCategoryColor(goal.category)}`}>{goal.category}</Badge>
               {isCompleted && <Badge variant="outline" className="bg-green-100 dark:bg-green-900">Completed</Badge>}
             </div>
-            <CardTitle className={isCompleted ? 'line-through text-gray-500' : ''}>{goal.title}</CardTitle>
+            <CardTitle className={isCompleted ? 'line-through' : ''} style={isCompleted ? { color: 'var(--cb-text-low)' } : {}}>{goal.title}</CardTitle>
           </div>
           <div className="flex gap-1">
             <Button size="icon" variant="ghost" onClick={handleToggleComplete}>
-              <CheckCircleIcon size={18} className={isCompleted ? 'text-green-500' : 'text-gray-400'} />
+              <CheckCircleIcon size={18} className={isCompleted ? '' : ''} style={isCompleted ? { color: 'var(--cb-primary-500)' } : { color: 'var(--cb-line)' }} />
             </Button>
             <Button size="icon" variant="ghost" onClick={() => onDelete(goal.id)}>
               <TrashIcon size={18} className="text-red-500" />
@@ -127,7 +127,7 @@ const GoalCard = ({
             <span className="text-sm font-medium">{progress}%</span>
           </div>
           <Progress value={progress} className="h-2" />
-          <div className="flex justify-between text-xs text-gray-500">
+          <div className="flex justify-between text-xs" style={{ color: 'var(--cb-text-low)' }}>
             <span>Current: {goal.currentValue}</span>
             <span>Target: {goal.targetValue}</span>
           </div>
@@ -135,7 +135,7 @@ const GoalCard = ({
       </CardContent>
       {deadline && (
         <CardFooter className="pt-0">
-          <p className="text-xs text-gray-500">
+          <p className="text-xs" style={{ color: 'var(--cb-text-low)' }}>
             Deadline: {format(deadline, 'MMM d, yyyy')}
           </p>
         </CardFooter>
@@ -159,7 +159,7 @@ const ActivityItem = ({
       case 'chat': return <MessageSquareIcon size={16} className="text-blue-500" />;
       case 'optimize': return <CodeIcon size={16} className="text-orange-500" />;
       case 'score': return <BarChartIcon size={16} className="text-green-500" />;
-      default: return <ClockIcon size={16} className="text-gray-500" />;
+      default: return <ClockIcon size={16} style={{ color: 'var(--cb-text-low)' }} />;
     }
   };
   
@@ -174,7 +174,7 @@ const ActivityItem = ({
   
   return (
     <div className="flex items-center gap-3 py-2">
-      <div className="h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+      <div className="h-8 w-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--cb-surface-100)' }}>
         {getIcon()}
       </div>
       <div className="flex-grow">

@@ -82,10 +82,14 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
     // Update active theme state
     setActiveTheme(newActiveTheme);
     
-    // Apply the theme to DOM
+    // Apply the theme to DOM - Using data-theme on body per PRD specification
     if (newActiveTheme === 'dark') {
+      document.body.setAttribute('data-theme', 'dark');
+      // For backwards compatibility, keep the class on html element
       document.documentElement.classList.add('dark');
     } else {
+      document.body.setAttribute('data-theme', 'light');
+      // For backwards compatibility, remove the dark class
       document.documentElement.classList.remove('dark');
     }
     

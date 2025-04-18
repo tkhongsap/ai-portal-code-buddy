@@ -104,7 +104,7 @@ const CodeDisplay: React.FC<CodeDisplayProps> = ({
       {explanation && (
         <p className="text-sm mb-3">{explanation}</p>
       )}
-      <div className="code-font text-sm bg-[#1E1E1E] text-[#D4D4D4] dark:bg-[#1E1E1E] dark:text-[#D4D4D4] p-3 rounded-md overflow-auto mb-3">
+      <div className="code-font text-sm p-3 rounded-md overflow-auto mb-3" style={{ backgroundColor: 'var(--cb-surface-200)', color: 'var(--cb-text-high)' }}>
         <pre>
           <code dangerouslySetInnerHTML={{ __html: highlightedCode }} />
         </pre>

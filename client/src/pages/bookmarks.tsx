@@ -70,12 +70,12 @@ const TagInput = ({
     <div className="space-y-2">
       <div className="flex flex-wrap gap-2 mb-2">
         {tags.map((tag) => (
-          <div key={tag} className="flex items-center px-2 py-1 bg-gray-100 dark:bg-gray-700 rounded text-sm">
+          <div key={tag} className="flex items-center px-2 py-1 rounded text-sm" style={{ backgroundColor: 'var(--cb-surface-100)' }}>
             <span className="mr-1">{tag}</span>
             <button 
               type="button" 
               onClick={() => removeTag(tag)}
-              className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              style={{ color: 'var(--cb-text-low)' }}
             >
               ×
             </button>

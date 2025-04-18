@@ -82,7 +82,7 @@ const CategoryBadge = ({ category }: { category: string }) => {
       label = 'Performance';
       break;
     case 'readability':
-      color = 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
+      color = '';
       label = 'Readability';
       break;
     case 'best_practices':
@@ -99,7 +99,7 @@ const CategoryBadge = ({ category }: { category: string }) => {
   }
   
   return (
-    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${color}`}>
+    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium`} style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>
       <span className="mr-1"><CategoryIcon category={category} /></span>
       {label}
     </span>
@@ -112,7 +112,7 @@ const SeverityBadge = ({ severity }: { severity: string }) => {
   
   switch (severity) {
     case 'high':
-      color = 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
+      color = '';
       break;
     case 'medium':
       color = 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
@@ -125,7 +125,7 @@ const SeverityBadge = ({ severity }: { severity: string }) => {
   }
   
   return (
-    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${color}`}>
+    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium`} style={{ backgroundColor: 'rgba(229,62,62,0.08)', color: 'var(--cb-text-high)' }}>
       {severity.charAt(0).toUpperCase() + severity.slice(1)}
     </span>
   );
@@ -146,7 +146,7 @@ const ImprovementSuggestion = ({
   const [isExpanded, setIsExpanded] = useState(false);
   
   return (
-    <div className={`border rounded-lg p-4 mb-4 ${isApplied ? 'border-green-500 bg-green-50 dark:bg-green-900/10' : 'border-gray-200 dark:border-gray-700'}`}>
+    <div className={`border rounded-lg p-4 mb-4`} style={isApplied ? { borderColor: 'var(--cb-primary-500)', backgroundColor: 'rgba(39,174,96,0.08)' } : { borderColor: 'var(--cb-line)', backgroundColor: 'var(--cb-surface-100)' }}>
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center space-x-2">
           <CategoryBadge category={improvement.category} />
@@ -218,7 +218,7 @@ const ImprovementSuggestion = ({
         <div className="mt-4 space-y-3">
           <div>
             <h4 className="text-xs font-medium text-cb-text-low mb-1">Original Code:</h4>
-            <div className="bg-gray-50 dark:bg-gray-800 rounded p-3 overflow-x-auto">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded p-3 overflow-x-auto" style={{ backgroundColor: 'var(--cb-surface-200)' }}>
               <pre className="text-xs text-cb-text-high">
                 <code>{improvement.original_code}</code>
               </pre>
@@ -227,7 +227,7 @@ const ImprovementSuggestion = ({
           
           <div>
             <h4 className="text-xs font-medium text-cb-text-low mb-1">Optimized Code:</h4>
-            <div className="bg-gray-50 dark:bg-gray-800 rounded p-3 overflow-x-auto">
+            <div className="bg-gray-50 dark:bg-gray-800 rounded p-3 overflow-x-auto" style={{ backgroundColor: 'var(--cb-surface-200)' }}>
               <pre className="text-xs text-cb-text-high">
                 <code>{improvement.optimized_code}</code>
               </pre>

@@ -43,7 +43,7 @@
   width: 32px;
   height: 32px;
   background-color: var(--cb-primary-500);
-  color: white;
+  color: var(--cb-text-high);
   border-radius: var(--radius);
   display: flex;
   align-items: center;
@@ -180,7 +180,8 @@
 }
 
 /* PRD specified: icons invert in dark mode */
-.dark .cb-sidebar-nav-icon svg {
+.dark .cb-sidebar-nav-icon svg,
+[data-theme='dark'] .cb-sidebar-nav-icon svg {
   filter: invert(100%);
 }
 

@@ -57,7 +57,7 @@ const ActivityItem = ({
 }) => (
   <div className="p-4 hover:bg-surface-200 transition-colors">
     <div className="flex items-start">
-      <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-3 mt-1">
+      <div className="w-8 h-8 rounded-lg flex items-center justify-center mr-3 mt-1" style={{ backgroundColor: 'rgba(3,63,147,0.08)' }}>
         {icon}
       </div>
       <div className="flex-1">
@@ -68,7 +68,7 @@ const ActivityItem = ({
         <p className="text-sm text-cb-text-high mb-1 line-clamp-1">{description}</p>
         <div className="flex flex-wrap gap-2">
           {tags.map((tag, index) => (
-            <span key={index} className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">
+            <span key={index} className="text-xs px-2 py-1 rounded font-medium" style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>
               {tag}
             </span>
           ))}
@@ -84,7 +84,7 @@ const BookmarkItem = ({ title, time, tags }: { title: string; time: string; tags
     <p className="text-xs text-cb-text-high mb-2">Saved {time}</p>
     <div className="flex flex-wrap gap-2">
       {tags.map((tag, index) => (
-        <span key={index} className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">
+        <span key={index} className="text-xs px-2 py-1 rounded font-medium" style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>
           {tag}
         </span>
       ))}
@@ -150,7 +150,7 @@ const Home = () => {
               <div className="divide-y divide-cb-line">
                 <div className="p-4 hover:bg-surface-200 transition-colors">
                   <div className="flex items-start">
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-3 mt-1">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center mr-3 mt-1" style={{ backgroundColor: 'rgba(3,63,147,0.08)' }}>
                       <MessageSquareIcon size={16} className="text-primary" />
                     </div>
                     <div className="flex-1">
@@ -160,8 +160,8 @@ const Home = () => {
                       </div>
                       <p className="text-sm text-cb-text-high mb-1 line-clamp-1">How can I prevent unnecessary re-renders with useEffect?</p>
                       <div className="flex flex-wrap gap-2">
-                        <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">React</span>
-                        <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">Hooks</span>
+                        <span className="text-xs px-2 py-1 rounded font-medium" style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>React</span>
+                        <span className="text-xs px-2 py-1 rounded font-medium" style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>Hooks</span>
                       </div>
                     </div>
                   </div>
@@ -169,7 +169,7 @@ const Home = () => {
                 
                 <div className="p-4 hover:bg-surface-200 transition-colors">
                   <div className="flex items-start">
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-3 mt-1">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center mr-3 mt-1" style={{ backgroundColor: 'rgba(3,63,147,0.08)' }}>
                       <CodeIcon size={16} className="text-primary" />
                     </div>
                     <div className="flex-1">
@@ -179,8 +179,8 @@ const Home = () => {
                       </div>
                       <p className="text-sm text-cb-text-high mb-1 line-clamp-1">Reduced time complexity from O(n²) to O(n log n)</p>
                       <div className="flex flex-wrap gap-2">
-                        <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">JavaScript</span>
-                        <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">Performance</span>
+                        <span className="text-xs px-2 py-1 rounded font-medium" style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>JavaScript</span>
+                        <span className="text-xs px-2 py-1 rounded font-medium" style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>Performance</span>
                       </div>
                     </div>
                   </div>
@@ -188,7 +188,7 @@ const Home = () => {
                 
                 <div className="p-4 hover:bg-surface-200 transition-colors">
                   <div className="flex items-start">
-                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-3 mt-1">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center mr-3 mt-1" style={{ backgroundColor: 'rgba(3,63,147,0.08)' }}>
                       <BarChartIcon size={16} className="text-primary" />
                     </div>
                     <div className="flex-1">
@@ -198,8 +198,8 @@ const Home = () => {
                       </div>
                       <p className="text-sm text-cb-text-high mb-1 line-clamp-1">Score: 85/100 - Suggestions for indexing and query structure</p>
                       <div className="flex flex-wrap gap-2">
-                        <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">SQL</span>
-                        <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">Database</span>
+                        <span className="text-xs px-2 py-1 rounded font-medium" style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>SQL</span>
+                        <span className="text-xs px-2 py-1 rounded font-medium" style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>Database</span>
                       </div>
                     </div>
                   </div>
@@ -266,8 +266,8 @@ const SomeContext = createContext();`}
                     <h4 className="font-medium text-sm mb-1 text-cb-text-high">Optimizing API calls with React Query</h4>
                     <p className="text-xs text-cb-text-high mb-2">Saved 5 days ago</p>
                     <div className="flex flex-wrap gap-2">
-                      <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">React</span>
-                      <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">API</span>
+                      <span className="text-xs px-2 py-1 rounded font-medium" style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>React</span>
+                      <span className="text-xs px-2 py-1 rounded font-medium" style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>API</span>
                     </div>
                   </div>
                   
@@ -275,7 +275,7 @@ const SomeContext = createContext();`}
                     <h4 className="font-medium text-sm mb-1 text-cb-text-high">TypeScript interface vs type alias</h4>
                     <p className="text-xs text-cb-text-high mb-2">Saved 1 week ago</p>
                     <div className="flex flex-wrap gap-2">
-                      <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">TypeScript</span>
+                      <span className="text-xs px-2 py-1 rounded font-medium" style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>TypeScript</span>
                     </div>
                   </div>
                   
@@ -283,8 +283,8 @@ const SomeContext = createContext();`}
                     <h4 className="font-medium text-sm mb-1 text-cb-text-high">CSS Grid vs Flexbox decision tree</h4>
                     <p className="text-xs text-cb-text-high mb-2">Saved 2 weeks ago</p>
                     <div className="flex flex-wrap gap-2">
-                      <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">CSS</span>
-                      <span className="text-xs px-2 py-1 bg-primary/10 rounded text-primary font-medium">Layout</span>
+                      <span className="text-xs px-2 py-1 rounded font-medium" style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>CSS</span>
+                      <span className="text-xs px-2 py-1 rounded font-medium" style={{ backgroundColor: 'rgba(3,63,147,0.08)', color: 'var(--cb-primary-500)' }}>Layout</span>
                     </div>
                   </div>
                 </div>

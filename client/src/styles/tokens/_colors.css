@@ -40,8 +40,8 @@
   --cb-info: #033F93;        /* Info states - matching primary */
 }
 
-/* Dark mode color overrides - PRD-defined values */
-.dark {
+/* Dark mode color overrides using data-theme attribute as specified in PRD */
+[data-theme='dark'] {
   /* Base colors from PRD */
   --cb-primary-500: #033F93;      /* Same primary in both modes */
   --cb-primary-500-rgb: 3, 63, 147; /* RGB values for opacity variants */
@@ -77,4 +77,38 @@
   --cb-error: #E74C3C;       /* Error states */
   --cb-warning: #F39C12;     /* Warning states */
   --cb-info: #3498DB;        /* Info states */
+}
+
+/* For backwards compatibility, also keep the .dark selector */
+.dark {
+  --cb-primary-500: #033F93;
+  --cb-primary-500-rgb: 3, 63, 147;
+  --cb-secondary-400: #044AAC;
+  --cb-surface-100: #1E1E1E;
+  --cb-canvas: #121212;
+  --cb-line: #263544;
+  --cb-text-high: #FFFFFF;
+  --cb-text-low: #808080;
+  
+  --cb-primary-50: #0A1A36;
+  --cb-primary-100: #102654;
+  --cb-primary-200: #153272;
+  --cb-primary-300: #1B3E91;
+  --cb-primary-400: #033F93;
+  --cb-primary-600: #1851AC;
+  --cb-primary-700: #2D64C4;
+  --cb-primary-800: #4277DC;
+  --cb-primary-900: #5689F3;
+  
+  --cb-surface-50: #121212;
+  --cb-surface-200: #2A2A2A;
+  --cb-surface-300: #363636;
+  --cb-surface-400: #424242;
+  
+  --cb-text-medium: #B0B0B0;
+  
+  --cb-success: #2ECC71;
+  --cb-error: #E74C3C;
+  --cb-warning: #F39C12;
+  --cb-info: #3498DB;
 }

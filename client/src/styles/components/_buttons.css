@@ -35,7 +35,7 @@
 /* Primary button */
 .cb-btn-primary {
   background-color: var(--cb-primary-500);
-  color: white;
+  color: var(--cb-text-high);
 }
 
 .cb-btn-primary:hover {
@@ -93,7 +93,7 @@
 /* Destructive button */
 .cb-btn-destructive {
   background-color: var(--destructive);
-  color: white;
+  color: var(--cb-text-high);
 }
 
 .cb-btn-destructive:hover {
