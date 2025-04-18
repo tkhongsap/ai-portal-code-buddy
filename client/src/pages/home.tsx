@@ -149,30 +149,30 @@ const Home = () => {
             <CardContent className="p-0">
               <div className="divide-y divide-cb-line">
                 <ActivityItem
-                  icon={<MessageSquareIcon size={16} />}
+                  icon={<MessageSquareIcon size={16} className="text-cb-text-high" />}
                   title="React useEffect optimization question"
                   time="2h ago"
                   description="How can I prevent unnecessary re-renders with useEffect?"
                   tags={["React", "Hooks"]}
-                  iconColor="bg-primary bg-opacity-10 text-primary"
+                  iconColor="bg-primary-100 text-primary"
                 />
                 
                 <ActivityItem
-                  icon={<CodeIcon size={16} />}
+                  icon={<CodeIcon size={16} className="text-cb-text-high" />}
                   title="Array manipulation function optimized"
                   time="1d ago"
                   description="Reduced time complexity from O(n²) to O(n log n)"
                   tags={["JavaScript", "Performance"]}
-                  iconColor="bg-[#00C2FF] bg-opacity-10 text-[#00C2FF]"
+                  iconColor="bg-primary-100 text-primary"
                 />
                 
                 <ActivityItem
-                  icon={<BarChartIcon size={16} />}
+                  icon={<BarChartIcon size={16} className="text-cb-text-high" />}
                   title="SQL query assessment"
                   time="3d ago"
                   description="Score: 85/100 - Suggestions for indexing and query structure"
                   tags={["SQL", "Database"]}
-                  iconColor="bg-green-500 bg-opacity-10 text-green-500"
+                  iconColor="bg-primary-100 text-primary"
                 />
               </div>
             </CardContent>

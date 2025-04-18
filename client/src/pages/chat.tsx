@@ -98,7 +98,7 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
     <div className={`flex items-start ${message.isAi ? '' : 'justify-end'} group`} style={{ animation: 'slideIn 0.3s ease forwards' }}>
       {message.isAi && (
         <div className="flex-shrink-0 mr-4">
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white" style={{ animation: 'fadeIn 0.4s ease' }}>
+          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground" style={{ animation: 'fadeIn 0.4s ease' }}>
             <CodeIcon size={16} />
           </div>
         </div>
