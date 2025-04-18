@@ -57,7 +57,7 @@ const ActivityItem = ({
 }) => (
   <div className="p-4 hover:bg-surface-200 transition-colors">
     <div className="flex items-start">
-      <div className={`w-8 h-8 rounded-lg ${iconColor} flex items-center justify-center mr-3 mt-1`}>
+      <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mr-3 mt-1">
         {icon}
       </div>
       <div className="flex-1">
@@ -68,7 +68,7 @@ const ActivityItem = ({
         <p className="text-sm text-cb-text-low mb-1 line-clamp-1">{description}</p>
         <div className="flex flex-wrap gap-2">
           {tags.map((tag, index) => (
-            <span key={index} className="text-xs px-2 py-1 bg-primary-50 rounded text-cb-text-medium">
+            <span key={index} className="text-xs px-2 py-1 bg-primary/10 rounded text-primary">
               {tag}
             </span>
           ))}
@@ -84,7 +84,7 @@ const BookmarkItem = ({ title, time, tags }: { title: string; time: string; tags
     <p className="text-xs text-cb-text-low mb-2">Saved {time}</p>
     <div className="flex flex-wrap gap-2">
       {tags.map((tag, index) => (
-        <span key={index} className="text-xs px-2 py-1 bg-primary-50 rounded text-cb-text-medium">
+        <span key={index} className="text-xs px-2 py-1 bg-primary/10 rounded text-primary">
           {tag}
         </span>
       ))}
@@ -149,7 +149,7 @@ const Home = () => {
             <CardContent className="p-0">
               <div className="divide-y divide-cb-line">
                 <ActivityItem
-                  icon={<MessageSquareIcon size={16} className="text-cb-text-high" />}
+                  icon={<MessageSquareIcon size={16} className="text-primary" />}
                   title="React useEffect optimization question"
                   time="2h ago"
                   description="How can I prevent unnecessary re-renders with useEffect?"
@@ -158,7 +158,7 @@ const Home = () => {
                 />
                 
                 <ActivityItem
-                  icon={<CodeIcon size={16} className="text-cb-text-high" />}
+                  icon={<CodeIcon size={16} className="text-primary" />}
                   title="Array manipulation function optimized"
                   time="1d ago"
                   description="Reduced time complexity from O(n²) to O(n log n)"
@@ -167,7 +167,7 @@ const Home = () => {
                 />
                 
                 <ActivityItem
-                  icon={<BarChartIcon size={16} className="text-cb-text-high" />}
+                  icon={<BarChartIcon size={16} className="text-primary" />}
                   title="SQL query assessment"
                   time="3d ago"
                   description="Score: 85/100 - Suggestions for indexing and query structure"
