@@ -460,7 +460,7 @@ const Dashboard = () => {
         <header className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold mb-2">Dashboard</h1>
-            <p className="text-gray-600 dark:text-gray-400">
+            <p className="text-cb-text-low">
               Track your coding activity and progress.
             </p>
           </div>
@@ -581,7 +581,7 @@ const Dashboard = () => {
                   </ResponsiveContainer>
                 ) : (
                   <div className="h-full flex items-center justify-center">
-                    <p className="text-gray-500">No language data available</p>
+                    <p className="text-cb-text-low">No language data available</p>
                   </div>
                 )}
               </div>
@@ -602,7 +602,7 @@ const Dashboard = () => {
             <CardContent>
               {isLoadingGoals ? (
                 <div className="py-8 text-center">
-                  <p className="text-gray-500">Loading goals...</p>
+                  <p className="text-cb-text-low">Loading goals...</p>
                 </div>
               ) : activeGoals.length > 0 ? (
                 <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2">
@@ -617,7 +617,7 @@ const Dashboard = () => {
                 </div>
               ) : (
                 <div className="py-8 text-center">
-                  <p className="text-gray-500">No active goals. Add your first goal!</p>
+                  <p className="text-cb-text-low">No active goals. Add your first goal!</p>
                 </div>
               )}
             </CardContent>
@@ -681,7 +681,7 @@ const Dashboard = () => {
                   </ResponsiveContainer>
                 ) : (
                   <div className="h-full flex items-center justify-center">
-                    <p className="text-gray-500">No feature usage data available</p>
+                    <p className="text-cb-text-low">No feature usage data available</p>
                   </div>
                 )}
               </div>

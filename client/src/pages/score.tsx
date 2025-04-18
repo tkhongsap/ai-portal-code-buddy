@@ -276,9 +276,9 @@ const Score = () => {
                       <p className="text-sm text-cb-text-low">Analyzing your code...</p>
                     ) : (
                       <>
-                        <InfoIcon className="h-12 w-12 text-gray-400 mb-3" />
+                        <InfoIcon className="h-12 w-12 text-cb-text-low mb-3" />
                         <h3 className="font-medium mb-1">No Score Yet</h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                        <p className="text-sm text-cb-text-low">
                           Enter your code and click "Score Code" to receive a quality assessment.
                         </p>
                       </>
