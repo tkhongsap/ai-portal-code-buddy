@@ -52,7 +52,7 @@ const StatCard = ({ title, value, change, icon, changeType = 'positive' }: {
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{title}</p>
+            <p className="text-sm font-medium text-cb-text-low">{title}</p>
             <h3 className="text-2xl font-bold mt-1">{value}</h3>
             <div className={`flex items-center mt-1 ${changeColor}`}>
               {ChangeIcon && <ChangeIcon className="h-4 w-4 mr-1" />}
@@ -179,9 +179,9 @@ const ActivityItem = ({
       </div>
       <div className="flex-grow">
         <p className="text-sm font-medium">{getTitle()}</p>
-        {language && <p className="text-xs text-gray-500">{language}</p>}
+        {language && <p className="text-xs text-cb-text-low">{language}</p>}
       </div>
-      <div className="text-xs text-gray-500">
+      <div className="text-xs text-cb-text-low">
         {format(date, 'MMM d, h:mm a')}
       </div>
     </div>
@@ -713,7 +713,7 @@ const Dashboard = () => {
                 </div>
               ) : (
                 <div className="py-4 text-center">
-                  <p className="text-gray-500">No recent activities</p>
+                  <p className="text-cb-text-low">No recent activities</p>
                 </div>
               )}
             </CardContent>
@@ -795,13 +795,13 @@ const Dashboard = () => {
               </TabsContent>
               
               <TabsContent value="month">
-                <p className="text-sm text-gray-500 dark:text-gray-400 py-8 text-center">
+                <p className="text-sm text-cb-text-low py-8 text-center">
                   Monthly data coming soon. We need more data to generate accurate monthly trends.
                 </p>
               </TabsContent>
               
               <TabsContent value="year">
-                <p className="text-sm text-gray-500 dark:text-gray-400 py-8 text-center">
+                <p className="text-sm text-cb-text-low py-8 text-center">
                   Yearly data coming soon. We need more data to generate accurate yearly trends.
                 </p>
               </TabsContent>
