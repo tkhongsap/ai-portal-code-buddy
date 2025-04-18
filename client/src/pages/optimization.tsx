@@ -199,7 +199,7 @@ const ImprovementSuggestion = ({
       </div>
       
       <h3 className="font-medium text-base mb-2">{improvement.title}</h3>
-      <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">{improvement.description}</p>
+      <p className="text-sm text-cb-text-high mb-3">{improvement.description}</p>
       
       {improvement.learn_more_url && (
         <div className="mb-3">
@@ -217,7 +217,7 @@ const ImprovementSuggestion = ({
       {isExpanded && improvement.original_code && improvement.optimized_code && (
         <div className="mt-4 space-y-3">
           <div>
-            <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Original Code:</h4>
+            <h4 className="text-xs font-medium text-cb-text-low mb-1">Original Code:</h4>
             <div className="bg-gray-50 dark:bg-gray-800 rounded p-3 overflow-x-auto">
               <pre className="text-xs">
                 <code>{improvement.original_code}</code>
@@ -226,7 +226,7 @@ const ImprovementSuggestion = ({
           </div>
           
           <div>
-            <h4 className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Optimized Code:</h4>
+            <h4 className="text-xs font-medium text-cb-text-low mb-1">Optimized Code:</h4>
             <div className="bg-gray-50 dark:bg-gray-800 rounded p-3 overflow-x-auto">
               <pre className="text-xs">
                 <code>{improvement.optimized_code}</code>
@@ -495,7 +495,7 @@ const Optimization = () => {
       <div className="max-w-7xl mx-auto">
         <header className="mb-6">
           <h1 className="text-2xl font-bold mb-2">Optimize Your Code</h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-cb-text-low">
             Improve your code's performance, readability, and adherence to best practices with AI-powered suggestions.
           </p>
         </header>
@@ -627,7 +627,7 @@ const Optimization = () => {
                         <div>
                           <h3 className="text-sm font-medium mb-2">Original Code</h3>
                           <div className="code-font text-sm bg-[#F7F7F7] dark:bg-[#2A2A2A] p-3 rounded-md overflow-auto max-h-[400px]">
-                            <pre className="text-gray-800 dark:text-gray-200">{code}</pre>
+                            <pre className="text-cb-text-high">{code}</pre>
                           </div>
                         </div>
                         <div>
@@ -669,7 +669,7 @@ const Optimization = () => {
                 <CardContent>
                   <div className="space-y-3">
                     <div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total issues found</div>
+                      <div className="text-sm text-cb-text-low mb-1">Total issues found</div>
                       <div className="text-2xl font-bold">{summary.total_issues}</div>
                     </div>
                     
@@ -815,12 +815,12 @@ const Optimization = () => {
                   ) : (
                     <div className="flex flex-col items-center justify-center text-center py-6">
                       {isLoading ? (
-                        <p className="text-sm text-gray-500 dark:text-gray-400">Analyzing your code...</p>
+                        <p className="text-sm text-cb-text-low">Analyzing your code...</p>
                       ) : (
                         <>
-                          <InfoIcon className="h-12 w-12 text-gray-400 mb-3" />
+                          <InfoIcon className="h-12 w-12 text-cb-text-low mb-3" />
                           <h3 className="font-medium mb-1">No Suggestions Yet</h3>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">
+                          <p className="text-sm text-cb-text-low">
                             Enter your code and click "Optimize Code" to receive optimization suggestions.
                           </p>
                         </>
