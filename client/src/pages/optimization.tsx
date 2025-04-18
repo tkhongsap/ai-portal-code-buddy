@@ -219,7 +219,7 @@ const ImprovementSuggestion = ({
           <div>
             <h4 className="text-xs font-medium text-cb-text-low mb-1">Original Code:</h4>
             <div className="bg-gray-50 dark:bg-gray-800 rounded p-3 overflow-x-auto">
-              <pre className="text-xs">
+              <pre className="text-xs text-cb-text-high">
                 <code>{improvement.original_code}</code>
               </pre>
             </div>
@@ -228,7 +228,7 @@ const ImprovementSuggestion = ({
           <div>
             <h4 className="text-xs font-medium text-cb-text-low mb-1">Optimized Code:</h4>
             <div className="bg-gray-50 dark:bg-gray-800 rounded p-3 overflow-x-auto">
-              <pre className="text-xs">
+              <pre className="text-xs text-cb-text-high">
                 <code>{improvement.optimized_code}</code>
               </pre>
             </div>
@@ -633,7 +633,7 @@ const Optimization = () => {
                         <div>
                           <h3 className="text-sm font-medium mb-2">Optimized Code</h3>
                           <div className="code-font text-sm bg-[#F7F7F7] dark:bg-[#2A2A2A] p-3 rounded-md overflow-auto max-h-[400px]">
-                            <pre className="text-gray-800 dark:text-gray-200">{optimizedCode}</pre>
+                            <pre className="text-cb-text-high">{optimizedCode}</pre>
                           </div>
                         </div>
                       </div>

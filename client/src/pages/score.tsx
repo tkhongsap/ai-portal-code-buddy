@@ -120,7 +120,7 @@ const Score = () => {
       <div className="max-w-7xl mx-auto">
         <header className="mb-6">
           <h1 className="text-2xl font-bold mb-2">Score Your Code</h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-cb-text-low">
             Evaluate your code against industry standards and get detailed feedback.
           </p>
         </header>
@@ -207,7 +207,7 @@ const Score = () => {
                       <div className={`text-6xl font-bold ${getScoreColor(scoreResult.score)}`}>
                         {scoreResult.score}
                       </div>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">out of 100</p>
+                      <p className="text-sm text-cb-text-low mt-2">out of 100</p>
                       <Progress 
                         value={scoreResult.score} 
                         className={`h-2 mt-4 ${getProgressColor(scoreResult.score)}`} 
@@ -231,7 +231,7 @@ const Score = () => {
                                 </li>
                               ))
                             ) : (
-                              <li className="text-gray-500 dark:text-gray-400 text-sm">No strengths identified.</li>
+                              <li className="text-cb-text-low text-sm">No strengths identified.</li>
                             )}
                           </ul>
                         </TabsContent>
@@ -245,7 +245,7 @@ const Score = () => {
                                 </li>
                               ))
                             ) : (
-                              <li className="text-gray-500 dark:text-gray-400 text-sm">No weaknesses identified.</li>
+                              <li className="text-cb-text-low text-sm">No weaknesses identified.</li>
                             )}
                           </ul>
                         </TabsContent>
@@ -259,7 +259,7 @@ const Score = () => {
                                 </li>
                               ))
                             ) : (
-                              <li className="text-gray-500 dark:text-gray-400 text-sm">No suggestions available.</li>
+                              <li className="text-cb-text-low text-sm">No suggestions available.</li>
                             )}
                           </ul>
                         </TabsContent>
@@ -273,7 +273,7 @@ const Score = () => {
                 ) : (
                   <div className="flex flex-col items-center justify-center text-center py-10">
                     {isLoading ? (
-                      <p className="text-sm text-gray-500 dark:text-gray-400">Analyzing your code...</p>
+                      <p className="text-sm text-cb-text-low">Analyzing your code...</p>
                     ) : (
                       <>
                         <InfoIcon className="h-12 w-12 text-gray-400 mb-3" />
