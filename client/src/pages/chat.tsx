@@ -120,7 +120,7 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
                 <Button 
                   variant="ghost" 
                   size="icon" 
-                  className="h-6 w-6 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                  className="h-6 w-6 text-cb-text-low hover:text-cb-text-high"
                   onClick={handleCopy}
                 >
                   <ClipboardIcon size={14} />
@@ -138,7 +138,7 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
                 <Button 
                   variant="ghost" 
                   size="icon" 
-                  className="h-6 w-6 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                  className="h-6 w-6 text-cb-text-low hover:text-cb-text-high"
                   onClick={handleBookmark}
                 >
                   <BookmarkIcon size={14} />
@@ -157,7 +157,7 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
                   <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-6 w-6 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                    className="h-6 w-6 text-cb-text-low hover:text-cb-text-high"
                   >
                     <ThumbsUpIcon size={14} />
                   </Button>
@@ -182,18 +182,18 @@ const ChatMessage = ({ message, onBookmark }: { message: Message, onBookmark?: (
           />
         )}
         
-        <div className="mt-2 text-gray-500 dark:text-gray-400" style={{ font: 'var(--cb-caption)' }}>
+        <div className="mt-2 text-cb-text-low" style={{ font: 'var(--cb-caption)' }}>
           {format(message.timestamp, 'h:mm a')}
         </div>
       </div>
       
       {!message.isAi && (
         <div className="flex-shrink-0 ml-4">
-          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+          <div className="w-8 h-8 rounded-full bg-surface-200 overflow-hidden">
             {user.avatarUrl ? (
               <img src={user.avatarUrl} alt="User" className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-gray-500 dark:text-gray-400">
+              <div className="w-full h-full flex items-center justify-center text-cb-text-low">
                 {user.displayName?.[0] || user.username?.[0] || "U"}
               </div>
             )}
@@ -236,13 +236,13 @@ const ConversationItem = ({
       onClick={onClick}
     >
       <div className="flex items-center justify-between mb-1">
-        <h3 className="font-medium text-sm truncate">{conversation.title}</h3>
-        <span className="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">
+        <h3 className="font-medium text-sm truncate text-cb-text-high">{conversation.title}</h3>
+        <span className="text-xs text-cb-text-low flex-shrink-0">
           {formatDate(conversation.lastModified)}
         </span>
       </div>
       {/* Assuming the first few characters of a message might serve as a preview */}
-      <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2">
+      <p className="text-xs text-cb-text-low line-clamp-2">
         {conversation.title}
       </p>
     </div>
@@ -419,11 +419,11 @@ const Chat = () => {
         
         <ScrollArea className="flex-1">
           {isFetchingConversations ? (
-            <div className="p-4 text-center text-sm text-gray-500 dark:text-gray-400">
+            <div className="p-4 text-center text-sm text-cb-text-low">
               Loading conversations...
             </div>
           ) : filteredConversations.length === 0 ? (
-            <div className="p-4 text-center text-sm text-gray-500 dark:text-gray-400">
+            <div className="p-4 text-center text-sm text-cb-text-low">
               {searchText ? "No matching conversations" : "No conversations yet"}
             </div>
           ) : (
@@ -648,7 +648,7 @@ const SomeContext = createContext();`}
               <div className="max-w-3xl mx-auto space-y-6">
                 {isFetchingMessages ? (
                   <div className="p-4 text-center">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Loading messages...</p>
+                    <p className="text-sm text-cb-text-low">Loading messages...</p>
                   </div>
                 ) : (
                   messages.map((message, index) => (
@@ -725,7 +725,7 @@ const SomeContext = createContext();`}
               </form>
             </div>
             
-            <div className="mt-3 text-xs text-gray-500 dark:text-gray-400 flex items-center justify-center">
+            <div className="mt-3 text-xs text-cb-text-low flex items-center justify-center">
               <span className="inline-flex items-center">
                 <CodeIcon className="mr-1" size={12} /> Code Buddy may produce inaccurate information. Always verify code before use.
               </span>
