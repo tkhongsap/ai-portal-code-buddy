@@ -145,9 +145,9 @@ const Home = () => {
             </Link>
           </div>
           
-          <Card>
+          <Card className="bg-surface-100">
             <CardContent className="p-0">
-              <div className="divide-y divide-gray-200 dark:divide-gray-800">
+              <div className="divide-y divide-cb-line">
                 <ActivityItem
                   icon={<MessageSquareIcon size={16} />}
                   title="React useEffect optimization question"
